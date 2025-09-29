@@ -880,9 +880,16 @@
    (read-zip-smf zf smf-entry nil))
   ([^ZipFile zf ^ZipEntry smf-entry opts]
    (let [smf-path (.getName smf-entry)
-         smf-data (smf/decode-map (.getInputStream zf smf-entry) opts)]
+         smf-data (smf/decode-map (.getInputStream zf smf-entry) opts)
+         {:keys [header]} smf-data
+        normalized-width (/ (:map-width header) 64)
+        normalized-height (/ (:map-height header) 64)
+        ]
      {:map-name (map-name smf-path)
-      :smf (assoc smf-data ::source smf-path)})))
+      :smf (assoc smf-data ::source smf-path)
+      :map-width normalized-width
+      :map-height normalized-height
+      })))
 
 (defn parse-mapinfo [^java.io.File file s path]
   (try
@@ -892,7 +899,12 @@
                    (str (:name mapinfo)
                         (when-let [version (:version mapinfo)]
                           (when-not (string/ends-with? (:name mapinfo) (string/trim version))
-                            (str " " version)))))})
+                            (str " " version)))))
+       :map-version (string/trim (:version mapinfo))
+       :map-name-wv (string/trim (:name mapinfo))
+       :map-author (string/trim (:author mapinfo))
+       :map-description (string/trim (:description mapinfo))
+       })
     (catch Exception e
       (log/error e "Failed to parse mapinfo.lua from" file))))
 
@@ -910,6 +922,7 @@
      (let [entry-seq (->> (.entries zf)
                           enumeration-seq)]
        (merge
+         {:map-file-size-b (.length file)}
          (when-let [^ZipEntry smf-entry
                     (->> entry-seq
                          (filter (comp #(string/ends-with? % ".smf") string/lower-case #(.getName ^ZipEntry %)))
@@ -955,9 +968,15 @@
 
 (defn read-7z-smf-bytes
   [smf-path smf-bytes opts]
-  (let [smf-data (smf/decode-map (io/input-stream smf-bytes) opts)]
+  (let [smf-data (smf/decode-map (io/input-stream smf-bytes) opts)
+       {:keys [header]} smf-data
+        normalized-width (/ (:map-width header) 64)
+        normalized-height (/ (:map-height header) 64)]
     {:map-name (map-name smf-path)
-     :smf (assoc smf-data ::source smf-path)}))
+     :smf (assoc smf-data ::source smf-path)
+     :map-width normalized-width
+     :map-height normalized-height}))
+     
 
 (defn parse-extracted-7z-map [extracted opts]
   (merge
@@ -1055,7 +1074,7 @@
                  (int-array ids)
                  false
                  (ExtractCallback. archive callback-state extracted-state))
-       (parse-extracted-7z-map @extracted-state opts)))))
+       (merge (parse-extracted-7z-map @extracted-state opts) {:map-file-size-b (.length file)})))))
 
 (defn read-7z-map-apache
   ([^java.io.File file]
@@ -1085,7 +1104,7 @@
                    (swap! extracted-state assoc path content)))))
            (log/warn "Skiping invalid 7z entry in" file))
          (recur)))
-     (parse-extracted-7z-map @extracted-state opts))))
+     (merge (parse-extracted-7z-map @extracted-state opts){:map-file-size-b (.length file)}))))
 
 (defn read-smf-file
   ([smf-file]

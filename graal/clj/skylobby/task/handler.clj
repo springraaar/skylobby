@@ -30,6 +30,7 @@
 (set! *warn-on-reflection* true)
 
 
+(def maps-parse-type 1)   ; if there's changes to how map data is read, increment this to trigger a reload of previously processed map files
 (def maps-batch-size 5)
 (def mods-batch-size 5)
 (def minimap-batch-size 3)
@@ -180,7 +181,12 @@
          spring-root (or spring-root spring-isolation-dir)
          _ (log/info "Updating maps in" spring-root)
          spring-root-path (fs/canonical-path spring-root)
-         maps (-> state :by-spring-root (get spring-root-path) :maps)
+         do-full-update (not (= maps-parse-type (get-in state [:by-spring-root spring-root-path :map-parse-type])))
+         maps (if (not do-full-update)
+             (-> state :by-spring-root (get spring-root-path) :maps)
+             (do 
+               (log/info "Map parse type wrong or missing, list outdated : triggering full update/reload")
+               {}))
          map-files (fs/map-files spring-root)
          known-files (->> maps (map :file) set)
          error-files (->> maps (filter :error) (map :file))
@@ -210,7 +216,7 @@
                          (concat priorities))
          _ (log/info "Prioritizing maps in battles" (pr-str priorities))
          this-round (concat priorities
-                            (if (<= (count todo) maps-batch-size) ; add errors if there's not a full round left
+                            (if (or do-full-update (<= (count todo) maps-batch-size)) ; add errors if there's not a full round left
                               (do
                                 (log/info "Adding map directories and maps with errors to scan")
                                 (concat todo
@@ -240,7 +246,7 @@
                                     (do
                                       (log/info "Reading" map-file)
                                       (let [map-data (fs/read-map-data map-file)
-                                            relevant-map-data (select-keys map-data [:error :file :map-name])]
+                                            relevant-map-data (select-keys map-data [:error :file :map-name :map-version :map-name-wv :map-author :map-description :map-file-size-b :map-width :map-height])]
                                         (swap! state-atom update-in [:by-spring-root spring-root-path :maps]
                                                (fn [maps]
                                                  (let [valid-maps (->> maps
@@ -270,6 +276,7 @@
                              (string/blank? map-name))))
                      (remove (comp missing-paths :path))
                      set)))
+       (swap! state-atom assoc-in [:by-spring-root spring-root-path :map-parse-type] maps-parse-type)
        (if next-round
          (do
            (log/info "Scheduling map load since there are" next-round-count "maps left to load")

@@ -1123,18 +1123,11 @@
                     :client-data client-data
                     :server-key server-key})})
               (let [map-description (str (-> battle-map-details :mapinfo :description))]
-                {:fx/type fx.ext.node/with-tooltip-props
-                 :props
-                 {:tooltip
-                  {:fx/type tooltip-nofocus/lifecycle
-                   :show-delay skylobby.fx/tooltip-show-delay
-                   :style {:-fx-font-size 16}
-                   :text map-description
-                   :wrap-text true}}
-                 :desc
-                 {:fx/type :label
-                  :text map-description
-                  :wrap-text true}})
+                {:fx/type :label
+                 :text map-description
+                 :wrap-text true
+                 :padding 10
+                 :style {:-fx-font-size 13 :-fx-wrap-text true :-fx-text-fill "rgb(150,150,150)"}})
               {:fx/type :flow-pane
                :children
                [

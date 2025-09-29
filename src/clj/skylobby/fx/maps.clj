@@ -229,7 +229,13 @@
               filter-maps-name (fx/sub-val context :filter-maps-name)
               on-change-map (fx/sub-val context :on-change-map)
               server-key (fx/sub-ctx context skylobby.fx/selected-tab-server-key-sub)
-              spring-root (fx/sub-ctx context sub/spring-root server-key)]
+              spring-root (fx/sub-ctx context sub/spring-root server-key)
+              filtered-map-names (fx/sub-ctx context sub/filtered-maps spring-root filter-maps-name)
+              details-by-map-name (fx/sub-ctx context sub/details-filtered-by-map-name spring-root filter-maps-name)
+              total-maps (count filtered-map-names)
+              total-size (->> filtered-map-names 
+                              (map #(get-in details-by-map-name [% :map-file-size-b] 0)) 
+                              (reduce +))]
           {:fx/type :v-box
            :children
            [{:fx/type :h-box
@@ -243,7 +249,14 @@
                  :text (str filter-maps-name)
                  :prompt-text "Filter by name or path"
                  :on-text-changed {:event/type :spring-lobby/assoc
-                                   :key :filter-maps-name}}]
+                                   :key :filter-maps-name}}
+                {:fx/type :region
+                 :h-box/hgrow :always} 
+                {:fx/type :label
+                 :text (str total-maps " maps (" 
+                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
+                 :style {:-fx-margin-left 10
+                         :-fx-text-fill :lightgray}}]
                (when-not (string/blank? filter-maps-name)
                  [{:fx/type fx.ext.node/with-tooltip-props
                    :props
@@ -268,7 +281,8 @@
               :children
               (mapv
                 (fn [map-name]
-                  {:fx/type :button
+                   (let [map-details (get details-by-map-name map-name {})]
+                   {:fx/type :button 
                    :style
                    {:-fx-min-width map-browse-image-size
                     :-fx-max-width map-browse-image-size
@@ -278,20 +292,48 @@
                                :on-change-map (assoc on-change-map :map-name map-name :value map-name)}
                    :tooltip
                    {:fx/type tooltip-nofocus/lifecycle
-                    :text (str map-name)
                     :show-delay skylobby.fx/tooltip-show-delay
-                    :style {:-fx-font-size 20}
                     :content-display :top
                     :graphic
-                    {:fx/type :image-view
-                     :image {:url (-> map-name fs/minimap-image-cache-file io/as-url str)
-                             :background-loading true}
-                     :preserve-ratio true
-                     :style
-                     {:-fx-min-width u/minimap-size
-                      :-fx-max-width u/minimap-size
-                      :-fx-min-height u/minimap-size
-                      :-fx-max-height u/minimap-size}}}
+                    {:fx/type :v-box
+                     :spacing 5
+                     :style {
+                        :-fx-max-width (+ u/minimap-size 10)
+                        :-fx-max-height (* u/minimap-size 1.8)
+                        }
+                     :children
+                     (concat
+                       [{:fx/type :image-view
+                         :image {:url (-> map-name fs/minimap-image-cache-file io/as-url str)
+                         :background-loading true}
+                         :preserve-ratio true
+                         :style
+                         {:-fx-min-width u/minimap-size
+                          :-fx-max-width u/minimap-size
+                          :-fx-min-height u/minimap-size
+                          :-fx-max-height u/minimap-size}}
+                        {:fx/type :label
+                         :text map-name
+                         :alignment :center
+                         :wrap-text true
+                         :style {:-fx-font-size 16  
+                                 :-fx-font-weight :bold}}
+                        {:fx/type :label
+                         :text (str "Size: " (:map-width map-details) " x " (:map-height map-details) )
+                         :style {:-fx-font-size 14}}
+                        {:fx/type :label
+                         :text (str "Author: " (:map-author map-details) )
+                         :wrap-text true
+                         :style {:-fx-font-size 14}}
+                        {:fx/type :label
+                         :text (str "File size: " (format "%.2f" (/ (:map-file-size-b map-details) 1024.0 1024.0)) " MB" )
+                         :style {:-fx-font-size 14}}
+                        {:fx/type :label
+                         :text (str "Description: " (:map-description map-details) )
+                         :wrap-text true
+                         :style {:-fx-font-size 13 :-fx-wrap-text true}
+                         }
+                        ])}}
                    :graphic
                    {:fx/type :v-box
                     :alignment :center
@@ -311,9 +353,15 @@
                      {:fx/type :pane
                       :v-box/vgrow :always}
                      {:fx/type :label
-                      :style {:-fx-font-size 16}
+                      :style {:-fx-font-size 12}
                       :text (str " " map-name)
-                      :wrap-text true}]}})
+                      :wrap-text true}
+                     {:fx/type :label
+                      :alignment :center-left
+                      :text (when-let [{:keys [map-width map-height]} map-details]
+                            (str map-width " x " map-height))
+                       :wrap-text true}
+                     ]}}))
                 (fx/sub-ctx context sub/filtered-maps spring-root filter-maps-name))}}]})
         {:fx/type :pane
          :pref-width maps-window-width

@@ -1,9 +1,10 @@
 # Changelog
 
-## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-07-XX
+## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-09-XX
 
 - Improved black, grey and light styles (javaFX renamed to Light)
 - Fix minimum size and centering for some popup windows (registration, map selection and a few others)
+- Map selector panel shows totals for number of maps and file size, map sizes and other useful properties
 
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 

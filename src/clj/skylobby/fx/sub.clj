@@ -147,6 +147,22 @@
           (filter #(string/includes? (string/lower-case %) filter-lc))
           (sort String/CASE_INSENSITIVE_ORDER)))))
 
+(defn details-filtered-by-map-name
+  ([context spring-root]
+   (details-filtered-by-map-name context spring-root (fx/sub-val context :map-input-prefix)))
+  ([context spring-root maps-filter]
+   (let [
+         {:keys [maps]} (fx/sub-ctx context spring-resources spring-root)
+         filter-lc (if maps-filter (string/lower-case maps-filter) "")]
+     (->> maps
+          (filter #(and 
+                    (string? (:map-name %))
+                    (string/includes? (string/lower-case (:map-name %)) filter-lc)))
+          (reduce 
+           (fn [acc map-entry]
+             (assoc acc (:map-name map-entry) map-entry)) 
+           {})))))
+
 (defn parsed-selected-server-tab [context]
   (let [selected-server-tab (fx/sub-val context :selected-server-tab)]
     (or (try
