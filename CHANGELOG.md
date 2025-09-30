@@ -5,6 +5,7 @@
 - Improved black, grey and light styles (javaFX renamed to Light)
 - Fix minimum size and centering for some popup windows (registration, map selection and a few others)
 - Map selector panel shows totals for number of maps and file size, map sizes and other useful properties
+- Map selector panel allows filtering by map size and author
 
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 

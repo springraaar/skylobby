@@ -134,17 +134,70 @@
          (filter #(string/includes? (string/lower-case %) filter-lc))
          sort)))
 
+
+
+(defn parse-filter-tokens
+  "Parses filter tokens into different types of filters."
+  [filter-str]
+  (let [tokens (string/split (string/trim filter-str) #"\s+")]
+    (reduce 
+     (fn [acc token]
+       (cond
+         ;; Size filter
+         (re-matches #"s(<=|>=|<|>|=)(\d+)" token)
+         (let [[_ op num] (re-matches #"s(<=|>=|<|>|=)(\d+)" token)
+               num (Long/parseLong num)]
+           (update acc :size-filters conj {:op op :value num}))
+         
+         ;; Author filter
+         (string/starts-with? token "a:")
+         (update acc :author-filters conj (subs token (count "a:")))
+         
+         ;; Default: name filter
+         :else
+         (update acc :name-filters conj token)))
+     {:name-filters []
+      :size-filters []
+      :author-filters []}
+     tokens)))
+
+(defn matches-filter?
+  "Check if a map entry matches all filter criteria."
+  [map-entry {:keys [name-filters author-filters size-filters]}]
+  (let [map-name-lc (string/lower-case (:map-name map-entry ""))
+        map-author-lc (string/lower-case (:map-author map-entry ""))]
+    (and 
+     ;; Name filters
+     (or (empty? name-filters)
+         (some #(string/includes? map-name-lc (string/lower-case %)) name-filters))
+     
+     ;; Author filters
+     (or (empty? author-filters)
+         (some #(string/includes? map-author-lc (string/lower-case %)) author-filters))
+     
+     ;; Size filters
+     (every?
+       (fn [{:keys [op value]}]
+         (let [map-size (max (:map-width map-entry 0) (:map-height map-entry 0))]
+           (case op
+             "<"  (< map-size value)
+             "<=" (<= map-size value)
+             ">"  (> map-size value)
+             ">=" (>= map-size value)
+             "="  (= map-size value)
+             false)))
+       size-filters))))
+
 (defn filtered-maps
   ([context spring-root]
    (filtered-maps context spring-root (fx/sub-val context :map-input-prefix)))
   ([context spring-root maps-filter]
    (let [
          {:keys [maps]} (fx/sub-ctx context spring-resources spring-root)
-         filter-lc (if maps-filter (string/lower-case maps-filter) "")]
+         filter-tokens (parse-filter-tokens (or maps-filter ""))]
      (->> maps
+          (filter #(matches-filter? % filter-tokens))
           (map :map-name)
-          (filter string?)
-          (filter #(string/includes? (string/lower-case %) filter-lc))
           (sort String/CASE_INSENSITIVE_ORDER)))))
 
 (defn details-filtered-by-map-name
@@ -153,14 +206,12 @@
   ([context spring-root maps-filter]
    (let [
          {:keys [maps]} (fx/sub-ctx context spring-resources spring-root)
-         filter-lc (if maps-filter (string/lower-case maps-filter) "")]
+         filter-tokens (parse-filter-tokens (or maps-filter ""))]
      (->> maps
-          (filter #(and 
-                    (string? (:map-name %))
-                    (string/includes? (string/lower-case (:map-name %)) filter-lc)))
-          (reduce 
+          (filter #(matches-filter? % filter-tokens))
+          (reduce
            (fn [acc map-entry]
-             (assoc acc (:map-name map-entry) map-entry)) 
+             (assoc acc (:map-name map-entry) map-entry))
            {})))))
 
 (defn parsed-selected-server-tab [context]

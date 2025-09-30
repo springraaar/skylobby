@@ -247,16 +247,14 @@
                  :text " Filter: "}
                 {:fx/type :text-field
                  :text (str filter-maps-name)
-                 :prompt-text "Filter by name or path"
+                 :prompt-text "Filter by name, etc."
                  :on-text-changed {:event/type :spring-lobby/assoc
-                                   :key :filter-maps-name}}
-                {:fx/type :region
-                 :h-box/hgrow :always} 
-                {:fx/type :label
-                 :text (str total-maps " maps (" 
-                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
-                 :style {:-fx-margin-left 10
-                         :-fx-text-fill :lightgray}}]
+                                   :key :filter-maps-name}
+                 :tooltip
+                    {:fx/type tooltip-nofocus/lifecycle
+                     :show-delay skylobby.fx/tooltip-show-delay
+                     :text "Example: \"ridge s>10 s<=20 a:john\" matches maps containing \"ridge\" in name\nwith size > 10x10 and <= 20x20 and author containing \"john\""}}
+                ]
                (when-not (string/blank? filter-maps-name)
                  [{:fx/type fx.ext.node/with-tooltip-props
                    :props
@@ -270,7 +268,16 @@
                                 :key :filter-maps-name}
                     :graphic
                     {:fx/type font-icon/lifecycle
-                     :icon-literal "mdi-close:16:white"}}}]))}
+                     :icon-literal "mdi-close:16:white"}}}])
+               [{:fx/type :region
+                 :h-box/hgrow :always}
+                {:fx/type :label
+                 :text (str total-maps " maps ("
+                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
+                 :style {:-fx-margin-left 10
+                         :-fx-text-fill :lightgray}}]
+           
+               )}
             {:fx/type :scroll-pane
              :fit-to-width true
              :content
