@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-09-XX
+## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-10-XX
 
 - Improved black, grey and light styles (javaFX renamed to Light)
 - Fix minimum size and centering for some popup windows (registration, map selection and a few others)

@@ -232,7 +232,12 @@
               spring-root (fx/sub-ctx context sub/spring-root server-key)
               filtered-map-names (fx/sub-ctx context sub/filtered-maps spring-root filter-maps-name)
               details-by-map-name (fx/sub-ctx context sub/details-filtered-by-map-name spring-root filter-maps-name)
-              total-maps (count filtered-map-names)
+              total-files (count filtered-map-names)
+              total-maps (->> details-by-map-name
+                              (vals)
+                              (map #(or (:map-name-wv %) (:map-name %)))
+                              (distinct)
+                              (count))
               total-size (->> filtered-map-names 
                               (map #(get-in details-by-map-name [% :map-file-size-b] 0)) 
                               (reduce +))]
@@ -272,7 +277,7 @@
                [{:fx/type :region
                  :h-box/hgrow :always}
                 {:fx/type :label
-                 :text (str total-maps " maps ("
+                 :text (str total-maps " maps (" total-files " files | "
                             (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
                  :style {:-fx-margin-left 10
                          :-fx-text-fill :lightgray}}]
@@ -326,17 +331,24 @@
                          :style {:-fx-font-size 16  
                                  :-fx-font-weight :bold}}
                         {:fx/type :label
-                         :text (str "Size: " (:map-width map-details) " x " (:map-height map-details) )
+                         :text (let [width (:map-width map-details)
+                           height (:map-height map-details)]
+                           (if (or (nil? width) (nil? height))
+                             "Size: ?"
+                             (str "Size: " width " x " height)))
                          :style {:-fx-font-size 14}}
                         {:fx/type :label
-                         :text (str "Author: " (:map-author map-details) )
+                         :text (str "Author: " (get-in map-details [:map-author] "?") )
                          :wrap-text true
                          :style {:-fx-font-size 14}}
                         {:fx/type :label
-                         :text (str "File size: " (format "%.2f" (/ (:map-file-size-b map-details) 1024.0 1024.0)) " MB" )
+                         :text (let [file-size (get-in map-details [:map-file-size-b] 0)]
+                          (if (zero? file-size)
+                            "File size: ?"
+                            (str "File size: " (format "%.2f" (/ file-size 1024.0 1024.0)) " MB")))
                          :style {:-fx-font-size 14}}
                         {:fx/type :label
-                         :text (str "Description: " (:map-description map-details) )
+                         :text (str "Description: " (get-in map-details [:map-description] "?") )
                          :wrap-text true
                          :style {:-fx-font-size 13 :-fx-wrap-text true}
                          }
@@ -366,8 +378,10 @@
                      {:fx/type :label
                       :alignment :center-left
                       :text (when-let [{:keys [map-width map-height]} map-details]
-                            (str map-width " x " map-height))
-                       :wrap-text true}
+                            (if (and map-width map-height)
+                              (str map-width " x " map-height)
+                              "?"))
+                      :wrap-text true}
                      ]}}))
                 (fx/sub-ctx context sub/filtered-maps spring-root filter-maps-name))}}]})
         {:fx/type :pane
