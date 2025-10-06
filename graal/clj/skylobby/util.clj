@@ -77,11 +77,12 @@
         bar {:host bar-host
              :port default-server-port
              :alias "Beyond All Reason"}
-        bar-ssl {:host bar-host
-                 :port 8201
-                 :alias "Beyond All Reason (SSL)"
-                 :ssl true}
-        servers [mf springlobby techa bar bar-ssl]]
+        ; commented out, 2 entries confusing and not working as of late 2025
+        ;bar-ssl {:host bar-host
+        ;         :port 8201
+        ;         :alias "Beyond All Reason (SSL)"
+        ;         :ssl true}
+        servers [mf springlobby techa bar]]
     (->> servers
          (map (juxt server-url identity))
          (into {}))))
