@@ -15,9 +15,9 @@ Users can change to this or revert back to the original skylobby by running the 
 ## Usage
 
 The recommended way to install skylobby is to run the installer package for the operating system:
-- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_windows.msi)
-- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.deb)
-- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.rpm)
+- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31007/skylobby-0.9.31007_windows.msi)
+- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31007/skylobby-0.9.31007_linux-amd64.deb)
+- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31007/skylobby-0.9.31007_linux-amd64.rpm)
 
 The original install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
 

@@ -1307,7 +1307,17 @@
                             (log/warn "Mod" file "is missing expected file" filename))
                           (catch Exception e
                             (log/trace e "Error loading" filename "from" file)
-                            (log/warn "Error loading" filename "from" file))))]
+                            (log/warn "Error loading" filename "from" file))))
+         try-file-script (fn [filename]
+                        (try
+                          (when-let [slurped (slurp (io/file file filename))]
+                            (spring-script/parse-script slurped))
+                          (catch java.io.FileNotFoundException _e
+                            (log/warn "Mod" file "is missing expected file" filename))
+                          (catch Exception e
+                            (log/trace e "Error loading" filename "from" file)
+                            (log/warn "Error loading" filename "from" file))))
+         ]
      (merge
        {:file file
         :path (canonical-path file)
@@ -1325,7 +1335,7 @@
           :luaai (try-file-lua "luaai.lua")
           :validais (try-file-lua "validais.lua")
           :sidedata (or (try-file-lua "gamedata/sidedata.lua")
-                        (try-file-lua "gamedata/sidedata.tdf")
+                        (try-file-script "gamedata/sidedata.tdf")
                         (u/postprocess-byar-units-en
                           (try-file-lua "language/units_en.lua")))})))))
 

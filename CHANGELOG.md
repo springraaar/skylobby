@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-10-XX
+## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-10-08
 
 - Improved black, grey and light styles (javaFX renamed to Light)
 - Fix minimum size and centering for some popup windows (registration, map selection and a few others)
@@ -8,6 +8,7 @@
 - Map selector panel allows filtering by map size and author
 - Removed BAR (SSL) server entry from the default server list (was broken)
 - Modified rapid game download fallback to avoid a resource-intensive recurring task bug for unavailable game versions
+- Fixed loading of sidedata.tdf from .sdd game directories
 
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 
