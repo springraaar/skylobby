@@ -244,7 +244,7 @@
                                              (mapcat second)
                                              (filter (comp #{spring-root-path} fs/canonical-path :spring-isolation-dir))
                                              seq)
-                     rapid-update-id (when rapid-repo (str rapid-repo ":test"))
+                     rapid-update-id default-rapid-id
                      rapid-update-download (get rapid-downloads-by-id rapid-update-id)
                      in-progress (or running
                                      rapid-update-tasks

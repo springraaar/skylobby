@@ -7,6 +7,7 @@
 - Map selector panel shows totals for number of maps and file size, map sizes and other useful properties
 - Map selector panel allows filtering by map size and author
 - Removed BAR (SSL) server entry from the default server list (was broken)
+- Modified rapid game download fallback to avoid a resource-intensive recurring task bug for unavailable game versions
 
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 

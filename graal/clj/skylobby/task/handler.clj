@@ -36,6 +36,8 @@
 (def minimap-batch-size 3)
 (def replays-batch-size 10)
 
+(def rapid-delete-reload-attempted-mods (atom #{}))
+
 (defn update-battle-sync-statuses [state-atom]
   (let [state @state-atom]
     (doseq [[server-key server-data] (concat
@@ -729,7 +731,7 @@
           rapid-repo (or rapid-repo
                          (resource/update-mod-repo-name mod-name))
           rapid-id (or rapid-id
-                       (str rapid-repo ":test"))]
+                       (when rapid-repo (str rapid-repo ":test")))]
       (if (and engine-details (:file engine-details))
         (do
           (log/info "Initializing rapid by calling download")
@@ -816,9 +818,10 @@
                                            (map (juxt :version identity))
                                            (into {}))]
             (when (and mod-name
-                       (not (get rapid-data-by-version mod-name)))
-              (log/warn "Against all odds rapid update has not found version" mod-name
-                        "delete the local repos")
+              (not (get rapid-data-by-version mod-name))
+              (not (contains? @rapid-delete-reload-attempted-mods mod-name)))
+              (log/warn "Version " mod-name " not found in rapid, delete/reload local repos then retry (once)")
+              (swap! rapid-delete-reload-attempted-mods conj mod-name)
               (reset! needs-rapid-delete true))
             (swap! state-atom
                    (fn [state]

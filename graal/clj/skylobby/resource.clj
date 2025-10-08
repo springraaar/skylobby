@@ -43,10 +43,10 @@
       (string/includes? mod-name "Tech Annihilation") "techa"
       :else nil)))
 
-(defn update-mod-repo-name [mod-name]
-  (or (mod-repo-name mod-name)
-      "i18n"))
 
+(defn update-mod-repo-name [mod-name]
+  ;(or (mod-repo-name mod-name) "i18n"))   ; commented out on oct 2025, defaulting to i18n seems nonsense
+  (mod-repo-name mod-name))
 
 (defn resource-dest
   [root {:keys [resource-filename resource-file resource-type]}]
