@@ -198,6 +198,7 @@
    :console-auto-scroll
    :console-ignore-message-types
    :css
+   :css-preset
    :debug-spring
    :direct-connect-chat-commands
    :direct-connect-engine
@@ -2231,12 +2232,14 @@
     (catch Exception e
       (log/error e "Error showing ring sound file chooser"))))
 
-
 (defmethod event-handler ::update-css
-  [{:keys [css]}]
-  (log/info "Registering CSS with" (count css) "keys")
+  [{:keys [css css-preset]}]
+  (log/info "Registering CSS with" (count css) "keys for preset" css-preset)
   (let [registered (css/register :skylobby.fx/current css)]
-    (swap! *state assoc :css registered)))
+    (swap! *state assoc
+           :css registered
+           :css-preset css-preset)))
+
 
 (defmethod event-handler ::load-custom-css-edn
   [{:keys [file]}]
@@ -2245,6 +2248,7 @@
       (log/info "Loading CSS as EDN from" file)
       (let [css (edn/read-string (slurp file))]
         (event-handler {:css css
+                        :css-preset "custom"
                         :event/type ::update-css})
         (swap! *state assoc :load-custom-css-edn-message "Success"))
       (catch Exception e

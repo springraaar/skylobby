@@ -261,7 +261,6 @@
       :-fx-base "#ffd700"}}}})
 (def default-style-data black-style-data)
 
-
 (def style-presets
   {
    "black" black-style-data

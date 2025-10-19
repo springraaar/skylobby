@@ -182,8 +182,10 @@
               (reset! spring-lobby/*state state)
               (spring-lobby/add-ui-state-watcher spring-lobby/*state spring-lobby/*ui-state)
               (let [previous-css (css/register :skylobby.fx/current
-                                    (or (:css state)
-                                        skylobby.fx/default-style-data))
+                    (or (and (:css-preset state)
+                               (or (get skylobby.fx/style-presets (:css-preset state))
+                         (:css state)))
+                         skylobby.fx/default-style-data)) 
                     css (cond
                           (:css-file options)
                           {:cljfx.css/url (some-> options :css-file fs/file .toURI .toURL)}

@@ -918,15 +918,18 @@
               :text " Preset: "}
              {:fx/type :button
               :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/black-style-data}
+                          :css skylobby.fx/black-style-data
+                          :css-preset "black"}
               :text "Black (default)"}
              {:fx/type :button
               :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/grey-style-data}
+                          :css skylobby.fx/grey-style-data
+                          :css-preset "grey"}
               :text "Grey"}
              {:fx/type :button
               :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/light-style-data}
+                          :css skylobby.fx/light-style-data
+                          :css-preset "light"}
               :text "Light"}]}
            {:fx/type :pane
             :pref-height 8}
