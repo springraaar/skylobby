@@ -1045,7 +1045,7 @@
     (fn [state]
       (-> state
           (assoc :use-git-mod-version (boolean event))
-          (task/add-task-state {::task-type ::refresh-mods})))))
+          (task/add-task! *state {::task-type ::refresh-mods})))))
 
 
 (defn- fix-battle-ready-chimer-fn [state-atom]

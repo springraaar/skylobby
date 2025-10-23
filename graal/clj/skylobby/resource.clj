@@ -20,13 +20,23 @@
    #"Total Atomization Prime"
    #"Total Atomic Power"
    #"Tech Annihilation"
-   #"SplinterFaction"])
+   #"SplinterFaction"
+   #"MechCommander: Legacy"])
 
 (def no-rapid
   [#"Total Atomization Prime"
    #"Total Atomic Power"
    #"Evolution RTS Music Addon"
-   #"SplinterFaction"])
+   #"SplinterFaction"
+   #"Metal Factions"])
+
+; to use when rapid download always fails when game/version gets passed to --rapid-download parameter
+; (because likely parsing bug when name contains : or other reasons)
+(defn rapid-download-override [mod-name]
+  (when mod-name
+    (cond
+      (string/includes? mod-name "MechCommander: Legacy") "mcl:test"
+      :else nil)))
 
 
 (defn mod-dependencies [mod-name]
@@ -41,6 +51,7 @@
       (string/includes? mod-name "Balanced Annihilation") "ba"
       (string/includes? mod-name "Metal Factions") "mf"
       (string/includes? mod-name "Tech Annihilation") "techa"
+      (string/includes? mod-name "MechCommander: Legacy") "mcl"
       :else nil)))
 
 

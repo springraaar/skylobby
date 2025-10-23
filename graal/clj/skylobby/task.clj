@@ -47,6 +47,15 @@
     (contains? rapid-tasks task-type) :spring-lobby/rapid-task
     :else :spring-lobby/other-task))
 
+(defn print-task-totals-by-kind [state]
+  (let [tasks-by-kind (:tasks-by-kind @state)
+        index-count (count (:spring-lobby/index-task tasks-by-kind))
+        resource-count (count (:spring-lobby/resource-task tasks-by-kind))
+        download-count (count (:spring-lobby/download-task tasks-by-kind))
+        rapid-count (count (:spring-lobby/rapid-task tasks-by-kind))
+        other-count (count (:spring-lobby/other-task tasks-by-kind))]
+    (log/info (str "Queued tasks : index=" index-count " resource=" resource-count " download=" download-count " rapid=" rapid-count " other=" other-count))))
+
 (defn add-task-state [state task]
   (if task
     (let [task-kind (task-kind task)]
@@ -58,8 +67,29 @@
       (log/warn "Attempt to add nil task" task)
       state)))
 
+(defn task-matches? [existing-task new-task]
+  (let [existing-keys (set (keys existing-task))
+        new-keys (set (keys new-task))
+        common-keys (clojure.set/intersection existing-keys new-keys)]
+    (every? 
+      (fn [k] 
+        (= (get existing-task k) 
+           (get new-task k))) 
+      common-keys)))
+
+; add single task, but check and skip duplicates (thread-safe)
 (defn add-task! [state-atom task]
-  (swap! state-atom add-task-state task))
+  (swap! state-atom 
+    (fn [state]
+      (let [task-kind (task-kind task)
+        existing-tasks (get-in state [:tasks-by-kind task-kind])
+        task-exists? (some #(task-matches? % task) existing-tasks)]
+        (if task-exists?
+          (do 
+            (log/debug "Task already exists, skipping duplicate" (pr-str task))
+            state)
+          (add-task-state state task)))))
+  (print-task-totals-by-kind state-atom))
 
 (defn add-multiple-tasks [tasks-by-kind new-tasks]
   (reduce-kv
@@ -69,9 +99,11 @@
     tasks-by-kind
     (group-by task-kind new-tasks)))
 
+; add list of tasks, regardless of existing tasks, for now (thread safe)
 (defn add-tasks! [state-atom new-tasks]
   (log/info "Adding tasks" (pr-str new-tasks))
-  (swap! state-atom update :tasks-by-kind add-multiple-tasks new-tasks))
+  (swap! state-atom update :tasks-by-kind add-multiple-tasks new-tasks)
+  (print-task-totals-by-kind state-atom))
 
 
 (defn all-tasks [{:keys [current-tasks tasks-by-kind]}]

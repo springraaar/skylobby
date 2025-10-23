@@ -629,6 +629,7 @@
                  (assoc-in [:rapid-download rapid-id] {:running true
                                                        :message "Preparing to run pr-downloader"})
                  (assoc-in [:rapid-failures rapid-id] false))))
+    (let [rapid-id (or (resource/rapid-download-override rapid-id) rapid-id)]
     (try
       (let [^java.io.File root spring-isolation-dir
             pr-downloader-file (fs/pr-downloader-file engine-file)
@@ -713,7 +714,7 @@
                            :spring-root spring-isolation-dir}])
         (swap! state-atom assoc-in [:rapid-download rapid-id :running] false)
         (u/update-cooldown state-atom [:rapid rapid-id])
-        (apply fs/update-file-cache! state-atom (rapid/sdp-files spring-isolation-dir)))))
+        (apply fs/update-file-cache! state-atom (rapid/sdp-files spring-isolation-dir))))))
   (defmethod task-handler :spring-lobby/update-rapid
     [{:keys [engine-version mod-name rapid-id rapid-repo spring-isolation-dir] :as task}]
     (let [before (u/curr-millis)

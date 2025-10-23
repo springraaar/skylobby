@@ -22,12 +22,13 @@
    {:mod-name "Beyond All Reason"
     :version "byar:test"
     :source :rapid}
-
    ; as of late 2024, MF's latest versions are no longer on rapid
    ;{:mod-name "Metal Factions"
    ; :version "metalfactions:test"
    ; :source :rapid}
-
+   {:mod-name "MechCommander: Legacy"
+    :version "mcl:test"
+    :source :rapid}
    {:mod-name "Balanced Annihilation"
     :version "Balanced Annihilation V12.1.0"
     :source :http}])
