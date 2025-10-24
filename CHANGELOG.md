@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-XX
+## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 
 - Reload default preset styles on startup as they may have been updated
 - Avoid redundant tasks in some situations

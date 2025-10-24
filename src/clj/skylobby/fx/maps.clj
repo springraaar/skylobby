@@ -18,7 +18,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def maps-window-width 690)
+(def maps-window-width 708) ; 690 fit 4 columns on linux but not windows, for some reason
 (def maps-window-height 800)
 
 
