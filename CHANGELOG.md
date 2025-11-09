@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-XX
+
+- Encrypt passwords for login credentials stored in config.edn
+
 ## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 
 - Reload default preset styles on startup as they may have been updated

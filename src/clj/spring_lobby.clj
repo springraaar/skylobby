@@ -52,6 +52,9 @@
     [taoensso.tufte :as tufte]
     [version-clj.core :as version])
   (:import
+    (javax.crypto Cipher KeyGenerator SecretKey)
+    (javax.crypto.spec SecretKeySpec)
+    (java.util Base64)
     (java.awt Desktop Desktop$Action)
     (java.io File)
     (java.lang ProcessBuilder)
@@ -78,6 +81,107 @@
 
 
 (declare update-battle-status)
+
+(def encryption-algorithm "AES")
+(def encryption-key-file "config-encryption-key")
+(def encrypted-prefix "encrypted|")
+
+(defn generate-secret-key []
+  (let [keyGen (KeyGenerator/getInstance encryption-algorithm)
+        _ (.init keyGen 256)]
+    (.generateKey keyGen)))
+
+(defn save-secret-key [^SecretKey secret-key]
+  (let [key-file (io/file (fs/config-file encryption-key-file))]
+    (when-not (.exists key-file)
+      (with-open [out (io/output-stream key-file)]
+        (.write out (.getEncoded secret-key))))))
+
+(defn read-secret-key []
+  (let [key-file (io/file (fs/config-file encryption-key-file))]
+    (when (.exists key-file)
+      (let [key-bytes (byte-array (.length key-file))]
+        (with-open [in (io/input-stream key-file)]
+          (.read in key-bytes)
+          (SecretKeySpec. key-bytes encryption-algorithm))))))
+
+(defn check-create-read-secret-key []
+  (let [key-file (io/file (fs/config-file encryption-key-file))]
+    (if-not (.exists key-file)
+      (let [new-key (generate-secret-key)]
+        (save-secret-key new-key)
+        new-key)
+      (read-secret-key))))
+
+(defn encrypt-password [^SecretKey key ^String password]
+  (when (and key password)
+    (let [cipher (Cipher/getInstance "AES/ECB/PKCS5Padding")
+          _ (.init cipher Cipher/ENCRYPT_MODE key)
+          encrypted-bytes (.doFinal cipher (.getBytes password "UTF-8"))
+          base64-encrypted (String. (.encode (Base64/getEncoder) encrypted-bytes))]
+      (str encrypted-prefix base64-encrypted))))
+
+(defn decrypt-password [^SecretKey key ^String encrypted-str]
+  (try
+    (when (and key
+               encrypted-str
+               (string? encrypted-str)
+               (string/starts-with? encrypted-str encrypted-prefix))
+      (let [cipher (Cipher/getInstance "AES/ECB/PKCS5Padding")
+            _ (.init cipher Cipher/DECRYPT_MODE key)
+            base64-encrypted (subs encrypted-str 10)
+            encrypted-bytes (.decode (Base64/getDecoder) base64-encrypted)
+            decrypted-bytes (.doFinal cipher encrypted-bytes)]
+        (String. decrypted-bytes "UTF-8")))
+    (catch Exception _
+      (when-not (.exists (io/file encryption-key-file))
+        ""))))
+
+(defn decrypt-passwords-in-map [key m]
+  (let [decrypt-fn (fn [password]
+                     (if (and (string? password)
+                              (string/starts-with? password encrypted-prefix))
+                       (decrypt-password key password)
+                       password))]
+    (reduce-kv
+     (fn [result k v]
+       (assoc result k
+              (cond
+                (= k :password)
+                (decrypt-fn v)
+
+                (= k :logins)
+                (reduce-kv
+                 (fn [logins server-url server-info]
+                   (assoc logins server-url
+                          (update server-info :password decrypt-fn)))
+                 {}
+                 v)
+
+                :else v)))
+     {}
+     m)))
+
+(defn check-encrypt-properties [key new-state]
+  (let [encrypt-fn (fn [password]
+                     (if (and (string? password)
+                              (not (string/starts-with? password encrypted-prefix)))
+                       (encrypt-password key password)
+                       password))]
+    (cond-> new-state
+      (contains? new-state :password)
+      (update :password encrypt-fn)
+
+      (contains? new-state :logins)
+      (update :logins
+              (fn [logins]
+                (reduce-kv
+                 (fn [result server-url server-info]
+                   (assoc result server-url
+                          (update server-info :password encrypt-fn)))
+                 {}
+                 logins))))))
+
 
 
 (def wait-init-tasks-ms 20000)
@@ -140,10 +244,15 @@
         (do
           (log/info "Slurping config nippy from" nippy-file)
           (nippy/thaw-from-file nippy-file))
-        (let [config-file (fs/config-file filename)]
+        (let [config-file (fs/config-file filename)
+              is-config-edn (string/starts-with? filename "config.edn")
+              encryption-key (when is-config-edn
+                               (read-secret-key))]
           (log/info "Slurping config edn from" config-file)
           (when (fs/exists? config-file)
-            (let [data (->> config-file slurp (edn/read-string {:readers custom-readers}))]
+            (let [data (->> config-file
+                            slurp
+                            (edn/read-string {:readers u/custom-readers}))]
               (if (map? data)
                 (do
                   (try
@@ -151,7 +260,11 @@
                     (fs/copy config-file (fs/config-file (str filename ".known-good")))
                     (catch Exception e
                       (log/error e "Error backing up config file")))
-                  data)
+
+                  ;; Decrypt passwords only for config.edn files
+                  (if (and is-config-edn encryption-key)
+                    (decrypt-passwords-in-map encryption-key data)
+                    data))
                 (do
                   (log/warn "Config file data from" filename "is not a map")
                   {})))))))
@@ -487,20 +600,20 @@
        (log/info "Spitting edn to" file)
        (spit file output)))))
 
-
 (defn- spit-state-config-to-edn [old-state new-state]
-  (doseq [{:keys [select-fn filename] :as opts} state-to-edn]
-    (try
-      (let [old-data (select-fn old-state)
-            new-data (select-fn new-state)]
-        (when (not= old-data new-data)
-          (try
-            (spit-app-edn new-data filename opts)
-            (catch Exception e
-              (log/error e "Exception writing" filename)))))
-      (catch Exception e
-        (log/error e "Error writing config edn" filename)))))
-
+  (let [encryption-key (check-create-read-secret-key)]
+    (doseq [{:keys [select-fn filename] :as opts} state-to-edn]
+      (try
+        (let [old-data (select-fn old-state)
+              new-data (select-fn new-state)]
+          (when (not= old-data new-data)
+            (try
+              (let [encrypted-new-data (check-encrypt-properties encryption-key new-data)]
+                (spit-app-edn encrypted-new-data filename opts))
+              (catch Exception e
+                (log/error e "Exception writing" filename)))))
+        (catch Exception e
+          (log/error e "Error writing config edn" filename))))))
 
 (defmulti event-handler :event/type)
 

@@ -31,6 +31,9 @@
 
 (def ^:dynamic *state (atom {}))
 
+;TODO refactor? remove?
+; spit-state-config-to-edn, slurp-config-edn and others defined here aren't used, apparently. App Runs the ones on src/clj/spring_lobby.clj
+
 
 ; https://github.com/ptaoussanis/nippy#custom-types-v21
 (defn register-nippy []
