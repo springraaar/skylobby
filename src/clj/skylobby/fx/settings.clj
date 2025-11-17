@@ -499,13 +499,13 @@
               :text " Use database for replays index"}]}]}
          {:fx/type filterable-section
           :search settings-search
-          :title "Spring"
+          :title "Content"
           :children
           [
            {:fx/type :button
             :style-class ["button" "skylobby-normal"]
             :style {:-fx-font-size 18}
-            :text "Configure Spring directory"
+            :text "Configure Content Directory / Spring Root"
             :on-action {:event/type :spring-lobby/toggle-window
                         :windows-as-tabs (fx/sub-val context :windows-as-tabs)
                         :key :show-spring-picker}}]}

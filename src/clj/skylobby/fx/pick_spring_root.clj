@@ -55,13 +55,13 @@
           (concat
             [{:fx/type :label
               :style {:-fx-font-size 28}
-              :text "Welcome to skylobby!"}
+              :text "Select Content Directory\n "}
              {:fx/type :label
               :style {:-fx-font-size 20}
-              :text "Spring resources will be saved to the directory below."}
+              :text "Games, maps, engine builds (SpringRTS or Recoil) and related resources will be saved to the directory below."}
              {:fx/type :label
-              :style {:-fx-font-size 20}
-              :text "If you already have Spring games elsewhere on your machine, you can change the directory."}
+              :style {:-fx-font-size 16}
+              :text "Also called \"Spring Directory\" or \"Spring Root\" and often named \"spring\" on the file system (legacy from SpringRTS engine).\nYou may pick one you already had if you've ran its installer or lobby clients before.\n "}
              {:fx/type :label
               :style {:-fx-font-size 16}
               :text "Click the green button to continue, you can always change this in settings later."}
@@ -73,7 +73,7 @@
               [
                {:fx/type :label
                 :style {:-fx-font-size 16}
-                :text "Current Spring directory: "}
+                :text "Current content directory: "}
                {:fx/type :button
                 :style-class ["button" "skylobby-normal"]
                 :text ""
@@ -125,7 +125,7 @@
                 :style (if is-pure-ascii
                          ok-style
                          (assoc warn-style :-fx-font-size 15))
-                :text "Use this Spring directory"}
+                :text "Use this content directory"}
                {:fx/type :pane
                 :pref-width 16}
                {:fx/type :button
@@ -156,7 +156,7 @@
               :pref-height 16}
              {:fx/type :label
               :style {:-fx-font-size 18}
-              :text "Alternative Spring directories:"}]
+              :text "Alternative content directories:"}]
             (mapv
               (fn [{:keys [title file]}]
                 {:fx/type :v-box
@@ -176,7 +176,7 @@
                      :on-action {:event/type :spring-lobby/assoc
                                  :key :spring-isolation-dir
                                  :value file}
-                     :text "Pick this Spring directory"}
+                     :text "Pick this content directory"}
                     {:fx/type :label
                      :style {:-fx-text-fill :red}
                      :text "(does not exist)"})]})
@@ -193,7 +193,7 @@
                           :initial-dir spring-isolation-dir
                           :path [:spring-isolation-dir]}
               :style {:-fx-font-size 18}
-              :text "Pick custom Spring directory"
+              :text "Pick custom content directory"
               :graphic
               {:fx/type font-icon/lifecycle
                :icon-literal "mdi-file-find:16"}}])}}

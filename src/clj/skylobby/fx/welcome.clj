@@ -132,7 +132,7 @@
        [{:fx/type :button
          :style-class ["button" "skylobby-normal"]
          :pref-width local-buttons-width
-         :text "Spring"
+         :text "Content Dir"
          :on-action {:event/type :spring-lobby/toggle-window
                      :windows-as-tabs (fx/sub-val context :windows-as-tabs)
                      :key :show-spring-picker}

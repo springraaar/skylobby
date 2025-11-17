@@ -1,8 +1,9 @@
 # Changelog
 
-## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-XX
+## [0.9.31009](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-XX
 
 - Encrypt passwords for login credentials stored in config.edn
+- Modified the content directory selection panel, buttons and help text for better clarity
 
 ## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 

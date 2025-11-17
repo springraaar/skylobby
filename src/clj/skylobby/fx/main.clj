@@ -353,7 +353,7 @@
               :id "spring"
               :closable true
               :graphic {:fx/type :label
-                        :text "Spring"
+                        :text "Content Directory"
                         :style {:-fx-font-size 18}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-spring-picker
