@@ -64,13 +64,8 @@
         current-options (or current-options
                             (get-in scripttags ["game" option-key]))
         modoptions (fx/sub-ctx context modoptions-sub modoptions)
-        first-option (-> modoptions first second)
-        is-section (-> first-option :type (= "section"))
-        header (when is-section first-option)
-        section-options (if is-section
-                          (rest modoptions)
-                          modoptions)
-        items (fx/sub-ctx context items-sub section-options)
+        header (second (first (filter #(= "section" (:type (second %))) modoptions)))
+        items (fx/sub-ctx context items-sub modoptions) ; items-sub removes the section header item
         event-data (or event-data
                        {:event/type :skylobby.fx.event.battle/modoption-change})
         max-width (or max-width 256)]
@@ -81,6 +76,8 @@
        :style {:-fx-font-size 18}}
       {:fx/type :label
        :text (str (:desc header))
+       :wrap-text true
+       :max-height 200
        :style {:-fx-font-size 14}}
       {:fx/type :table-view
        :column-resize-policy :constrained
