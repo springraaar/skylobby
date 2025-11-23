@@ -399,6 +399,14 @@
       :mod-version mod-version
       :mod-name-only (:name modinfo)})))
 
+; override sidedata for specific games to work around file parsing issues
+(defn check-override-sidedata
+  [mod-data]
+  (if (and (:modinfo mod-data) 
+           (= (:name (:modinfo mod-data)) "Beyond All Reason"))
+    (assoc mod-data :sidedata {:1 {:name "Armada"}, :2 {:name "Cortex"}, :3 {:name "Random"}, :4 {:name "Legion"}})
+    mod-data))
+
 
 ; servers defined by string
 (defn valid-servers [by-server]

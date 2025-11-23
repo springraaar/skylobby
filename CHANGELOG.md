@@ -5,6 +5,7 @@
 - Encrypt passwords for login credentials stored in config.edn
 - Modified the content directory selection panel, buttons and help text for better clarity
 - Fixed text sometimes missing from game options section headers
+- Fixed faction selection issue with recent BAR versions
 
 ## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 

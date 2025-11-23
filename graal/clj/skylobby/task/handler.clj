@@ -393,9 +393,10 @@
                      (string/ends-with? filename ".sdp"))]
      (try
        (let [mod-data
-             (if (string/ends-with? (fs/filename f) ".sdp")
-               (rapid/read-sdp-mod f opts)
-               (fs/read-mod-file f opts))
+             (u/check-override-sidedata
+               (if (string/ends-with? (fs/filename f) ".sdp")
+                 (rapid/read-sdp-mod f opts)
+                 (fs/read-mod-file f opts)))
              name-and-version (u/mod-name-and-version mod-data opts)]
          (merge mod-data name-and-version))
        (catch Exception e
