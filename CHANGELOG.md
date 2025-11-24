@@ -6,6 +6,7 @@
 - Modified the content directory selection panel, buttons and help text for better clarity
 - Fixed text sometimes missing from game options section headers
 - Fixed faction selection issue with recent BAR versions
+- Disable maximized starting window states, including cli option, to avoid bug where combo-box options show up on top left corner
 
 ## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 

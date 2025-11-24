@@ -235,6 +235,15 @@
   (when edn-filename
     (string/replace edn-filename #"\.edn$" ".bin")))
 
+(defn disable-maximized-windows [data]
+  (if-let [window-states (:window-states data)]
+    (assoc data :window-states
+      (into {}
+        (map (fn [[k v]]
+               [k (assoc v :maximized false)])
+             window-states)))
+    data))
+
 (defn slurp-config-edn
   "Returns data loaded from a .edn file in this application's root directory."
   [{:keys [filename nippy]}]
@@ -261,7 +270,12 @@
                     (catch Exception e
                       (log/error e "Error backing up config file")))
 
-                  ;; Decrypt passwords only for config.edn files
+                  ;; Disable maximized windows only for config.edn
+                  ;; workaround for combo-box bug where options panel shows up on top-left corner
+                  (let [data (cond-> data
+                               is-config-edn (disable-maximized-windows))])
+
+                  ;; Decrypt passwords only for config.edn
                   (if (and is-config-edn encryption-key)
                     (decrypt-passwords-in-map encryption-key data)
                     data))

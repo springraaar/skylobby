@@ -158,8 +158,8 @@
                             {:filter-users (:filter-users options)})
                           (when (contains? options :players-display-type)
                             {:battle-players-display-type (:players-display-type options)})
-                          (when (contains? options :window-maximized)
-                            {:window-maximized true})
+                          ;(when (contains? options :window-maximized)          ; workaround for combo-box bug where options panel shows up on top-left corner
+                          ;  {:window-maximized true})
                           (when (contains? options :server-url)
                             (let [server (->> initial-state
                                               :servers
