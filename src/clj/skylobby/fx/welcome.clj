@@ -2,6 +2,7 @@
   (:require
     [cljfx.api :as fx]
     [clojure.string :as string]
+    [clojure.java.io :as io]
     skylobby.fx
     [skylobby.fx.font-icon :as font-icon]
     [skylobby.fx.server :as fx.server]
@@ -369,11 +370,38 @@
    [
     {:fx/type :pane
      :v-box/vgrow :always}
-    {:fx/type :hyperlink
-     :style {:-fx-font-size 24}
-     :text (str "skylobby " u/app-version)
-     :on-action {:event/type :spring-lobby/desktop-browse-url
-                 :url "https://github.com/springraaar/skylobby/wiki/User-Guide"}}
+    {:fx/type :image-view
+      :image (str (clojure.java.io/resource "skylobby_banner.png"))
+      :fit-width 900
+      :preserve-ratio true
+      :smooth true}
+    {:fx/type :h-box
+     :alignment :center
+     :spacing 14
+     :pref-width 900
+     :max-width 900
+     :children 
+     [
+      {:fx/type :hyperlink
+       :style {:-fx-font-size 16}
+       :text (str "version " u/app-version "  (raaar)")   ; forks should edit the () to make the fork name more explicit (workaround for version numbering restrictions)
+       :on-action {:event/type :spring-lobby/desktop-browse-url
+                   :url "https://github.com/springraaar/skylobby/wiki/User-Guide"}}
+      {:fx/type :h-box
+       :h-box/hgrow :always}
+      {:fx/type :label
+       :style {:-fx-font-size 16}
+       :text "Discord Servers:"}
+      {:fx/type :hyperlink
+       :style {:-fx-font-size 16}
+       :text (str "Skylobby")
+       :on-action {:event/type :spring-lobby/desktop-browse-url
+                 :url "https://discord.gg/rXYanUAveW"}}
+      {:fx/type :hyperlink
+       :style {:-fx-font-size 16}
+       :text (str "Engine")
+       :on-action {:event/type :spring-lobby/desktop-browse-url
+                   :url "https://discord.gg/wThucpT"}}]}
     {:fx/type :pane
      :pref-height 20}
     {:fx/type :h-box
