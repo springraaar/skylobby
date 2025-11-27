@@ -85,6 +85,7 @@
 (def encryption-algorithm "AES")
 (def encryption-key-file "config-encryption-key")
 (def encrypted-prefix "encrypted|")
+(def integrity-prefix "SKYLOBBY_PASS_")
 
 (defn generate-secret-key []
   (let [keyGen (KeyGenerator/getInstance encryption-algorithm)
@@ -113,11 +114,13 @@
         new-key)
       (read-secret-key))))
 
+
 (defn encrypt-password [^SecretKey key ^String password]
   (when (and key password)
-    (let [cipher (Cipher/getInstance "AES/ECB/PKCS5Padding")
+    (let [full-payload (str integrity-prefix password)
+          cipher (Cipher/getInstance "AES/ECB/PKCS5Padding")
           _ (.init cipher Cipher/ENCRYPT_MODE key)
-          encrypted-bytes (.doFinal cipher (.getBytes password "UTF-8"))
+          encrypted-bytes (.doFinal cipher (.getBytes full-payload "UTF-8"))
           base64-encrypted (String. (.encode (Base64/getEncoder) encrypted-bytes))]
       (str encrypted-prefix base64-encrypted))))
 
@@ -131,8 +134,11 @@
             _ (.init cipher Cipher/DECRYPT_MODE key)
             base64-encrypted (subs encrypted-str 10)
             encrypted-bytes (.decode (Base64/getDecoder) base64-encrypted)
-            decrypted-bytes (.doFinal cipher encrypted-bytes)]
-        (String. decrypted-bytes "UTF-8")))
+            decrypted-bytes (.doFinal cipher encrypted-bytes)
+            decrypted-str (String. decrypted-bytes "UTF-8")]
+        (if (string/starts-with? decrypted-str integrity-prefix)
+          (subs decrypted-str (count integrity-prefix))
+          "")))
     (catch Exception _
       (when-not (.exists (io/file encryption-key-file))
         ""))))
