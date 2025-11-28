@@ -276,15 +276,15 @@
                     (catch Exception e
                       (log/error e "Error backing up config file")))
 
-                  ;; Disable maximized windows only for config.edn
+                  ;; Disable maximized windows (config.edn only)
                   ;; workaround for combo-box bug where options panel shows up on top-left corner
                   (let [data (cond-> data
-                               is-config-edn (disable-maximized-windows))])
+                               is-config-edn (disable-maximized-windows))]
 
-                  ;; Decrypt passwords only for config.edn
+                  ;; Decrypt passwords (config.edn only)
                   (if (and is-config-edn encryption-key)
                     (decrypt-passwords-in-map encryption-key data)
-                    data))
+                    data)))
                 (do
                   (log/warn "Config file data from" filename "is not a map")
                   {})))))))
