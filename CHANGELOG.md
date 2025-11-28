@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31009](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-XX
+## [0.9.31009](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-28
 
 - Encrypt passwords for login credentials stored in config.edn
 - Modified the content directory selection panel, buttons and help text for better clarity
@@ -8,6 +8,7 @@
 - Fixed faction selection issue with recent BAR versions
 - Disable maximized starting window states, including cli option, to avoid bug where combo-box options show up on top left corner
 - Modified main window to show a banner, skylobby and engine discord links and identify the fork name 
+- Chat supports IRC colors (merged from tizbac's fork)
 
 ## [0.9.31008](https://github.com/springraaar/skylobby/releases/tag/0.9.31008) - 2025-10-24
 
