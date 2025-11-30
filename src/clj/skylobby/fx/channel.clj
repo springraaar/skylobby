@@ -82,6 +82,71 @@
   [text style]
   (StyledSegment. text style))
 
+
+(defn get-styled-segments-for-message
+  [text highlight message-type]
+  (let [links (seq (.extractLinks link-extractor text))
+        is-highlight? (fn [text-segment]
+                        (and (seq highlight)
+                             (some (fn [substr]
+                                     (and text-segment substr
+                                          (string/includes?
+                                           (string/lower-case text-segment)
+                                           (string/lower-case substr))))
+                                   highlight)))
+        segments (if links
+                   (:segs
+                    (reduce
+                     (fn [{:keys [i segs]} ^LinkSpan link]
+                       (let [begin (if link (.getBeginIndex link) (count text))
+                             end (when link (.getEndIndex link))]
+                         {:i end
+                          :segs
+                          (concat
+                           segs
+                           (when (and i begin (not= i begin))
+                             (let [text-segment (subs text i begin)]
+                               [{:text-segment text-segment
+                                 :is-url false
+                                 :is-highlight (is-highlight? text-segment)}]))
+                           (when link
+                             [{:text-segment (subs text begin end)
+                               :is-url true
+                               :is-highlight false}]))}))
+                     {:i 0
+                      :segs []}
+                     (concat links [nil])))
+                   (let [text-segment text]
+                     [{:text-segment text-segment
+                       :is-url false
+                       :is-highlight (is-highlight? text-segment)}]))]
+    (->> segments
+         (mapcat
+          (fn [{:keys [is-url is-highlight text-segment]}]
+            (if (or is-url is-highlight)
+              ;; For URL or highlight segments, return as-is without IRC colors
+              [(segment 
+                (str text-segment)
+                ["text"
+                 (if is-url
+                   "skylobby-chat-message-url"
+                   "skylobby-chat-message-highlight")])]
+
+              ;; For non-URL, non-highlight segments, process IRC colors
+              (let [irc-segments (re-seq #"([\u0003](\d\d))?([^\u0003]*)" text-segment)]
+                (mapv
+                 (fn [[_all _ _irc-color-code text-part]]
+                   (segment
+                    (str text-part)
+                    ["text",
+                     (if (and _irc-color-code (contains? irc-colors _irc-color-code))
+                       (str "skylobby-chat-message-irc-" _irc-color-code)
+                       (str "skylobby-chat-message"
+                            (when message-type
+                              (str "-" (name message-type)))))])) 
+                 irc-segments)))))
+         vec)))
+
 (defn channel-document
   ([messages]
    (channel-document messages nil))
@@ -126,58 +191,8 @@
                                                "-me"))))])]
                           (when (or (not message-type)
                                     (= :ex message-type))
-                            (let [links (seq (.extractLinks link-extractor text))
-                                  segments (if links
-                                             (:segs
-                                              (reduce
-                                               (fn [{:keys [i segs]} ^LinkSpan link]
-                                                 (let [begin (if link (.getBeginIndex link) (count text))
-                                                       end (when link (.getEndIndex link))]
-                                                   {:i end
-                                                    :segs
-                                                    (concat
-                                                     segs
-                                                     (when (and i begin (not= i begin))
-                                                       [{:text-segment (subs text i begin)
-                                                         :is-url false}])
-                                                     (when link
-                                                       [{:text-segment (subs text begin end)
-                                                         :is-url true}]))}))
-                                               {:i 0
-                                                :segs []}
-                                               (concat links [nil])))
-                                             [{:text-segment text
-                                               :is-url false}])]
-                              (->> segments
-                                   (mapv
-                                    (fn [{:keys [is-url text-segment]}]
-                                      (segment
-                                       (str text-segment)
-                                       ["text"
-                                        (if is-url
-                                          "skylobby-chat-message-url"
-                                          (if (and (seq highlight)
-                                                   (some (fn [substr]
-                                                           (and text-segment substr
-                                                                (string/includes? (string/lower-case text-segment)
-                                                                                  (string/lower-case substr))))
-                                                         highlight))
-                                            "skylobby-chat-message-highlight"
-                                            (str "skylobby-chat-message"
-                                                 (when message-type
-                                                   (str "-" (name message-type))))))])))))
-
-                            (map
-                             (fn [[_all _ _irc-color-code text-segment]]
-                               (if (contains? irc-colors _irc-color-code)
-                                 (segment
-                                  (str text-segment)
-                                  ["text", (str "skylobby-chat-message-irc-" _irc-color-code)])
-                                 (segment (str text-segment)
-                                          ["text", (str "skylobby-chat-message"
-                                                        (when message-type
-                                                          (str "-" (name message-type))))])))
-                             (re-seq #"([\u0003](\d\d))?([^\u0003]*)" text)))))
+                           (get-styled-segments-for-message text highlight message-type)
+                          )))
                         ^java.util.List
                         [])))
      (when-not (seq messages)

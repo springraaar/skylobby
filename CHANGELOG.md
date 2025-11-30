@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31010](https://github.com/springraaar/skylobby/releases/tag/0.9.31010) - 2025-11-30
+
+- Fixed highlights and urls styling on chat messages
+
 ## [0.9.31009](https://github.com/springraaar/skylobby/releases/tag/0.9.31009) - 2025-11-28
 
 - Encrypt passwords for login credentials stored in config.edn
