@@ -3,7 +3,8 @@
     [clojure.string :as string]
     [skylobby.client.message :as message]
     [skylobby.util :as u]
-    [taoensso.timbre :as log]))
+    [taoensso.timbre :as log])
+   (:import java.lang.Thread))
 
 
 (set! *warn-on-reflection* false)
@@ -31,6 +32,16 @@
 (defn add-methods
   [multifn state-atom] ; TODO need to move event handler out of spring-lobby ns
   (defmethod multifn ::send [{:keys [channel-name focus message no-clear-draft no-history server-key] :as e}]
+  ; TODO finish support for multiline messages by either using text-area (to allow \n) or overriding copy-paste on the text-field, somehow
+  (if (and (string? message) (or (string/includes? message "\n") (string/includes? message "\\n")))
+    (
+     let [lines (string/split message #"(\r\n|\n|\\n)") 
+          lines (remove string/blank? lines)]
+      (future
+        (doseq [line lines]
+          (multifn (assoc e :message line))
+          (Thread/sleep 100))
+        ))
     (let [
           {:keys [by-server]} (swap! state-atom
                                 (fn [state]
@@ -121,4 +132,4 @@
                         (message/send state-atom client-data (str "SAYBATTLE " message))
                         (message/send state-atom client-data (str "SAY " channel-name " " message)))))))))
           (catch Exception e
-            (log/error e "Error sending message" message "to channel" channel-name)))))))
+            (log/error e "Error sending message" message "to channel" channel-name))))))))
