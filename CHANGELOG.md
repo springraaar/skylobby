@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31011](https://github.com/springraaar/skylobby/releases/tag/0.9.31011) - 2025-12-05
+
+- Updated application icons (again)
+
 ## [0.9.31010](https://github.com/springraaar/skylobby/releases/tag/0.9.31010) - 2025-12-03
 
 - Fixed highlights and urls styling on chat messages
