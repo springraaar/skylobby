@@ -372,14 +372,14 @@
      :v-box/vgrow :always}
     {:fx/type :image-view
       :image (str (clojure.java.io/resource "skylobby_banner.png"))
-      :fit-width 900
+      :fit-width 800
       :preserve-ratio true
       :smooth true}
     {:fx/type :h-box
      :alignment :center
      :spacing 14
-     :pref-width 900
-     :max-width 900
+     :pref-width 800
+     :max-width 800
      :children 
      [
       {:fx/type :hyperlink
