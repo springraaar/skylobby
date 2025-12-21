@@ -455,7 +455,11 @@
                                               (str "mdi-window-maximize:" font-icon-size ":white")
                                               (str "mdi-open-in-new:" font-icon-size ":white"))}]}}]}]
                        [{:fx/type :button
-                         :text "Reload"
+                         :text "Reload Resources"
+                         :tooltip
+                         {:fx/type tooltip-nofocus/lifecycle
+                          :show-delay skylobby.fx/tooltip-show-delay
+                          :text "Reload game and map details"}
                          :on-action
                          {:event/type :spring-lobby/add-task
                           :task
@@ -469,6 +473,10 @@
                              (not direct-connect))
                     [{:fx/type :button
                       :text "Balance"
+                      :tooltip
+                      {:fx/type tooltip-nofocus/lifecycle
+                       :show-delay skylobby.fx/tooltip-show-delay
+                       :text "Split players evenly between teams according to the current battle type"}
                       :on-action {:event/type :spring-lobby/battle-balance
                                   :am-host am-host
                                   :battle battle
@@ -479,6 +487,10 @@
                   (when (and (not direct-connect) show-player-colors)
                     [{:fx/type :button
                       :text "Fix Colors"
+                      :tooltip
+                      {:fx/type tooltip-nofocus/lifecycle
+                       :show-delay skylobby.fx/tooltip-show-delay
+                       :text "Adjust colors for all players"}
                       :on-action {:event/type :spring-lobby/battle-fix-colors
                                   :am-host am-host
                                   :battle battle
@@ -491,13 +503,17 @@
                     [
                      {:fx/type :button
                       :text "Ring"
+                      :tooltip
+                      {:fx/type tooltip-nofocus/lifecycle
+                       :show-delay skylobby.fx/tooltip-show-delay
+                       :text "Warn unready/unsynced players"}
                       :on-action
                       {:event/type :skylobby.fx.event.chat/send
                        :channel-name channel-name
                        :client-data client-data
                        :message "!ring"
                        :server-key server-key}}
-                     {:fx/type :button
+                     #_{:fx/type :button      ;TODO apparently invalid command, remove?
                       :text "Wakeup"
                       :on-action
                       {:event/type :skylobby.fx.event.chat/send
@@ -517,20 +533,12 @@
                         :channel-name channel-name
                         :client-data client-data
                         :users users}}}
-                     #_
-                     {:fx/type :button
-                      :text "Ring Specs"
-                      :disable (boolean ringing-specs)
-                      :on-action
-                      {:event/type :spring-lobby/add-task
-                       :task
-                       {:spring-lobby/task-type :spring-lobby/ring-specs
-                        :battle-users (:users battle)
-                        :channel-name channel-name
-                        :client-data client-data
-                        :users users}}}
                      {:fx/type :button
                       :text "Promote"
+                      :tooltip
+                      {:fx/type tooltip-nofocus/lifecycle
+                       :show-delay skylobby.fx/tooltip-show-delay
+                       :text "Sends message to various channels asking people to join this battle"}
                       :on-action
                       {:event/type :skylobby.fx.event.chat/send
                        :channel-name channel-name
@@ -600,6 +608,9 @@
              :refs {::add-bot-button
                     {:fx/type :button
                      :text "Add AI"
+                     :tooltip {:fx/type tooltip-nofocus/lifecycle
+                               :show-delay skylobby.fx/tooltip-show-delay
+                               :text "Add AI players (preferably compatible with the current game and battle type)"}
                      :disable (boolean (fx/sub-val context :show-add-bot))
                      :on-action {:event/type :spring-lobby/assoc
                                  :key :show-add-bot
@@ -1262,7 +1273,7 @@
                              :channel-name (u/user-channel-name host-username)
                              :client-data client-data
                              :focus true
-                             :message "!listmaps"
+                             :message "!list maps"
                              :server-key server-key}}]))}]}}}
       {:fx/type :tab
        :graphic {:fx/type :label
