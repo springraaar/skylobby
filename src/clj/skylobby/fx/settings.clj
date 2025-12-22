@@ -407,10 +407,10 @@
           :on-text-changed {:event/type :spring-lobby/assoc
                             :key :settings-search}}]}
        {:fx/type :flow-pane
-        :vgap 5
-        :hgap 5
-        :padding 5
-        :style {:-fx-font-size 16}
+        :vgap 32
+        :hgap 10
+        :padding 32
+        :style {:-fx-font-size 14}
         :children
         [
          {:fx/type filterable-section
@@ -449,7 +449,7 @@
             {:fx/type :check-box
              :selected (boolean use-git-mod-version)
              :on-selected-changed {:event/type :spring-lobby/on-change-git-version}}}]}
-         {:fx/type filterable-section
+         #_{:fx/type filterable-section                 ;TODO disabled late 2025, broken/unnecessary
           :search settings-search
           :title "Database (experimental)"
           :children
