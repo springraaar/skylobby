@@ -3,6 +3,7 @@
     [cljfx.api :as fx]
     [cljfx.ext.node :as fx.ext.node]
     [clojure.java.io :as io]
+    [clojure.math :as math]
     [clojure.string :as string]
     [skylobby.fs :as fs]
     skylobby.fx
@@ -293,7 +294,16 @@
               :children
               (mapv
                 (fn [map-name]
-                   (let [map-details (get details-by-map-name map-name {})]
+                   (let [map-details (get details-by-map-name map-name {})
+                         map-width (:map-width map-details)
+                         map-height (:map-height map-details)
+                         map-hw-ratio (if (and map-width map-height (> map-width map-height))
+                                        (/ map-height map-width)
+                                        1.0)
+                         ; workaround to match content better while avoiding description getting clipped
+                         ;TODO probably better to change from label to something else
+                         map-details-height (+ (* u/minimap-size map-hw-ratio) 240 (* (math/floor (/ (count (get-in map-details [:map-description] "?")) 60)) 16))
+                         ]
                    {:fx/type :button 
                    :style
                    {:-fx-min-width map-browse-image-size
@@ -311,7 +321,8 @@
                      :spacing 5
                      :style {
                         :-fx-max-width (+ u/minimap-size 10)
-                        :-fx-max-height (* u/minimap-size 1.8)
+                        :-fx-pref-height map-details-height
+                        :-fx-min-height map-details-height
                         }
                      :children
                      (concat
@@ -331,11 +342,10 @@
                          :style {:-fx-font-size 16  
                                  :-fx-font-weight :bold}}
                         {:fx/type :label
-                         :text (let [width (:map-width map-details)
-                           height (:map-height map-details)]
-                           (if (or (nil? width) (nil? height))
+                         :text 
+                           (if (or (nil? map-width) (nil? map-height))
                              "Size: ?"
-                             (str "Size: " width " x " height)))
+                             (str "Size: " map-width " x " map-height))
                          :style {:-fx-font-size 14}}
                         {:fx/type :label
                          :text (str "Author: " (get-in map-details [:map-author] "?") )

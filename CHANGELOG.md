@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31012](https://github.com/springraaar/skylobby/releases/tag/0.9.31012) - 2025-12-XX
+## [0.9.31012](https://github.com/springraaar/skylobby/releases/tag/0.9.31012) - 2025-12-24
 
 - Settings panel no longer shows experimental DB properties
 - Battle room : fixed "List Maps" button, removed "Wakeup" and added tooltips for several buttons
