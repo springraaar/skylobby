@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31013](https://github.com/springraaar/skylobby/releases/tag/0.9.31013) - 2026-01-06
+
+- Fixed broken login issue affecting the BAR server specifically
+
 ## [0.9.31012](https://github.com/springraaar/skylobby/releases/tag/0.9.31012) - 2025-12-24
 
 - Settings panel no longer shows experimental DB properties

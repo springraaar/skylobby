@@ -174,11 +174,17 @@
                                (log/error t "Serious error in ping loop"))))]
     (swap! state-atom assoc-in [:by-server server-key :ping-loop] ping-loop-future)))
 
-
 (defn handle-tasserver [state-atom server-key m]
   (let [state (swap! state-atom assoc-in [:by-server server-key :tas-server] m)
         client-data (-> state :by-server (get server-key) :client-data)]
-    (message/send state-atom client-data "LISTCOMPFLAGS")))
+    (if (string/includes? server-key "beyondallreason")
+      ;; Call COMPFLAGS handler directly. Workaround for BAR server rejecting LISTCOMPFLAGS before LOGIN
+      ;; TODO Added jan 2026, remove when server gets fixed
+      (do
+        (log/info "BAR server detected, assuming compflags : sp teiserver matchmaking token-auth")
+        ((get-method handler/handle "COMPFLAGS") state-atom server-key "sp teiserver matchmaking token-auth"))
+      ;; Keep standard behavior for other servers
+      (message/send state-atom client-data "LISTCOMPFLAGS"))))
 
 (defmethod handler/handle "TASSERVER" [state-atom server-key m]
   (handle-tasserver state-atom server-key m))
