@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31014](https://github.com/springraaar/skylobby/releases/tag/0.9.31014) - 2026-02-12
+
+- Player counts on battle list show ? if the information is missing
+
 ## [0.9.31013](https://github.com/springraaar/skylobby/releases/tag/0.9.31013) - 2026-01-06
 
 - Fixed broken login issue affecting the BAR server specifically

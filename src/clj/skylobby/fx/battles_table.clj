@@ -25,6 +25,24 @@
 
 (def battles-map-size 128)
 
+(defn format-player-count
+  [total-user-count spec-count]
+    (if (> spec-count total-user-count)
+      "?"
+      (str (- total-user-count spec-count))))
+
+(defn format-player-count-numbercheck
+  [total-user-count spec-count]
+  (if (and (number? total-user-count) (number? spec-count))
+    (format-player-count total-user-count spec-count)
+    "?"
+  ))
+
+(defn format-player-spec-count
+  [total-user-count spec-count]
+  (if (and (number? total-user-count) (number? spec-count))
+    (str (format-player-count total-user-count spec-count) " (" spec-count ")")
+    "?"))
 
 (defn battles-table-impl
   [{:fx/keys [context] :keys [server-key]}]
@@ -291,10 +309,7 @@
            {:fx/cell-type :table-cell
             :describe
             (fn [[total-user-count spec-count]]
-              {:text (str (if (and (number? total-user-count) (number? spec-count))
-                            (- total-user-count spec-count)
-                            total-user-count)
-                          " (" spec-count ")")})}}
+              {:text (format-player-spec-count total-user-count spec-count)})}}
           {:fx/type :table-column
            :text "Battle Name"
            :pref-width 200
@@ -559,9 +574,7 @@
              (let [
                    total-user-count (count users)
                    spec-count (or (u/to-number battle-spectators) 0)
-                   player-count (if (and (number? total-user-count) (number? spec-count))
-                                  (- total-user-count spec-count)
-                                  total-user-count)
+                   player-count (format-player-count-numbercheck total-user-count spec-count)
                    country (:country (get all-users host-username))]
                {:text ""
                 :graphic
