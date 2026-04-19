@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31015](https://github.com/springraaar/skylobby/releases/tag/0.9.31015) - 2026-04-19
+
+- Added "Recoil Official" server to the default list
+
 ## [0.9.31014](https://github.com/springraaar/skylobby/releases/tag/0.9.31014) - 2026-02-12
 
 - Player counts on battle list show ? if the information is missing
