@@ -78,15 +78,13 @@ jobs:
           asset_name: ${{ env.CI_REPOSITORY_NAME }}-${{ env.CI_REF_NAME }}_linux-amd64.rpm
           asset_content_type: application/x-binary
   build-mac:
-    if: ${{ false }} # broken until 1.x ?
-    runs-on: macOS-latest
+    runs-on: macOS-latest # Apple Silicon (arm64) runner
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: FranzDiebold/github-env-vars-action@v2.7.0
       - uses: actions/setup-java@v4.0.0
         with:
-          java-version: '14'
-          # ^ mac jpackage hates versions starting with 0 in later versions
+          java-version: '21'
           distribution: 'adopt'
       - uses: DeLaGuardo/setup-clojure@12.1
         with:
@@ -105,6 +103,15 @@ jobs:
       - run: npm install
       - run: clojure -M:cljs compile frontend
       - run: clojure -M:uberjar:headless
+      # mac jar with version
+      - uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./target/${{ env.CI_REPOSITORY_NAME }}.jar
+          asset_name: ${{ env.CI_REPOSITORY_NAME }}-${{ env.CI_REF_NAME }}-mac.jar
+          asset_content_type: application/java-archive
       # mac jar without version
       - uses: actions/upload-release-asset@v1.0.2
         env:
@@ -114,13 +121,15 @@ jobs:
           asset_path: ./target/${{ env.CI_REPOSITORY_NAME }}.jar
           asset_name: ${{ env.CI_REPOSITORY_NAME }}-mac.jar
           asset_content_type: application/java-archive
-      - run: jpackage --app-version ${{ env.CI_REF_NAME }} @jpackage/lobby @jpackage/mac
+      # macOS jpackage rejects an app-version with a major component of 0 (tags are 0.9.x),
+      # so the DMG bundle version is pinned to 1.0.0; the real version stays in the jar manifest
+      - run: jpackage --app-version 1.0.0 @jpackage/lobby @jpackage/mac
       - uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./${{ env.CI_REPOSITORY_NAME }}-${{ env.CI_REF_NAME }}.dmg
+          asset_path: ./${{ env.CI_REPOSITORY_NAME }}-1.0.0.dmg
           asset_name: ${{ env.CI_REPOSITORY_NAME }}-${{ env.CI_REF_NAME }}_mac.dmg
           asset_content_type: application/x-apple-diskimage
   build-windows:
