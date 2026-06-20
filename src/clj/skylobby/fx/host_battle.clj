@@ -80,7 +80,7 @@
                                   :scripttags scripttags
                                   :use-git-mod-version (fx/sub-val context :use-git-mod-version)}]
           {:fx/type :v-box
-           :style {:-fx-font-size 16}
+           :style-class ["skylobby-body"]
            :padding 16
            :spacing 8
            :children
