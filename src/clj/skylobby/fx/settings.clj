@@ -62,7 +62,7 @@
         title-lc (string/lower-case (or title ""))]
     (if (string/includes? title-lc search-lc)
       {:fx/type :h-box
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        [check-box
@@ -89,7 +89,7 @@
        :children
        (concat
          [{:fx/type :pane
-           :style-class ["skylobby-h1"]
+           :style-class ["pane" "skylobby-h1"]
            :children
            [
             {:fx/type highlighted-label
@@ -398,7 +398,7 @@
       :children
       [{:fx/type :h-box
         :alignment :center-left
-        :style-class ["skylobby-h2"]
+        :style-class ["h-box" "skylobby-h2"]
         :children
         [{:fx/type :label
           :text " Search: "}
@@ -412,7 +412,7 @@
         :vgap 32
         :hgap 10
         :padding 32
-        :style-class ["skylobby-caption"]
+        :style-class ["flow-pane" "skylobby-caption"]
         :children
         [
          {:fx/type filterable-section
@@ -459,7 +459,7 @@
             :text "Experimental! Use database for certain indexes to lower memory usage"}
            #_
            {:fx/type :h-box
-            :style-class ["skylobby-h2"]
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -470,7 +470,7 @@
               :text " Use database for downloads index"}]}
            #_
            {:fx/type :h-box
-            :style-class ["skylobby-h2"]
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -480,7 +480,7 @@
              {:fx/type :label
               :text " Use database for imports index"}]}
            {:fx/type :h-box
-            :style-class ["skylobby-h2"]
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -490,7 +490,7 @@
              {:fx/type :label
               :text " Use database for rapid index"}]}
            {:fx/type :h-box
-            :style-class ["skylobby-h2"]
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
