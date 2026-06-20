@@ -19,7 +19,7 @@
   (let [client-data (fx/sub-val context get-in [:by-server server-key :client-data])
         matchmaking-queues (fx/sub-val context get-in [:by-server server-key :matchmaking-queues])]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :children
      [
       #_
