@@ -589,6 +589,8 @@
                                           (< (count map-teams)
                                              (count team-counts)))]
     {:fx/type :v-box
+     :padding 8
+     :spacing 4
      :children
      [
       {:fx/type :flow-pane
