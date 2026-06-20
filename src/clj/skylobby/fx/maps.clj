@@ -246,7 +246,7 @@
            :children
            [{:fx/type :h-box
              :alignment :center-left
-             :style {:-fx-font-size 16}
+             :style-class ["skylobby-body"]
              :children
              (concat
                [{:fx/type :label
@@ -339,28 +339,29 @@
                          :text map-name
                          :alignment :center
                          :wrap-text true
-                         :style {:-fx-font-size 16  
-                                 :-fx-font-weight :bold}}
+                         :style-class ["skylobby-body"]
+                         :style {:-fx-font-weight :bold}}
                         {:fx/type :label
-                         :text 
+                         :text
                            (if (or (nil? map-width) (nil? map-height))
                              "Size: ?"
                              (str "Size: " map-width " x " map-height))
-                         :style {:-fx-font-size 14}}
+                         :style-class ["skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Author: " (get-in map-details [:map-author] "?") )
                          :wrap-text true
-                         :style {:-fx-font-size 14}}
+                         :style-class ["skylobby-caption"]}
                         {:fx/type :label
                          :text (let [file-size (get-in map-details [:map-file-size-b] 0)]
                           (if (zero? file-size)
                             "File size: ?"
                             (str "File size: " (format "%.2f" (/ file-size 1024.0 1024.0)) " MB")))
-                         :style {:-fx-font-size 14}}
+                         :style-class ["skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Description: " (get-in map-details [:map-description] "?") )
                          :wrap-text true
-                         :style {:-fx-font-size 13 :-fx-wrap-text true}
+                         :style-class ["skylobby-caption"]
+                         :style {:-fx-wrap-text true}
                          }
                         ])}}
                    :graphic
@@ -382,7 +383,7 @@
                      {:fx/type :pane
                       :v-box/vgrow :always}
                      {:fx/type :label
-                      :style {:-fx-font-size 12}
+                      :style-class ["skylobby-caption"]
                       :text (str " " map-name)
                       :wrap-text true}
                      {:fx/type :label
