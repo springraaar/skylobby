@@ -73,12 +73,12 @@
      :children
      [{:fx/type :label
        :text (str (:name header))
-       :style {:-fx-font-size 18}}
+       :style-class ["skylobby-h2"]}
       {:fx/type :label
        :text (str (:desc header))
        :wrap-text true
        :max-height 200
-       :style {:-fx-font-size 14}}
+       :style-class ["skylobby-caption"]}
       {:fx/type :table-view
        :column-resize-policy :constrained
        :items items
@@ -98,7 +98,7 @@
              :text ""
              :tooltip
              {:fx/type tooltip-nofocus/lifecycle
-              :style {:-fx-font-size 16}
+              :style-class ["skylobby-body"]
               :show-delay skylobby.fx/tooltip-show-delay
               :text (str (when-let [k (:key i)]
                            (name k))
@@ -135,7 +135,7 @@
                    :props
                    {:tooltip
                     {:fx/type tooltip-nofocus/lifecycle
-                     :style {:-fx-font-size 16}
+                     :style-class ["skylobby-body"]
                      :show-delay skylobby.fx/tooltip-show-delay
                      :text (str (name (:key i)) "\n\n" (:desc i))}}
                    :desc
@@ -162,7 +162,7 @@
                    :props
                    {:tooltip
                     {:fx/type tooltip-nofocus/lifecycle
-                     :style {:-fx-font-size 16}
+                     :style-class ["skylobby-body"]
                      :show-delay skylobby.fx/tooltip-show-delay
                      :text (str (name (:key i)) "\n\n" (:desc i))}}
                    :desc
@@ -189,7 +189,7 @@
                    :props
                    {:tooltip
                     {:fx/type tooltip-nofocus/lifecycle
-                     :style {:-fx-font-size 16}
+                     :style-class ["skylobby-body"]
                      :show-delay skylobby.fx/tooltip-show-delay
                      :text (str (name (:key i)) "\n\n" (:desc i))}}
                    :desc
@@ -219,7 +219,7 @@
                    :props
                    {:tooltip
                     {:fx/type tooltip-nofocus/lifecycle
-                     :style {:-fx-font-size 16}
+                     :style-class ["skylobby-body"]
                      :show-delay skylobby.fx/tooltip-show-delay
                      :text (str (name (:key i)) "\n\n" (:desc i))}}
                    :desc
