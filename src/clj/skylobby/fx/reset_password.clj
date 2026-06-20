@@ -43,7 +43,7 @@
         {:fx/type :v-box
          :padding 16
          :spacing 8
-         :style {:-fx-font-size 16}
+         :style-class ["skylobby-body"]
          :children
          (concat
            [
@@ -69,7 +69,7 @@
              :text (str request-reset-password-response)}
             {:fx/type :button
              :text "Request Email Verification Code"
-             :style {:-fx-font-size 20}
+             :style-class ["skylobby-h2"]
              :tooltip
              {:fx/type tooltip-nofocus/lifecycle
               :show-delay skylobby.fx/tooltip-show-delay
@@ -94,7 +94,7 @@
                :text (str reset-password-response)}
               {:fx/type :button
                :text "Reset Password"
-               :style {:-fx-font-size 20}
+               :style-class ["skylobby-h2"]
                :tooltip
                {:fx/type tooltip-nofocus/lifecycle
                 :show-delay skylobby.fx/tooltip-show-delay
