@@ -310,14 +310,20 @@
 ; so that themes can override
 (def default-classes
   {
+   ; text-fill restores theme-aware colour for nodes whose base style-class
+   ; (label/hyperlink/...) was replaced when the typography class was applied
    ".skylobby-h1"
-   {:-fx-font-size 22}
+   {:-fx-font-size 22
+    :-fx-text-fill "-fx-text-base-color"}
    ".skylobby-h2"
-   {:-fx-font-size 18}
+   {:-fx-font-size 18
+    :-fx-text-fill "-fx-text-base-color"}
    ".skylobby-body"
-   {:-fx-font-size 16}
+   {:-fx-font-size 16
+    :-fx-text-fill "-fx-text-base-color"}
    ".skylobby-caption"
-   {:-fx-font-size 13}
+   {:-fx-font-size 13
+    :-fx-text-fill "-fx-text-base-color"}
    ".skilluncertainty0"
    {:-fx-text-fill "rgb(255, 255, 255)"}
    ".skilluncertainty1"
