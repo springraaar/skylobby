@@ -79,7 +79,8 @@
    :focus     "rgb(120,120,130)"
    :selection "rgb(72,72,72)"
    :selection-unfocused "rgb(55,55,55)"
-   :text-1    "rgb(228,228,228)"
+   :text-on-dark  "rgb(228,228,228)"
+   :text-on-light "rgb(20,20,20)"
    :text-2    "rgb(150,150,150)"
    :row-odd   "rgb(30,30,30)"
    :row-even  "rgb(20,20,20)"
@@ -97,7 +98,8 @@
    :focus     "rgb(170,170,170)"
    :selection "rgb(120,120,120)"
    :selection-unfocused "rgb(110,110,110)"
-   :text-1    "rgb(240,240,240)"
+   :text-on-dark  "rgb(240,240,240)"
+   :text-on-light "rgb(20,20,20)"
    :text-2    "rgb(200,200,200)"
    :row-odd   "rgb(70,70,70)"
    :row-even  "rgb(60,60,60)"
@@ -115,7 +117,8 @@
    :focus     "rgb(90,110,140)"
    :selection "rgb(208,224,244)"
    :selection-unfocused "rgb(225,225,225)"
-   :text-1    "rgb(20,20,20)"
+   :text-on-dark  "rgb(240,240,240)"
+   :text-on-light "rgb(20,20,20)"
    :text-2    "rgb(90,90,90)"
    :row-odd   "rgb(236,236,236)"
    :row-even  "rgb(246,246,246)"
@@ -145,7 +148,7 @@
    Element selectors are deliberately separate (tabs are NOT styled via the
    button selector) so theme authors can target each independently."
   [{:keys [surface-0 surface-1 surface-2 surface-3 border focus
-           selection selection-unfocused text-1 text-2
+           selection selection-unfocused text-on-dark text-on-light text-2
            row-odd row-even thumb thumb-hover tab-selected-accent]}]
   {".root"
    {:-fx-base surface-1
@@ -155,7 +158,7 @@
     :-fx-selection-bar-non-focused selection-unfocused
     :-fx-focus-color focus
     :-fx-faint-focus-color "transparent"
-    :-fx-text-base-color text-1}
+    :-fx-text-base-color (str "ladder(-fx-base, " text-on-dark " 49%, " text-on-light " 50%)")}
    ;; Tabs — own selectors, separate from .button
    ".tab"
    {:-fx-base surface-2

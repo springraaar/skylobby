@@ -65,7 +65,7 @@
 (deftest ramps-define-all-surface-keys
   (doseq [ramp [skylobby.fx/black-ramp skylobby.fx/grey-ramp skylobby.fx/light-ramp]]
     (doseq [k [:surface-0 :surface-1 :surface-2 :surface-3 :border :focus
-               :selection :selection-unfocused :text-1 :text-2
+               :selection :selection-unfocused :text-on-dark :text-on-light :text-2
                :row-odd :row-even :thumb :thumb-hover :tab-highlight :tab-selected-accent]]
       (is (contains? ramp k) (str "missing " k)))
     ;; focus must be visible, never transparent (a11y regression guard)
@@ -78,8 +78,11 @@
     (is (= "rgb(40,40,40)" (get-in d [".root" :-fx-control-inner-background])))
     ;; focus is visible, not transparent
     (is (= "rgb(120,120,130)" (get-in d [".root" :-fx-focus-color])))
-    ;; primary text color is wired from the ramp token
-    (is (= "rgb(228,228,228)" (get-in d [".root" :-fx-text-base-color])))))
+    ;; primary text color is a ladder auto-contrast expression
+    (let [tbc (get-in d [".root" :-fx-text-base-color])]
+      (is (re-find #"^ladder\(-fx-base," tbc))
+      (is (re-find #"rgb\(228,228,228\)" tbc))
+      (is (re-find #"rgb\(20,20,20\)" tbc)))))
 
 (deftest theme-data-defines-structural-selectors
   (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
