@@ -54,16 +54,16 @@
           :children
           (concat
             [{:fx/type :label
-              :style {:-fx-font-size 28}
+              :style-class ["skylobby-h1"]
               :text "Select Content Directory\n "}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["skylobby-h2"]
               :text "Games, maps, engine builds (SpringRTS or Recoil) and related resources will be saved to the directory below."}
              {:fx/type :label
-              :style {:-fx-font-size 16}
+              :style-class ["skylobby-body"]
               :text "Also called \"Spring Directory\" or \"Spring Root\" and often named \"spring\" on the file system (legacy from SpringRTS engine).\nYou may pick one you already had if you've ran its installer or lobby clients before.\n "}
              {:fx/type :label
-              :style {:-fx-font-size 16}
+              :style-class ["skylobby-body"]
               :text "Click the green button to continue, you can always change this in settings later."}
              {:fx/type :pane
               :pref-height 16}
@@ -72,7 +72,7 @@
               :children
               [
                {:fx/type :label
-                :style {:-fx-font-size 16}
+                :style-class ["skylobby-body"]
                 :text "Current content directory: "}
                {:fx/type :button
                 :style-class ["button" "skylobby-normal"]
@@ -98,7 +98,7 @@
                 :on-action {:event/type :spring-lobby/desktop-browse-dir
                             :file spring-isolation-dir}}]}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text (str spring-root-path)}]
             (when-not is-pure-ascii
               [{:fx/type :pane
@@ -141,21 +141,21 @@
              {:fx/type :pane
               :pref-height 16}
              {:fx/type :label
-              :style {:-fx-font-size 16}
+              :style-class ["skylobby-body"]
               :text "Resources found:"}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text (str "Engine versions: " (count engines))}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text (str "Game versions: " (count mods))}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text (str "Maps: " (count maps))}
              {:fx/type :pane
               :pref-height 16}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text "Alternative content directories:"}]
             (mapv
               (fn [{:keys [title file]}]
@@ -163,14 +163,14 @@
                  :children
                  [
                   {:fx/type :label
-                   :style {:-fx-font-size 22}
+                   :style-class ["skylobby-h1"]
                    :text title}
                   {:fx/type :label
-                   :style {:-fx-font-size 18}
+                   :style-class ["skylobby-h2"]
                    :text (str file)}
                   (if (fs/exists? file)
                     {:fx/type :button
-                     :style {:-fx-font-size 18}
+                     :style-class ["skylobby-h2"]
                      :disable (= spring-root-path
                                  (fs/canonical-path file))
                      :on-action {:event/type :spring-lobby/assoc
@@ -185,14 +185,13 @@
              {:fx/type :pane
               :pref-height 16}
              {:fx/type :label
-              :style {:-fx-font-size 18}
+              :style-class ["skylobby-h2"]
               :text "Or set a custom directory:"}
              {:fx/type :button
-              :style-class ["button" "skylobby-normal"]
+              :style-class ["button" "skylobby-normal" "skylobby-h2"]
               :on-action {:event/type :spring-lobby/file-chooser-dir
                           :initial-dir spring-isolation-dir
                           :path [:spring-isolation-dir]}
-              :style {:-fx-font-size 18}
               :text "Pick custom content directory"
               :graphic
               {:fx/type font-icon/lifecycle
