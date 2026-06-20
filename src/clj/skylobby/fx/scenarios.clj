@@ -88,7 +88,7 @@
                       (seq rapid-packages-tasks))]
     {:fx/type :v-box
      :alignment :top-center
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :children
      (concat
        [{:fx/type :h-box
