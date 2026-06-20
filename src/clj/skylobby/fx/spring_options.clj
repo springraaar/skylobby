@@ -73,12 +73,12 @@
      :children
      [{:fx/type :label
        :text (str (:name header))
-       :style-class ["skylobby-h2"]}
+       :style-class ["label" "skylobby-h2"]}
       {:fx/type :label
        :text (str (:desc header))
        :wrap-text true
        :max-height 200
-       :style-class ["skylobby-caption"]}
+       :style-class ["label" "skylobby-caption"]}
       {:fx/type :table-view
        :column-resize-policy :constrained
        :items items
