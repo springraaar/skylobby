@@ -35,10 +35,10 @@
      (concat
        [
         {:fx/type :label
-         :style-class ["skylobby-h1"]
+         :style-class ["label" "skylobby-h1"]
          :text "Spring crashed"}
         {:fx/type :label
-         :style-class ["skylobby-h2"]
+         :style-class ["label" "skylobby-h2"]
          :text "infolog:"}
         {:fx/type fx.virtualized-scroll-pane/lifecycle
          :v-box/vgrow :always
