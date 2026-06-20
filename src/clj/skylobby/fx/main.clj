@@ -353,7 +353,7 @@
             :closable false
             :graphic {:fx/type :label
                       :text "Home"
-                      :style-class ["skylobby-h2"]}
+                      :style-class ["label" "skylobby-h2"]}
             :content
             {:fx/type fx.welcome/welcome-view
              :v-box/vgrow :always}}]
@@ -363,7 +363,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Content Directory"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-spring-picker
                                  :value false}
@@ -375,7 +375,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Settings"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-settings-window
                                  :value false}
@@ -387,7 +387,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Replays"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-replays
                                  :value false}
@@ -399,7 +399,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Scenarios"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-scenarios-window
                                  :value false}
@@ -411,7 +411,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "HTTP Download"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-downloader
                                  :value false}
@@ -423,7 +423,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Rapid"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-rapid-downloader
                                  :value false}
@@ -435,7 +435,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Importer"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-importer
                                  :value false}
@@ -447,7 +447,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Tasks"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-tasks-window
                                  :value false}
@@ -459,7 +459,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Singleplayer"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/dissoc-in
                                  :path [:by-server :local]}
               :content
@@ -472,7 +472,7 @@
               :closable true
               :graphic {:fx/type :label
                         :text "LAN / Direct Connect"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :on-close-request {:event/type :spring-lobby/dissoc
                                  :key :show-direct-connect}
               :content
@@ -487,7 +487,7 @@
                :graphic {:fx/type :text-flow
                    :children [{:fx/type :label
                          :text (name (:server-type server-key))
-                         :style-class ["skylobby-h2"]}
+                         :style-class ["label" "skylobby-h2"]}
                          {:fx/type :label
                          :text (str (name (:server-type server-key))
                                     " "
@@ -540,7 +540,7 @@
                    :children [{:fx/type :label
                            :text (let [[_ server-config] (fx/sub-val context get-in [:by-server server-key :server])]
                                         (:alias server-config))
-                           :style-class ["skylobby-h2"]}
+                           :style-class ["label" "skylobby-h2"]}
                            {:fx/type :label
                            :text (str " (" server-key ")")
                            :style {:-fx-opacity 0.7}
@@ -559,7 +559,7 @@
               :closable false
               :graphic {:fx/type :label
                         :text "All Servers"
-                        :style-class ["skylobby-h2"]}
+                        :style-class ["label" "skylobby-h2"]}
               :content
               (merge
                 {:fx/type multi-server-tab}
