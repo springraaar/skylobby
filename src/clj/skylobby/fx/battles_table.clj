@@ -132,7 +132,7 @@
         :items filtered-battles
         :desc
         {:fx/type :table-view
-         :style-class ["skylobby-body"]
+         :style-class ["table-view" "skylobby-body"]
          :column-resize-policy :constrained
          :row-factory
          {:fx/cell-type :table-row
@@ -434,7 +434,7 @@
                :selected-item (get battles-by-id selected-battle)}
        :desc
        {:fx/type :table-view
-        :style-class ["skylobby-body"]
+        :style-class ["table-view" "skylobby-body"]
         :items filtered-battles
         :row-factory
         {:fx/cell-type :table-row
