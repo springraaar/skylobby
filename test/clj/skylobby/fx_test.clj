@@ -52,3 +52,21 @@
            (skylobby.fx/fitheight nil -10000))))
   (is (= 256
          (skylobby.fx/fitheight screen-bounds -10000))))
+
+(deftest type-scale-has-expected-steps
+  (is (= 14 (:base skylobby.fx/type-scale)))
+  (is (= 28 (:xxl skylobby.fx/type-scale)))
+  (is (every? number? (vals skylobby.fx/type-scale))))
+
+(deftest space-scale-is-a-numeric-ladder
+  (is (= [4 8 12 16 24 32]
+         (map skylobby.fx/space-scale [:1 :2 :3 :4 :5 :6]))))
+
+(deftest ramps-define-all-surface-keys
+  (doseq [ramp [skylobby.fx/black-ramp skylobby.fx/grey-ramp skylobby.fx/light-ramp]]
+    (doseq [k [:surface-0 :surface-1 :surface-2 :surface-3 :border :focus
+               :selection :selection-unfocused :text-1 :text-2
+               :row-odd :row-even :thumb :thumb-hover :tab-highlight]]
+      (is (contains? ramp k) (str "missing " k)))
+    ;; focus must be visible, never transparent (a11y regression guard)
+    (is (not= "transparent" (:focus ramp)))))

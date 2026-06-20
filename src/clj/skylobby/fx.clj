@@ -59,6 +59,68 @@
     "monospace"))
 
 
+;; ── Design tokens ────────────────────────────────────────────────
+;; Type scale (px). base = default body text.
+(def type-scale
+  {:xs 12 :sm 13 :base 14 :md 16 :lg 18 :xl 22 :xxl 28})
+
+;; Spacing scale (px), addressed by step number.
+(def space-scale
+  {:1 4 :2 8 :3 12 :4 16 :5 24 :6 32})
+
+;; ── Per-theme surface/colour ramps ───────────────────────────────
+;; surface-0 = app background (deepest), surface-3 = raised/hover/selected.
+(def black-ramp
+  {:surface-0 "rgb(18,18,18)"
+   :surface-1 "rgb(28,28,28)"
+   :surface-2 "rgb(40,40,40)"
+   :surface-3 "rgb(54,54,54)"
+   :border    "rgb(64,64,64)"
+   :focus     "rgb(120,120,130)"
+   :selection "rgb(72,72,72)"
+   :selection-unfocused "rgb(55,55,55)"
+   :text-1    "rgb(228,228,228)"
+   :text-2    "rgb(150,150,150)"
+   :row-odd   "rgb(30,30,30)"
+   :row-even  "rgb(20,20,20)"
+   :thumb     "rgb(90,90,90)"
+   :thumb-hover "rgb(110,110,110)"
+   :tab-highlight "#ffd700"})
+
+(def grey-ramp
+  {:surface-0 "rgb(60,60,60)"
+   :surface-1 "rgb(74,74,74)"
+   :surface-2 "rgb(90,90,90)"
+   :surface-3 "rgb(104,104,104)"
+   :border    "rgb(120,120,120)"
+   :focus     "rgb(170,170,170)"
+   :selection "rgb(120,120,120)"
+   :selection-unfocused "rgb(110,110,110)"
+   :text-1    "rgb(240,240,240)"
+   :text-2    "rgb(200,200,200)"
+   :row-odd   "rgb(70,70,70)"
+   :row-even  "rgb(60,60,60)"
+   :thumb     "rgb(120,120,120)"
+   :thumb-hover "rgb(150,150,150)"
+   :tab-highlight "#ffd700"})
+
+(def light-ramp
+  {:surface-0 "rgb(228,228,228)"
+   :surface-1 "rgb(240,240,240)"
+   :surface-2 "rgb(252,252,252)"
+   :surface-3 "rgb(255,255,255)"
+   :border    "rgb(200,200,200)"
+   :focus     "rgb(90,110,140)"
+   :selection "rgb(208,224,244)"
+   :selection-unfocused "rgb(225,225,225)"
+   :text-1    "rgb(20,20,20)"
+   :text-2    "rgb(90,90,90)"
+   :row-odd   "rgb(236,236,236)"
+   :row-even  "rgb(246,246,246)"
+   :thumb     "rgb(150,150,150)"
+   :thumb-hover "rgb(120,120,120)"
+   :tab-highlight "#ffd700"})
+
 ; https://tomsondev.bestsolution.at/2014/03/13/eclipse-on-javafx-get-dark-the-power-of-javafx-css
 (def grey-style-data
   {".root"
