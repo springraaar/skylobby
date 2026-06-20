@@ -134,3 +134,6 @@
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-primary") (str k " missing .skylobby-primary"))
       (is (some? (get-in d [".skylobby-primary" :-fx-base]))))))
+
+(deftest light-surface-0-nudged
+  (is (= "rgb(220,220,220)" (:surface-0 skylobby.fx/light-ramp))))

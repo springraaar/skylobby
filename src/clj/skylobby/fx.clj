@@ -111,7 +111,7 @@
    :icon "rgb(235,235,235)"})
 
 (def light-ramp
-  {:surface-0 "rgb(228,228,228)"
+  {:surface-0 "rgb(220,220,220)"
    :surface-1 "rgb(240,240,240)"
    :surface-2 "rgb(252,252,252)"
    :surface-3 "rgb(255,255,255)"
