@@ -105,7 +105,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style-class ["skylobby-body"]
+       :style-class ["v-box" "skylobby-body"]
        :children
        [
         {:fx/type :label
@@ -158,7 +158,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style-class ["skylobby-h2"]
+       :style-class ["v-box" "skylobby-h2"]
        :children
        [
         {:fx/type :h-box
@@ -404,7 +404,7 @@
      :tooltip
      {:fx/type tooltip-nofocus/lifecycle
       :show-delay skylobby.fx/tooltip-show-delay
-      :style-class ["skylobby-body"]
+      :style-class ["tooltip" "skylobby-body"]
       :text ""
       :graphic
       {:fx/type player-status-tooltip-label
@@ -458,7 +458,7 @@
   [{:keys [player server-key]}]
   {:fx/type tooltip-nofocus/lifecycle
    :show-delay skylobby.fx/tooltip-show-delay
-   :style-class ["skylobby-body"]
+   :style-class ["tooltip" "skylobby-body"]
    :style {:-fx-font-weight "normal"}
    :text ""
    :graphic
@@ -702,7 +702,7 @@
                      :tooltip
                      {:fx/type tooltip-nofocus/lifecycle
                       :show-delay skylobby.fx/tooltip-show-delay
-                      :style-class ["skylobby-body"]
+                      :style-class ["tooltip" "skylobby-body"]
                       :text ""
                       :graphic
                       {:fx/type :v-box
@@ -729,7 +729,7 @@
                            {:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style-class ["skylobby-body"]
+                             :style-class ["tooltip" "skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "Kick"}
                             :on-action
@@ -746,7 +746,7 @@
                           [{:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style-class ["skylobby-body"]
+                             :style-class ["tooltip" "skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "AI Settings"}
                             :on-action
@@ -1258,7 +1258,7 @@
                                {:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style-class ["skylobby-body"]
+                                 :style-class ["tooltip" "skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "Kick"}
                                 :on-action
@@ -1275,7 +1275,7 @@
                               [{:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style-class ["skylobby-body"]
+                                 :style-class ["tooltip" "skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "AI Settings"}
                                 :on-action
