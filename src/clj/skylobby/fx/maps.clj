@@ -339,28 +339,28 @@
                          :text map-name
                          :alignment :center
                          :wrap-text true
-                         :style-class ["skylobby-body"]
+                         :style-class ["label" "skylobby-body"]
                          :style {:-fx-font-weight :bold}}
                         {:fx/type :label
                          :text
                            (if (or (nil? map-width) (nil? map-height))
                              "Size: ?"
                              (str "Size: " map-width " x " map-height))
-                         :style-class ["skylobby-caption"]}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Author: " (get-in map-details [:map-author] "?") )
                          :wrap-text true
-                         :style-class ["skylobby-caption"]}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (let [file-size (get-in map-details [:map-file-size-b] 0)]
                           (if (zero? file-size)
                             "File size: ?"
                             (str "File size: " (format "%.2f" (/ file-size 1024.0 1024.0)) " MB")))
-                         :style-class ["skylobby-caption"]}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Description: " (get-in map-details [:map-description] "?") )
                          :wrap-text true
-                         :style-class ["skylobby-caption"]
+                         :style-class ["label" "skylobby-caption"]
                          :style {:-fx-wrap-text true}
                          }
                         ])}}
@@ -383,7 +383,7 @@
                      {:fx/type :pane
                       :v-box/vgrow :always}
                      {:fx/type :label
-                      :style-class ["skylobby-caption"]
+                      :style-class ["label" "skylobby-caption"]
                       :text (str " " map-name)
                       :wrap-text true}
                      {:fx/type :label
