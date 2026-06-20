@@ -81,7 +81,7 @@
     {:fx/type :v-box
      :children
      [{:fx/type :h-box
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        [{:fx/type :label
@@ -98,7 +98,7 @@
           :on-value-changed {:event/type :spring-lobby/assoc
                              :key :rapid-spring-root}}}]}
       {:fx/type :h-box
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        [{:fx/type :label
@@ -121,7 +121,7 @@
          {:fx/type font-icon/lifecycle
           :icon-literal "mdi-refresh:16:white"}}]}
       {:fx/type :h-box
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        (concat
@@ -249,7 +249,7 @@
                       :icon-literal "mdi-download:16:white"}}}))))}}]}}
       {:fx/type :h-box
        :alignment :center-left
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :children
        [{:fx/type :label
          :text " Packages"}
