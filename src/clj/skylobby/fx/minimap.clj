@@ -232,7 +232,7 @@
        [
         {:fx/type :label
          :text (str map-name)
-         :style-class ["skylobby-body"]}
+         :style-class ["label" "skylobby-body"]}
         {:fx/type :label
          :text (if (string/blank? map-name)
                  "(no map)"
