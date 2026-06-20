@@ -43,7 +43,7 @@
         {:fx/type :v-box
          :padding 16
          :spacing 8
-         :style-class ["skylobby-body"]
+         :style-class ["v-box" "skylobby-body"]
          :children
          (concat
            [
