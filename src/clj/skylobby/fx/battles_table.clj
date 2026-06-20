@@ -70,8 +70,8 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16
-             :-fx-min-height 128}
+     :style-class ["skylobby-body"]
+     :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
        :alignment :center-left
@@ -132,7 +132,7 @@
         :items filtered-battles
         :desc
         {:fx/type :table-view
-         :style {:-fx-font-size 15}
+         :style-class ["skylobby-body"]
          :column-resize-policy :constrained
          :row-factory
          {:fx/cell-type :table-row
@@ -149,7 +149,7 @@
                           :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
                          :tooltip
                          {:fx/type tooltip-nofocus/lifecycle
-                          :style {:-fx-font-size 16}
+                          :style-class ["skylobby-body"]
                           :show-delay skylobby.fx/tooltip-show-delay
                           :text ""
                           :graphic
@@ -375,8 +375,8 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16
-             :-fx-min-height 128}
+     :style-class ["skylobby-body"]
+     :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
        :alignment :center-left
@@ -434,7 +434,7 @@
                :selected-item (get battles-by-id selected-battle)}
        :desc
        {:fx/type :table-view
-        :style {:-fx-font-size 15}
+        :style-class ["skylobby-body"]
         :items filtered-battles
         :row-factory
         {:fx/cell-type :table-row
@@ -453,7 +453,7 @@
                :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
               :tooltip
               {:fx/type tooltip-nofocus/lifecycle
-               :style {:-fx-font-size 16}
+               :style-class ["skylobby-body"]
                :show-delay skylobby.fx/tooltip-show-delay
                :text ""
                :graphic
