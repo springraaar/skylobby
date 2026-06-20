@@ -99,7 +99,7 @@
         server-key (fx/sub-ctx context skylobby.fx/selected-tab-server-key-sub)]
     {:fx/type :h-box
      :alignment :center-left
-     :style {:-fx-font-size 14}
+     :style-class ["skylobby-caption"]
      :children
      (concat
        [{:fx/type app-update-button}
@@ -200,9 +200,8 @@
        [{:fx/type :separator
          :orientation :vertical}
         {:fx/type :button
-         :style-class ["button" "skylobby-normal" "skylobby-secondary"]
+         :style-class ["button" "skylobby-normal" "skylobby-secondary" "skylobby-caption"]
          :text "Replays"
-         :style {:-fx-font-size 14}
          :on-action {:event/type :spring-lobby/toggle-window
                      :windows-as-tabs (fx/sub-val context :windows-as-tabs)
                      :key :show-replays}
@@ -210,8 +209,7 @@
          {:fx/type font-icon/lifecycle
           :icon-literal (str "mdi-open-in-new:" icon-size)}}
         {:fx/type :button
-         :style-class ["button" "skylobby-normal" "skylobby-secondary"]
-         :style {:-fx-font-size 14}
+         :style-class ["button" "skylobby-normal" "skylobby-secondary" "skylobby-caption"]
          :text "Settings"
          :graphic {:fx/type font-icon/lifecycle
                    :icon-literal (str "mdi-settings:" icon-size)}
