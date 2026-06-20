@@ -26,7 +26,7 @@
               :v-box/vgrow :always
               :server-key server-key}]
     {:fx/type :v-box
-     :style-class ["skylobby-caption"]
+     :style-class ["v-box" "skylobby-caption"]
      :alignment :top-left
      :children
      [
