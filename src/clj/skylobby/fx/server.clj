@@ -258,7 +258,7 @@
                      (if (contains? servers server-url)
                        "Update" "Add")
                      " server")
-             :style-class ["skylobby-h2"]
+             :style-class ["button" "skylobby-h2"]
              :disable (or (string/blank? server-host)
                           (= (normalize-server-data old-server-data)
                              (normalize-server-data update-server-data)))
