@@ -247,7 +247,7 @@
              :on-text-changed {:event/type :spring-lobby/password-change
                                :server-url (first server)}}]}]
          [{:fx/type :label
-           :style {:-fx-font-size 16}
+           :style-class ["skylobby-body"]
            :text "Logged in"}
           {:fx/type :button
            :text "Go to server tab"
@@ -269,7 +269,7 @@
                            (= server-spring-root spring-root))
                      "Using default Spring dir"
                      "Using server-specific Spring dir")
-             :style {:-fx-font-size 20}}
+             :style-class ["skylobby-h2"]}
             {:fx/type :h-box
              :alignment :center-left
              :children
@@ -299,7 +299,7 @@
                   :icon-literal "mdi-file-find:20"}}])}]})]
        (when login-error
          [{:fx/type :label
-           :style {:-fx-font-size 24}
+           :style-class ["skylobby-h1"]
            :text "Error:"}
           {:fx/type :text-area
            :editable false
@@ -338,7 +338,7 @@
                         :task {:spring-lobby/task-type :spring-lobby/auto-connect-servers}}}]))
       (when agreement
         [{:fx/type :label
-          :style {:-fx-font-size 20}
+          :style-class ["skylobby-h2"]
           :text " Server agreement: "}
          {:fx/type :text-area
           :style {:-fx-font-size "70%"
@@ -383,22 +383,22 @@
      :children 
      [
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["skylobby-body"]
        :text (str "version " u/app-version "  (raaar)")   ; forks should edit the () to make the fork name more explicit (workaround for version numbering restrictions)
        :on-action {:event/type :spring-lobby/desktop-browse-url
                    :url "https://github.com/springraaar/skylobby/wiki/User-Guide"}}
       {:fx/type :h-box
        :h-box/hgrow :always}
       {:fx/type :label
-       :style {:-fx-font-size 16}
+       :style-class ["skylobby-body"]
        :text "Discord Servers:"}
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["skylobby-body"]
        :text (str "Skylobby")
        :on-action {:event/type :spring-lobby/desktop-browse-url
                  :url "https://discord.gg/rXYanUAveW"}}
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["skylobby-body"]
        :text (str "Engine")
        :on-action {:event/type :spring-lobby/desktop-browse-url
                    :url "https://discord.gg/wThucpT"}}]}
