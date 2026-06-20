@@ -246,7 +246,7 @@
            :children
            [{:fx/type :h-box
              :alignment :center-left
-             :style-class ["skylobby-body"]
+             :style-class ["h-box" "skylobby-body"]
              :children
              (concat
                [{:fx/type :label
