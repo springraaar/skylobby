@@ -62,7 +62,7 @@
         title-lc (string/lower-case (or title ""))]
     (if (string/includes? title-lc search-lc)
       {:fx/type :h-box
-       :style-class ["h-box" "skylobby-body"]
+       :style-class ["skylobby-body"]
        :alignment :center-left
        :children
        [check-box
