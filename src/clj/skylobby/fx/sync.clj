@@ -59,7 +59,7 @@
          :text (str resource
                     (if (zero? worst-severity) " synced"
                       " status:"))
-         :style-class ["skylobby-body"]}]
+         :style-class ["label" "skylobby-body"]}]
        (mapv
          (fn [{:keys [action choice choices force-action human-text in-progress on-choice-changed severity text tooltip] :or {severity 2}}]
            (let [display-text (or human-text
@@ -89,7 +89,7 @@
                      {:text (str (fs/filename file))})}
                   {:fx/type :label
                    :text display-text
-                   :style-class ["skylobby-caption"]
+                   :style-class ["label" "skylobby-caption"]
                    :graphic
                    {:fx/type font-icon/lifecycle
                     :icon-literal
