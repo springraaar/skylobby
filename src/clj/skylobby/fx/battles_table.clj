@@ -70,7 +70,7 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
@@ -149,7 +149,7 @@
                           :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
                          :tooltip
                          {:fx/type tooltip-nofocus/lifecycle
-                          :style-class ["skylobby-body"]
+                          :style-class ["tooltip" "skylobby-body"]
                           :show-delay skylobby.fx/tooltip-show-delay
                           :text ""
                           :graphic
@@ -375,7 +375,7 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
@@ -453,7 +453,7 @@
                :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
               :tooltip
               {:fx/type tooltip-nofocus/lifecycle
-               :style-class ["skylobby-body"]
+               :style-class ["tooltip" "skylobby-body"]
                :show-delay skylobby.fx/tooltip-show-delay
                :text ""
                :graphic
