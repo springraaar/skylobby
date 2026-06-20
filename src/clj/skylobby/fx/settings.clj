@@ -946,7 +946,10 @@
                [{:fx/type :label
                  :text (str "Load custom CSS as EDN from:")}
                 {:fx/type :label
-                 :text (str custom-file)}]}})
+                 :text (str custom-file)}
+                {:fx/type :label
+                 :style-class ["skylobby-caption"]
+                 :text "Saved changes auto-reload while the app is running"}]}})
            {:fx/type :label
             :text (str (fx/sub-val context :load-custom-css-edn-message))}
            #_

@@ -1208,6 +1208,32 @@
              true)})]
     (fn [] (.close chimer))))
 
+(defn- css-reload-chimer-fn [_state-atom]
+  (log/info "Starting custom CSS hot-reload chimer")
+  (let [css-file (fs/file (fs/app-root) "custom-css.edn")
+        last-modified (atom (when (fs/exists? css-file) (fs/last-modified css-file)))
+        chimer
+        (chime/chime-at
+          (chime/periodic-seq
+            (java-time/plus (java-time/instant) (java-time/duration 5 :seconds))
+            (java-time/duration 1 :seconds))
+          (fn [_chimestamp]
+            (when (fs/exists? css-file)
+              (let [current (fs/last-modified css-file)]
+                (cond
+                  (nil? @last-modified)
+                  (reset! last-modified current)
+                  (not= current @last-modified)
+                  (do
+                    (reset! last-modified current)
+                    (log/info "Custom CSS changed, hot-reloading from" css-file)
+                    (event-handler {:event/type ::load-custom-css-edn :file css-file}))))))
+          {:error-handler
+           (fn [e]
+             (log/error e "Error in custom CSS hot-reload")
+             true)})]
+    (fn [] (.close chimer))))
+
 (defn- update-matchmaking-chimer-fn [state-atom]
   (log/info "Starting update matchmaking chimer")
   (let [chimer
@@ -4070,6 +4096,7 @@
          profile-print-chimer (profile-print-chimer-fn state-atom)
          spit-app-config-chimer (spit-app-config-chimer-fn state-atom)
          fix-battle-ready-chimer (fix-battle-ready-chimer-fn state-atom)
+         css-reload-chimer (css-reload-chimer-fn state-atom)
          update-matchmaking-chimer (update-matchmaking-chimer-fn state-atom)
          update-music-queue-chimer (update-music-queue-chimer-fn state-atom)
          update-now-chimer (update-now-chimer-fn state-atom)
@@ -4112,6 +4139,7 @@
          profile-print-chimer
          spit-app-config-chimer
          fix-battle-ready-chimer
+         css-reload-chimer
          update-matchmaking-chimer
          update-music-queue-chimer
          update-now-chimer
