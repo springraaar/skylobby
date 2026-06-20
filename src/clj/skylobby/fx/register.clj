@@ -46,7 +46,7 @@
         {:fx/type :v-box
          :padding 16
          :spacing 8
-         :style {:-fx-font-size 16}
+         :style-class ["skylobby-body"]
          :children
          [
           (assoc
@@ -106,7 +106,7 @@
                         "Passwords do not match"))}
           {:fx/type :button
            :text "Register"
-           :style {:-fx-font-size 20}
+           :style-class ["skylobby-h2"]
            :tooltip
            {:fx/type tooltip-nofocus/lifecycle
             :show-delay skylobby.fx/tooltip-show-delay
