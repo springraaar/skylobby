@@ -30,7 +30,7 @@
   [{:fx/keys [context]}]
   (let [spring-log (fx/sub-val context :spring-log)]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :children
      (concat
        [
