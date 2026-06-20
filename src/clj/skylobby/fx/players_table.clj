@@ -233,7 +233,7 @@
         marked? (get marked-users username)
         host-username (fx/sub-ctx context sub/host-username server-key)]
     {:fx/type :context-menu
-     :style-class ["skylobby-body"]
+     :style-class ["context-menu" "skylobby-body"]
      :style {:-fx-font-weight "normal"}
      :items
      (concat []
@@ -1205,7 +1205,7 @@
                                           (str (inc ally-n)))
                                         (str ally)))
                   :pref-width player-width
-                  :style-class ["skylobby-h1"]
+                  :style-class ["label" "skylobby-h1"]
                   :style {:-fx-font-weight "bold"
                           :-fx-text-fill (get allyteam-colors ally-n "#ffffff")
                           :-fx-border-color "#aaaaaa"
