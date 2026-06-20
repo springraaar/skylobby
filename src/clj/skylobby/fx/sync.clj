@@ -43,6 +43,8 @@
                            (min 1 worst-severity)
                            worst-severity)]
     {:fx/type :v-box
+     :padding 8
+     :spacing 4
      :style (merge
               (get severity-styles overall-severity)
               {:-fx-background-radius 3
