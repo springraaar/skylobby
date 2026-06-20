@@ -76,7 +76,7 @@
      :children
      [
       {:fx/type :h-box
-       :style {:-fx-font-size 20}
+       :style-class ["h-box" "skylobby-h2"]
        :v-box/vgrow :always
        :children
        [{:fx/type :pane
@@ -333,7 +333,7 @@
         selected-tab-channel (fx/sub-val context :selected-tab-channel)
         mute (fx/sub-val context :mute)]
     {:fx/type :v-box
-     :style {:-fx-font-size 14}
+     :style-class ["v-box" "skylobby-caption"]
      :alignment :top-left
      :children
      [
@@ -496,7 +496,8 @@
                                     (:hostname server-key)
                                     ":"
                                     (:port server-key))
-                         :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                         :style {:-fx-opacity 0.7}
+                         :style-class ["label" "skylobby-caption"]}
                          ]}
                :on-close-request {:event/type :spring-lobby/disconnect
                                   :server-key server-key}
@@ -542,7 +543,8 @@
                            :style-class ["skylobby-h2"]}
                            {:fx/type :label
                            :text (str " (" server-key ")")
-                           :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                           :style {:-fx-opacity 0.7}
+                         :style-class ["label" "skylobby-caption"]}
                            ]}
                  :on-close-request {:event/type :spring-lobby/disconnect
                                     :server-key server-key}
