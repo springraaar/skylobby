@@ -66,7 +66,7 @@
   (doseq [ramp [skylobby.fx/black-ramp skylobby.fx/grey-ramp skylobby.fx/light-ramp]]
     (doseq [k [:surface-0 :surface-1 :surface-2 :surface-3 :border :focus
                :selection :selection-unfocused :text-1 :text-2
-               :row-odd :row-even :thumb :thumb-hover :tab-highlight]]
+               :row-odd :row-even :thumb :thumb-hover :tab-highlight :tab-selected-accent]]
       (is (contains? ramp k) (str "missing " k)))
     ;; focus must be visible, never transparent (a11y regression guard)
     (is (not= "transparent" (:focus ramp)))))

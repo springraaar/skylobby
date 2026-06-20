@@ -85,7 +85,8 @@
    :row-even  "rgb(20,20,20)"
    :thumb     "rgb(90,90,90)"
    :thumb-hover "rgb(110,110,110)"
-   :tab-highlight "#ffd700"})
+   :tab-highlight "#ffd700"
+   :tab-selected-accent "rgb(160,160,160)"})
 
 (def grey-ramp
   {:surface-0 "rgb(60,60,60)"
@@ -102,7 +103,8 @@
    :row-even  "rgb(60,60,60)"
    :thumb     "rgb(120,120,120)"
    :thumb-hover "rgb(150,150,150)"
-   :tab-highlight "#ffd700"})
+   :tab-highlight "#ffd700"
+   :tab-selected-accent "rgb(160,160,160)"})
 
 (def light-ramp
   {:surface-0 "rgb(228,228,228)"
@@ -119,7 +121,8 @@
    :row-even  "rgb(246,246,246)"
    :thumb     "rgb(150,150,150)"
    :thumb-hover "rgb(120,120,120)"
-   :tab-highlight "#ffd700"})
+   :tab-highlight "#ffd700"
+   :tab-selected-accent "rgb(100,100,100)"})
 
 ;; ── Theme author API ─────────────────────────────────────────────
 ;; Override these in custom-css.edn (loaded via the :css sub) to reskin
@@ -142,7 +145,7 @@
    button selector) so theme authors can target each independently."
   [{:keys [surface-0 surface-1 surface-2 surface-3 border focus
            selection selection-unfocused text-2
-           row-odd row-even thumb thumb-hover]}]
+           row-odd row-even thumb thumb-hover tab-selected-accent]}]
   {".root"
    {:-fx-base surface-1
     :-fx-accent surface-3
@@ -154,9 +157,11 @@
    ;; Tabs — own selectors, separate from .button
    ".tab"
    {:-fx-base surface-2
-    :-fx-background surface-1}
+    :-fx-background surface-1
+    :-fx-accent "rgb(0,0,0)"}
    ".tab:selected"
-   {:-fx-background surface-0}
+   {:-fx-background surface-0
+    :-fx-accent tab-selected-accent}
    ".tab-header-background"
    {:-fx-background-color surface-0}
    ;; Buttons — own selector, subtle rounding for definition
@@ -236,7 +241,15 @@
 
 (def light-style-data
   (merge (theme-data light-ramp)
-         {".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
+         {".scroll-bar:vertical .thumb"
+          {:-fx-background-color "rgb(150,150,150),linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:horizontal .thumb"
+          {:-fx-background-color "rgb(150,150,150),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:vertical .thumb:hover"
+          {:-fx-background-color "rgb(255,255,255),linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".scroll-bar:horizontal .thumb:hover"
+          {:-fx-background-color "rgb(255,255,255),linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
           ".skilluncertainty1" {:-fx-text-fill "rgb(50, 40, 30)"}
           ".skilluncertainty2" {:-fx-text-fill "rgb(80, 60, 40)"}
           ".skilluncertainty3" {:-fx-text-fill "rgb(120, 80, 40)"}
