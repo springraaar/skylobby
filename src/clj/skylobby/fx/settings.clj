@@ -62,7 +62,7 @@
         title-lc (string/lower-case (or title ""))]
     (if (string/includes? title-lc search-lc)
       {:fx/type :h-box
-       :style {:-fx-font-size 18}
+       :style-class ["skylobby-body"]
        :alignment :center-left
        :children
        [check-box
@@ -85,10 +85,11 @@
        :pref-width 580
        :min-width 580
        :max-width 580
+       :spacing 8
        :children
        (concat
          [{:fx/type :pane
-           :style {:-fx-font-size 24}
+           :style-class ["skylobby-h1"]
            :children
            [
             {:fx/type highlighted-label
