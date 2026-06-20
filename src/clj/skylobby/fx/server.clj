@@ -119,7 +119,7 @@
       :root
       (if show-servers-window
         {:fx/type :v-box
-         :style-class ["skylobby-body"]
+         :style-class ["v-box" "skylobby-body"]
          :children
          [{:fx/type :h-box
            :alignment :center-left
