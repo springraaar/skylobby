@@ -109,7 +109,7 @@
        :children
        [
         {:fx/type :label
-         :style {:-fx-font-size 24}
+         :style-class ["label" "skylobby-h1"]
          :text (str bot-username)}
         {:fx/type :label
          :text "Options:"}
@@ -125,7 +125,7 @@
            :server-key server-key
            :singleplayer (= server-key :local)}]}
         {:fx/type :button
-         :style {:-fx-font-size 24}
+         :style-class ["button" "skylobby-h1"]
          :text "Save"
          :on-action {:event/type :spring-lobby/save-aioptions
                      :am-host am-host
@@ -166,10 +166,10 @@
          :children
          [
           {:fx/type :label
-           :style {:-fx-font-size 24}
+           :style-class ["label" "skylobby-h1"]
            :text " Report user: "}
           {:fx/type :label
-           :style {:-fx-font-size 28}
+           :style-class ["label" "skylobby-h1"]
            :text (str username)}]}
         {:fx/type :h-box
          :alignment :center
@@ -467,7 +467,7 @@
     (concat
       [
        {:fx/type :label
-        :style {:-fx-font-size 18}
+        :style-class ["label" "skylobby-h2"]
         :text (str (u/nickname player))}
        {:fx/type :label
         :text ""}]
@@ -709,7 +709,7 @@
                        :children
                        (concat
                          [{:fx/type :label
-                           :style {:-fx-font-size 18}
+                           :style-class ["label" "skylobby-h2"]
                            :text nickname}
                           {:fx/type :label
                            :text ""}]
@@ -1338,7 +1338,7 @@
            :children
            [{:fx/type :label
              :text (str "Spectators (" (count spectators) ")")
-             :style {:-fx-font-size 24}}
+             :style-class ["label" "skylobby-h1"]}
             {:fx/type :flow-pane
              :hgap 16
              :children
