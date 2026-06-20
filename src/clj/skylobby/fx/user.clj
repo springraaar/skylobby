@@ -147,7 +147,7 @@
                              :text (str "User ID: " user-id)}])}}
                        {:tooltip
                         {:fx/type tooltip-nofocus/lifecycle
-                         :style-class ["skylobby-body"]
+                         :style-class ["tooltip" "skylobby-body"]
                          :show-delay skylobby.fx/tooltip-show-delay
                          :text (str username "\n\n"
                                     (when (:access client-status)
