@@ -121,6 +121,21 @@
    :thumb-hover "rgb(120,120,120)"
    :tab-highlight "#ffd700"})
 
+;; ── Theme author API ─────────────────────────────────────────────
+;; Override these in custom-css.edn (loaded via the :css sub) to reskin
+;; without fighting the global -fx-base cascade:
+;;   .root                          app surfaces (-fx-background/-fx-base/...)
+;;   .tab / .tab:selected           tab states (separate from buttons)
+;;   .tab-header-background         the strip behind tab headers
+;;   .button                        buttons only
+;;   .table-view                    table background + outer border
+;;   .table-view .column-header-background   table header strip
+;;   .table-row-cell                table border lines
+;;   .table-row-cell:odd / :even    row striping
+;;   .separator:horizontal .line / :vertical .line   region separators
+;; Custom CSS still wins over these built-ins (it is appended last in
+;; stylesheet-urls), so this list is the stable set of handles.
+
 (defn theme-data
   "Build a cljfx.css style-data map from a surface/colour ramp.
    Element selectors are deliberately separate (tabs are NOT styled via the
