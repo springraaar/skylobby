@@ -68,7 +68,7 @@
      :items sorted-users
      :desc
      {:fx/type :table-view
-      :style {:-fx-font-size 15}
+      :style-class ["skylobby-body"]
       :row-factory
       {:fx/cell-type :table-row
        :describe (fn [{:keys [client-status country away-start-time user-agent user-id username]}]
@@ -147,7 +147,7 @@
                              :text (str "User ID: " user-id)}])}}
                        {:tooltip
                         {:fx/type tooltip-nofocus/lifecycle
-                         :style {:-fx-font-size 16}
+                         :style-class ["skylobby-body"]
                          :show-delay skylobby.fx/tooltip-show-delay
                          :text (str username "\n\n"
                                     (when (:access client-status)
