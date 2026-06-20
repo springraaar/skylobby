@@ -69,7 +69,7 @@
              :text (str request-reset-password-response)}
             {:fx/type :button
              :text "Request Email Verification Code"
-             :style-class ["skylobby-h2"]
+             :style-class ["button" "skylobby-h2"]
              :tooltip
              {:fx/type tooltip-nofocus/lifecycle
               :show-delay skylobby.fx/tooltip-show-delay
@@ -94,7 +94,7 @@
                :text (str reset-password-response)}
               {:fx/type :button
                :text "Reset Password"
-               :style-class ["skylobby-h2"]
+               :style-class ["button" "skylobby-h2"]
                :tooltip
                {:fx/type tooltip-nofocus/lifecycle
                 :show-delay skylobby.fx/tooltip-show-delay
