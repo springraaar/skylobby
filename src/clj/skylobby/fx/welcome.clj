@@ -405,19 +405,18 @@
     {:fx/type :pane
      :pref-height 20}
     {:fx/type :h-box
+     :alignment :top-center
+     :spacing 24
      :children
      [
       {:fx/type :pane
        :h-box/hgrow :always}
-      {:fx/type :h-box
-       :spacing 100
-       :children
-       [{:fx/type :pane
-         :h-box/hgrow :always}
-        {:fx/type singleplayer-buttons}
-        {:fx/type multiplayer-buttons}
-        {:fx/type :pane
-         :h-box/hgrow :always}]}
+      {:fx/type :v-box
+       :style-class ["skylobby-card"]
+       :children [{:fx/type singleplayer-buttons}]}
+      {:fx/type :v-box
+       :style-class ["skylobby-card"]
+       :children [{:fx/type multiplayer-buttons}]}
       {:fx/type :pane
        :h-box/hgrow :always}]}
     {:fx/type :pane
