@@ -104,18 +104,18 @@
               [{:fx/type :pane
                 :pref-height 16}
                {:fx/type :label
-                :style {:-fx-font-size 26
-                        :-fx-text-fill :gold}
+                :style {:-fx-text-fill :gold}
+                :style-class ["label" "skylobby-h1"]
                 :text "Spring downloader has issues with non-ascii paths"}
                {:fx/type :label
-                :style {:-fx-font-size 22
-                        :-fx-text-fill :gold}
+                :style {:-fx-text-fill :gold}
+                :style-class ["label" "skylobby-h1"]
                 :text (str "Path has these non-ascii characters: "
                            (apply str non-ascii))}
                {:fx/type :pane
                 :pref-height 16}])
             [{:fx/type :h-box
-              :style {:-fx-font-size 18}
+              :style-class ["h-box" "skylobby-h2"]
               :children
               [
                {:fx/type :button
