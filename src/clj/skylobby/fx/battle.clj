@@ -104,7 +104,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style-class ["skylobby-body"]
+       :style-class ["v-box" "skylobby-body"]
        :children
        [{:fx/type :label
          :text "Spring command array"}
@@ -247,7 +247,7 @@
         show-accolades (fx/sub-val context :show-accolades)]
     (if (and show-accolades accolade-for)
       {:fx/type :h-box
-       :style-class ["skylobby-h2"]
+       :style-class ["h-box" "skylobby-h2"]
        :alignment :center-left
        :children
        (concat
@@ -433,7 +433,7 @@
         sync-buttons (if-not singleplayer
                        [{:fx/type :h-box
                          :alignment :center-left
-                         :style-class ["skylobby-body"]
+                         :style-class ["h-box" "skylobby-body"]
                          :children
                          [{:fx/type sync-button
                            :server-key server-key}
@@ -594,7 +594,7 @@
      :children
      [
       {:fx/type :flow-pane
-       :style-class ["skylobby-body"]
+       :style-class ["flow-pane" "skylobby-body"]
        :hgap 4
        :orientation :horizontal
        :children
@@ -631,7 +631,7 @@
                                                                :key :show-add-bot}
                                                    :graphic
                                                    {:fx/type :v-box
-                                                    :style-class ["skylobby-body"]
+                                                    :style-class ["v-box" "skylobby-body"]
                                                     :children
                                                     (concat
                                                       [
@@ -743,7 +743,7 @@
          (when-not singleplayer
            [{:fx/type :h-box
              :alignment :center-left
-             :style-class ["skylobby-body"]
+             :style-class ["h-box" "skylobby-body"]
              :children
              [{:fx/type ext-recreate-on-key-changed
                :key (str [am-spec am-away])
@@ -761,7 +761,7 @@
                  :username username}}}]}])
          [{:fx/type :h-box
            :alignment :center-left
-           :style-class ["skylobby-body"]
+           :style-class ["h-box" "skylobby-body"]
            :children
            [{:fx/type ext-recreate-on-key-changed
              :key (str [am-spec am-away])
@@ -786,7 +786,7 @@
                  :server-key server-key})}}]}
           {:fx/type :h-box
            :alignment :center-left
-           :style-class ["skylobby-h1"]
+           :style-class ["h-box" "skylobby-h1"]
            :children
            (concat
              (when-not am-spec
@@ -812,7 +812,7 @@
              (when-not direct-connect
                (if (contains? (:compflags client-data) "teiserver")
                  [{:fx/type :h-box
-                   :style-class ["skylobby-body"]
+                   :style-class ["h-box" "skylobby-body"]
                    :alignment :center-left
                    :children
                    [
@@ -838,7 +838,7 @@
                    :text "Auto Unspec "}])))}
           {:fx/type :h-box
            :alignment :center-left
-           :style-class ["skylobby-h1"]
+           :style-class ["h-box" "skylobby-h1"]
            :children
            (concat
              [
@@ -847,7 +847,7 @@
                {:tooltip
                 {:fx/type tooltip-nofocus/lifecycle
                  :show-delay skylobby.fx/tooltip-show-delay
-                 :style-class ["skylobby-body"]
+                 :style-class ["tooltip" "skylobby-body"]
                  :text (cond
                          warn-invalid-start-positions
                          (str "Map does not have enough start positions. "
@@ -938,7 +938,7 @@
                  {:tooltip
                   {:fx/type tooltip-nofocus/lifecycle
                    :show-delay skylobby.fx/tooltip-show-delay
-                   :style-class ["skylobby-body"]
+                   :style-class ["tooltip" "skylobby-body"]
                    :text "Allow another copy of spring to run"}}
                  :desc
                  {:fx/type :button
@@ -1236,7 +1236,7 @@
                                           :server-key server-key}
                               :tooltip
                               {:fx/type tooltip-nofocus/lifecycle
-                               :style-class ["skylobby-body"]
+                               :style-class ["tooltip" "skylobby-body"]
                                :show-delay skylobby.fx/tooltip-show-delay
                                :text (str tooltip)}})
                            [{:split-type "v"
@@ -1564,7 +1564,7 @@
          (let [{:keys [vote-data vote-progress]} spads
                {:keys [y yt n nt remaining]} vote-progress]
            [{:fx/type :v-box
-             :style-class ["skylobby-h2"]
+             :style-class ["v-box" "skylobby-h2"]
              :children
              [{:fx/type :label
                :style-class ["label" "skylobby-h1"]
@@ -1646,7 +1646,7 @@
            :v-box/vgrow :always
            :content
            {:fx/type :v-box
-            :style-class ["skylobby-h2"]
+            :style-class ["v-box" "skylobby-h2"]
             :children
             (->> vote-messages
                  (filter (comp #{:called-vote :cancelling-vote :game-starting-cancel :vote-cancelled :vote-failed :vote-passed} :spads-message-type :spads))
@@ -1710,7 +1710,7 @@
         map-name (fx/sub-val context get-in [:by-server server-key :battles battle-id :battle-map])
 
         resources-buttons {:fx/type :h-box
-                           :style-class ["skylobby-body"]
+                           :style-class ["h-box" "skylobby-body"]
                            :alignment :center-left
                            :children
                            [
@@ -1959,7 +1959,7 @@
      [
       {:fx/type :h-box
        :alignment :center-left
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :style {:-fx-padding 8}
        :children
        (concat
@@ -2013,7 +2013,7 @@
                                :value true}})]))))}
       {:fx/type :h-box
        :v-box/vgrow :always
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :alignment :top-left
        :children
        (if singleplayer
