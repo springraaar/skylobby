@@ -41,6 +41,8 @@
       :root
       (if show-reset-password-window
         {:fx/type :v-box
+         :padding 16
+         :spacing 8
          :style {:-fx-font-size 16}
          :children
          (concat
