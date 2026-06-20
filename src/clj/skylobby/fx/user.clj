@@ -68,7 +68,7 @@
      :items sorted-users
      :desc
      {:fx/type :table-view
-      :style-class ["skylobby-body"]
+      :style-class ["table-view" "skylobby-body"]
       :row-factory
       {:fx/cell-type :table-row
        :describe (fn [{:keys [client-status country away-start-time user-agent user-id username]}]
