@@ -128,3 +128,9 @@
 (deftest light-icons-are-dark
   (is (= "rgb(70,70,70)"
          (get-in (get skylobby.fx/style-presets "light") [".ikonli-font-icon" :-fx-icon-color]))))
+
+(deftest every-preset-has-primary-button
+  (doseq [k ["black" "grey" "light"]]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-primary") (str k " missing .skylobby-primary"))
+      (is (some? (get-in d [".skylobby-primary" :-fx-base]))))))

@@ -859,6 +859,7 @@
                          :else (str "Call vote to start the game"))}}
                :desc
                {:fx/type :button
+                :style-class ["button" "skylobby-primary"]
                 :style (if warn-invalid-start-positions
                          (dissoc warn-severity :-fx-background-color)
                          {})
