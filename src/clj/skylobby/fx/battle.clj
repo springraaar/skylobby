@@ -823,7 +823,7 @@
                    :desc
                    {:fx/type :check-box
                     :selected (boolean auto-unspec)
-                    :style-class ["skylobby-body"]
+                    :style-class ["check-box" "skylobby-body"]
                     :style {:-fx-padding "10px"}
                     :on-selected-changed
                     {:event/type :spring-lobby/auto-unspec
@@ -1141,7 +1141,7 @@
                  :text map-description
                  :wrap-text true
                  :padding 10
-                 :style-class ["skylobby-caption"]
+                 :style-class ["label" "skylobby-caption"]
                  :style {:-fx-wrap-text true :-fx-text-fill "rgb(150,150,150)"}})
               {:fx/type :flow-pane
                :children
@@ -2073,7 +2073,7 @@
   [{:keys [battle]}]
   (if (< 1 (count battle))
     {:fx/type :tab-pane
-     :style-class ["skylobby-body"]
+     :style-class ["tab-pane" "skylobby-body"]
      :tabs
      [{:fx/type :tab
        :on-close-request {:event/type :spring-lobby/leave-battle
