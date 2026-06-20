@@ -30,15 +30,15 @@
   [{:fx/keys [context]}]
   (let [spring-log (fx/sub-val context :spring-log)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16}
+     :style-class ["skylobby-body"]
      :children
      (concat
        [
         {:fx/type :label
-         :style {:-fx-font-size 24}
+         :style-class ["skylobby-h1"]
          :text "Spring crashed"}
         {:fx/type :label
-         :style {:-fx-font-size 18}
+         :style-class ["skylobby-h2"]
          :text "infolog:"}
         {:fx/type fx.virtualized-scroll-pane/lifecycle
          :v-box/vgrow :always
