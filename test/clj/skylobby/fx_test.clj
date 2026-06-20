@@ -115,4 +115,5 @@
   (doseq [k ["black" "grey" "light"]]
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-secondary") (str k " missing .skylobby-secondary"))
-      (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color]))))))
+      (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color])))
+      (is (some? (get-in d [".skylobby-secondary:hover" :-fx-background-color]))))))
