@@ -559,7 +559,7 @@
               :closable false
               :graphic {:fx/type :label
                         :text "All Servers"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["skylobby-h2"]}
               :content
               (merge
                 {:fx/type multi-server-tab}
