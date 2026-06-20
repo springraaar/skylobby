@@ -52,7 +52,7 @@
                 :h-box/hgrow :always
                 :children
                 [{:fx/type :label
-                  :style-class ["skylobby-h2"]
+                  :style-class ["label" "skylobby-h2"]
                   :text "Waiting for battle details from server..."}]}]})]}}
         tabs)]}))
 
