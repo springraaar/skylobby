@@ -62,7 +62,7 @@
            :tooltip
            {:fx/type tooltip-nofocus/lifecycle
             :show-delay skylobby.fx/tooltip-show-delay
-            :style-class ["skylobby-caption"]
+            :style-class ["tooltip" "skylobby-caption"]
             :text "Cancel connect"}
            :on-action {:event/type :spring-lobby/cancel-connect
                        :client-deferred client-deferred
@@ -261,7 +261,7 @@
         (let [[server-url server-details] server
               server-spring-root (:spring-isolation-dir server-details)]
           {:fx/type :v-box
-           :style-class ["skylobby-body"]
+           :style-class ["v-box" "skylobby-body"]
            :children
            [
             {:fx/type :label
@@ -346,7 +346,7 @@
           :editable false
           :text (str agreement)}
          {:fx/type :h-box
-          :style-class ["skylobby-h2"]
+          :style-class ["h-box" "skylobby-h2"]
           :children
           [{:fx/type :text-field
             :prompt-text "Email Verification Code"
@@ -365,7 +365,7 @@
   [_state]
   {:fx/type :v-box
    :alignment :center
-   :style-class ["skylobby-h2"]
+   :style-class ["v-box" "skylobby-h2"]
    :children
    [
     {:fx/type :pane
