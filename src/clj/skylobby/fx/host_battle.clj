@@ -81,6 +81,8 @@
                                   :use-git-mod-version (fx/sub-val context :use-git-mod-version)}]
           {:fx/type :v-box
            :style {:-fx-font-size 16}
+           :padding 16
+           :spacing 8
            :children
            [
             {:fx/type :label
