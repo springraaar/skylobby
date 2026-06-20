@@ -169,7 +169,7 @@
                :icon-literal "mdi-close:16:white"}}}]))}
       {:fx/type :label
        :text " Available Packages"
-       :style-class ["skylobby-body"]}
+       :style-class ["label" "skylobby-body"]}
       {:fx/type ext-table-column-auto-size
        :v-box/vgrow :always
        :items available-packages
@@ -177,7 +177,7 @@
        {:fx/type :table-view
         :items available-packages
         :column-resize-policy :constrained
-        :style-class ["skylobby-body"]
+        :style-class ["table-view" "skylobby-body"]
         :columns
         [{:fx/type :table-column
           :sortable false
@@ -273,7 +273,7 @@
        {:fx/type :table-view
         :column-resize-policy :constrained
         :items local-packages
-        :style-class ["skylobby-body"]
+        :style-class ["table-view" "skylobby-body"]
         :columns
         [{:fx/type :table-column
           :text "Filename"
