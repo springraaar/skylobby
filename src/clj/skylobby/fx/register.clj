@@ -106,7 +106,7 @@
                         "Passwords do not match"))}
           {:fx/type :button
            :text "Register"
-           :style-class ["skylobby-h2"]
+           :style-class ["button" "skylobby-h2"]
            :tooltip
            {:fx/type tooltip-nofocus/lifecycle
             :show-delay skylobby.fx/tooltip-show-delay
