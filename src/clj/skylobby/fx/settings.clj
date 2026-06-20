@@ -729,7 +729,7 @@
                        :text (str " " import-source-name)}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style-class ["skylobby-caption"]}]}]})
+                       :style-class ["label" "skylobby-caption"]}]}]})
                 (import/import-sources extra-import-sources))}
              {:fx/type :h-box
               :alignment :center-left
@@ -787,7 +787,7 @@
                :on-selected-changed {:event/type :spring-lobby/assoc
                                      :key :auto-get-replay-resources}}}
              {:fx/type :label
-              :style-class ["skylobby-h2"]
+              :style-class ["label" "skylobby-h2"]
               :text " Replay sources from Spring roots:"}
              {:fx/type :v-box
               :children
@@ -804,10 +804,10 @@
                                      (get replay-source-enabled path))}
                       {:fx/type :label
                        :text (str " " path)
-                       :style-class ["skylobby-h2"]}]}))
+                       :style-class ["label" "skylobby-h2"]}]}))
                 (filter :builtin replay-sources))}
              {:fx/type :label
-              :style-class ["skylobby-h2"]
+              :style-class ["label" "skylobby-h2"]
               :text " Custom replay sources:"}
              {:fx/type :v-box
               :children
@@ -832,17 +832,17 @@
                        (concat
                          [{:fx/type :label
                            :text (str " " replay-source-name)
-                           :style-class ["skylobby-h2"]}]
+                           :style-class ["label" "skylobby-h2"]}]
                          (when recursive
                            [{:fx/type :label
                              :text " (recursive)"
                              :style {:-fx-text-fill :red}}]))}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style-class ["skylobby-caption"]}]}]})
+                       :style-class ["label" "skylobby-caption"]}]}]})
                 (remove :builtin replay-sources))}
              {:fx/type :label
-              :style-class ["skylobby-h2"]
+              :style-class ["label" "skylobby-h2"]
               :text " Add replay source:"}
              {:fx/type :h-box
               :alignment :center-left
@@ -947,7 +947,7 @@
                 {:fx/type :label
                  :text (str custom-file)}
                 {:fx/type :label
-                 :style-class ["skylobby-caption"]
+                 :style-class ["label" "skylobby-caption"]
                  :text "Saved changes auto-reload while the app is running"}]}})
            {:fx/type :label
             :text (str (fx/sub-val context :load-custom-css-edn-message))}
@@ -1088,7 +1088,7 @@
               [
                {:fx/type :label
                 :text " Ring Sound File: "
-                :style-class ["skylobby-h2"]}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :h-box
                 :alignment :center-left
                 :children
@@ -1110,7 +1110,7 @@
               [
                {:fx/type :label
                 :text " Ring Volume: "
-                :style-class ["skylobby-h2"]}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1142,7 +1142,7 @@
           [
              {:fx/type :label
               :text " Music Folder: "
-              :style-class ["skylobby-h2"]}
+              :style-class ["label" "skylobby-h2"]}
              {:fx/type :h-box
               :alignment :center-left
               :children
@@ -1168,7 +1168,7 @@
               [
                {:fx/type :label
                 :text " Music Volume: "
-                :style-class ["skylobby-h2"]}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1245,7 +1245,7 @@
                                    :key :hide-barmaager-messages}}}
            {:fx/type :label
             :text "Hide message types:"
-            :style-class ["skylobby-h2"]}
+            :style-class ["label" "skylobby-h2"]}
            {:fx/type :v-box
             :children
             (map
