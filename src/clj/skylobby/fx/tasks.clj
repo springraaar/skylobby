@@ -20,11 +20,11 @@
   [{:fx/keys [context]}]
   (let [task-threads (fx/sub-val context :task-threads)]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :children
      [
       {:fx/type :h-box
-       :style-class ["skylobby-h2"]
+       :style-class ["h-box" "skylobby-h2"]
        :style {:-fx-padding 4}
        :children
        [
@@ -35,7 +35,7 @@
         {:fx/type :label
          :text " Disable tasks"}]}
       {:fx/type :h-box
-       :style-class ["skylobby-h2"]
+       :style-class ["h-box" "skylobby-h2"]
        :style {:-fx-padding 4}
        :children
        [
