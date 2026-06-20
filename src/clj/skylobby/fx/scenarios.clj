@@ -238,16 +238,16 @@
                           :children
                           [
                            {:fx/type :label
-                            :style-class ["skylobby-h2"]
+                            :style-class ["label" "skylobby-h2"]
                             :text (str (:title lua))}
                            {:fx/type :label
                             :text (str " Author: " (:author lua))}
                            {:fx/type :label
                             :text " Summary: "
-                            :style-class ["skylobby-h2"]}
+                            :style-class ["label" "skylobby-h2"]}
                            {:fx/type :label
                             :text (str (:summary lua))
-                            :style-class ["skylobby-h2"]
+                            :style-class ["label" "skylobby-h2"]
                             :wrap-text true}
                            {:fx/type :label
                             :text " Briefing: "}
@@ -257,13 +257,13 @@
                            {:fx/type :pane
                             :style {:-fx-pref-height 16}}
                            {:fx/type :label
-                            :style-class ["skylobby-h2"]
+                            :style-class ["label" "skylobby-h2"]
                             :text (str " Map: " (:mapfilename lua))}
                            {:fx/type :label
-                            :style-class ["skylobby-h2"]
+                            :style-class ["label" "skylobby-h2"]
                             :text (str " Victory: " (:victorycondition lua))}
                            {:fx/type :label
-                            :style-class ["skylobby-h2"]
+                            :style-class ["label" "skylobby-h2"]
                             :text (str " Loss: " (:losscondition lua))}
                            #_
                            {:fx/type :label
@@ -348,7 +348,7 @@
                                               mod-name-prefix) ; to show rapid update button
                                 :spring-isolation-dir spring-root}]}]}]))}}
                     {:fx/type :button
-                     :style-class ["skylobby-h1"]
+                     :style-class ["button" "skylobby-h1"]
                      :style {:-fx-margin-bottom 8}
                      :v-box/vgrow :always
                      :text "Play Scenario"
