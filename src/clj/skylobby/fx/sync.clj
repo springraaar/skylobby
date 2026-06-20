@@ -59,11 +59,10 @@
          :text (str resource
                     (if (zero? worst-severity) " synced"
                       " status:"))
-         :style {:-fx-font-size 16}}]
+         :style-class ["skylobby-body"]}]
        (mapv
          (fn [{:keys [action choice choices force-action human-text in-progress on-choice-changed severity text tooltip] :or {severity 2}}]
-           (let [font-style {:-fx-font-size 12}
-                 display-text (or human-text
+           (let [display-text (or human-text
                                   (str text " " resource))
                  issue-severity (if overall-in-progress
                                   overall-severity
@@ -74,7 +73,7 @@
                 {:tooltip
                  {:fx/type tooltip-nofocus/lifecycle
                   :show-delay skylobby.fx/tooltip-show-delay-slow
-                  :style {:-fx-font-size 14}
+                  :style-class ["skylobby-caption"]
                   :text tooltip}})
               :desc
               (if (or (and (zero? severity)
@@ -90,7 +89,7 @@
                      {:text (str (fs/filename file))})}
                   {:fx/type :label
                    :text display-text
-                   :style font-style
+                   :style-class ["skylobby-caption"]
                    :graphic
                    {:fx/type font-icon/lifecycle
                     :icon-literal
@@ -106,7 +105,8 @@
                            "white"))}})
                 (let [style (get severity-styles issue-severity)]
                   {:fx/type :v-box
-                   :style (merge style font-style)
+                   :style style
+                   :style-class ["skylobby-caption"]
                    :children
                    [(merge
                       {:fx/type :button
