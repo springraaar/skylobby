@@ -110,3 +110,9 @@
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-card") (str k " missing .skylobby-card"))
       (is (some? (get-in d [".skylobby-card" :-fx-background-color]))))))
+
+(deftest every-preset-has-secondary-button
+  (doseq [k ["black" "grey" "light"]]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-secondary") (str k " missing .skylobby-secondary"))
+      (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color]))))))

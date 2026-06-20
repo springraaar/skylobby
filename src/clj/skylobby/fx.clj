@@ -134,6 +134,7 @@
 ;;   .tab / .tab:selected           tab states (separate from buttons)
 ;;   .tab-header-background         the strip behind tab headers
 ;;   .skylobby-card                 raised grouped panel (welcome columns, etc.)
+;;   .skylobby-secondary            flat/quiet button variant (de-emphasised nav)
 ;;   .button                        buttons only
 ;;   .table-view                    table background + outer border
 ;;   .table-view .column-header-background   table header strip
@@ -179,6 +180,11 @@
    ;; Buttons — own selector, subtle rounding for definition
    ".button"
    {:-fx-background-radius "3"}
+   ".skylobby-secondary"
+   {:-fx-background-color "transparent"
+    :-fx-border-color "transparent"}
+   ".skylobby-secondary:hover"
+   {:-fx-background-color surface-2}
    ;; Region separators / borders
    ".separator:horizontal .line"
    {:-fx-border-color (str border " transparent transparent transparent")
