@@ -75,7 +75,7 @@
                           set)
         refreshing-imports (seq (get tasks-by-type :spring-lobby/scan-imports))]
     {:fx/type :v-box
-     :style-class ["skylobby-body"]
+     :style-class ["v-box" "skylobby-body"]
      :children
      [{:fx/type :button
        :text (if refreshing-imports "Refreshing..." "Refresh All Imports")
@@ -141,7 +141,7 @@
               :icon-literal "mdi-refresh:16:white"}}]))}
       {:fx/type :h-box
        :alignment :center-left
-       :style-class ["skylobby-body"]
+       :style-class ["h-box" "skylobby-body"]
        :children
        (concat
          [{:fx/type :label
