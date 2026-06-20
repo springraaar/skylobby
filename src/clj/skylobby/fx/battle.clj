@@ -834,7 +834,7 @@
                      :ready-on-unspec ready-on-unspec
                      :server-key server-key}}}
                   {:fx/type :label
-                   :style {:-fx-font-size 15}
+                   :style-class ["label" "skylobby-body"]
                    :text "Auto Unspec "}])))}
           {:fx/type :h-box
            :alignment :center-left
@@ -1022,17 +1022,17 @@
                            :users users
                            :username username}}]}])
          [{:fx/type :label
-           :style {:-fx-font-size 24}
+           :style-class ["label" "skylobby-h1"]
            :text (str " "
                       (when (< 1 (count team-counts))
                         (string/join "v" team-counts)))}]
          (when (< 4 (count team-counts))
            [{:fx/type :label
-             :style {:-fx-font-size 16}
+             :style-class ["label" "skylobby-body"]
              :text (str " " (count team-counts) "-way ffa")}])
          (when show-team-skills
            [{:fx/type :label
-             :style {:-fx-font-size 16}
+             :style-class ["label" "skylobby-body"]
              :text (str " "
                         (when (< 1 (count team-skills))
                           (str
@@ -1322,7 +1322,7 @@
           [
            {:fx/type :label
             :text " Auto Manage "
-            :style {:-fx-font-size 20}}
+            :style-class ["label" "skylobby-h2"]}
            {:fx/type :pane
             :style {:-fx-min-height 20
                     :-fx-pref-height 20}}
@@ -1369,7 +1369,7 @@
                     :-fx-pref-height 40}}
            {:fx/type :label
             :text " Manual Backup "
-            :style {:-fx-font-size 20}}
+            :style-class ["label" "skylobby-h2"]}
            {:fx/type :h-box
             :alignment :center-left
             :children
@@ -1415,7 +1415,7 @@
                     :-fx-pref-height 40}}
            {:fx/type :label
             :text " Restore "
-            :style {:-fx-font-size 20}}
+            :style-class ["label" "skylobby-h2"]}
            {:fx/type :h-box
             :alignment :center-left
             :children
@@ -1566,7 +1566,7 @@
              :style {:-fx-font-size 18}
              :children
              [{:fx/type :label
-               :style {:-fx-font-size 24}
+               :style-class ["label" "skylobby-h1"]
                :text "Current Vote"}
               {:fx/type :label
                :text (str " " (:command vote-data))}
@@ -1613,7 +1613,7 @@
                  :h-box/hgrow :always}
                 {:fx/type :button
                  :text "Present"
-                 :style {:-fx-font-size 20}
+                 :style-class ["button" "skylobby-h2"]
                  :on-action {:event/type :skylobby.fx.event.chat/send
                              :channel-name channel-name
                              :client-data client-data
@@ -1626,7 +1626,7 @@
            (when show-vote-log
              [{:fx/type :label
                :text "Vote Log"
-               :style {:-fx-font-size 24}}])
+               :style-class ["label" "skylobby-h1"]}])
            [{:fx/type :pane
              :h-box/hgrow :always}
             {:fx/type :button
