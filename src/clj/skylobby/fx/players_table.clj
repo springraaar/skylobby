@@ -105,7 +105,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style {:-fx-font-size 16}
+       :style-class ["skylobby-body"]
        :children
        [
         {:fx/type :label
@@ -158,7 +158,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style {:-fx-font-size 20}
+       :style-class ["skylobby-h2"]
        :children
        [
         {:fx/type :h-box
@@ -233,8 +233,8 @@
         marked? (get marked-users username)
         host-username (fx/sub-ctx context sub/host-username server-key)]
     {:fx/type :context-menu
-     :style {:-fx-font-size 16
-             :-fx-font-weight "normal"}
+     :style-class ["skylobby-body"]
+     :style {:-fx-font-weight "normal"}
      :items
      (concat []
        (when (not owner)
@@ -404,7 +404,7 @@
      :tooltip
      {:fx/type tooltip-nofocus/lifecycle
       :show-delay skylobby.fx/tooltip-show-delay
-      :style {:-fx-font-size 16}
+      :style-class ["skylobby-body"]
       :text ""
       :graphic
       {:fx/type player-status-tooltip-label
@@ -458,8 +458,8 @@
   [{:keys [player server-key]}]
   {:fx/type tooltip-nofocus/lifecycle
    :show-delay skylobby.fx/tooltip-show-delay
-   :style {:-fx-font-size 16
-           :-fx-font-weight "normal"}
+   :style-class ["skylobby-body"]
+   :style {:-fx-font-weight "normal"}
    :text ""
    :graphic
    {:fx/type :v-box
@@ -702,7 +702,7 @@
                      :tooltip
                      {:fx/type tooltip-nofocus/lifecycle
                       :show-delay skylobby.fx/tooltip-show-delay
-                      :style {:-fx-font-size 16}
+                      :style-class ["skylobby-body"]
                       :text ""
                       :graphic
                       {:fx/type :v-box
@@ -729,7 +729,7 @@
                            {:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style {:-fx-font-size 16}
+                             :style-class ["skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "Kick"}
                             :on-action
@@ -746,7 +746,7 @@
                           [{:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style {:-fx-font-size 16}
+                             :style-class ["skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "AI Settings"}
                             :on-action
@@ -1205,8 +1205,8 @@
                                           (str (inc ally-n)))
                                         (str ally)))
                   :pref-width player-width
-                  :style {:-fx-font-size 24
-                          :-fx-font-weight "bold"
+                  :style-class ["skylobby-h1"]
+                  :style {:-fx-font-weight "bold"
                           :-fx-text-fill (get allyteam-colors ally-n "#ffffff")
                           :-fx-border-color "#aaaaaa"
                           :-fx-border-radius 1
@@ -1258,7 +1258,7 @@
                                {:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style {:-fx-font-size 16}
+                                 :style-class ["skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "Kick"}
                                 :on-action
@@ -1275,7 +1275,7 @@
                               [{:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style {:-fx-font-size 16}
+                                 :style-class ["skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "AI Settings"}
                                 :on-action
