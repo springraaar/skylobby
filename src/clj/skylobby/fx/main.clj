@@ -298,8 +298,8 @@
         show-accolades (fx/sub-val context :show-accolades)
         windows-as-tabs (fx/sub-val context :windows-as-tabs)
         tab-ids (concat
-                  (when show-spring-picker ["spring"])
                   ["welcome"]
+                  (when show-spring-picker ["spring"])
                   (when windows-as-tabs
                     (concat
                       (when show-settings
@@ -348,6 +348,15 @@
        {:fx/type :tab-pane
         :tabs
         (concat
+          [{:fx/type :tab
+            :id "welcome"
+            :closable false
+            :graphic {:fx/type :label
+                      :text "Home"
+                      :style {:-fx-font-size 18}}
+            :content
+            {:fx/type fx.welcome/welcome-view
+             :v-box/vgrow :always}}]
           (when show-spring-picker
             [{:fx/type :tab
               :id "spring"
@@ -360,15 +369,6 @@
                                  :value false}
               :content
               {:fx/type fx.pick-spring-root/pick-spring-root-view}}])
-          [{:fx/type :tab
-            :id "welcome"
-            :closable false
-            :graphic {:fx/type :label
-                      :text "Main"
-                      :style {:-fx-font-size 18}}
-            :content
-            {:fx/type fx.welcome/welcome-view
-             :v-box/vgrow :always}}]
           (when (and windows-as-tabs show-settings)
             [{:fx/type :tab
               :id "settings"
