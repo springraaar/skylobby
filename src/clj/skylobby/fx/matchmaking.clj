@@ -38,10 +38,10 @@
                    :client-data client-data}}
       {:fx/type :label
        :text "Queues"
-       :style-class ["skylobby-h1"]}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :table-view
        :v-box/vgrow :always
-       :style-class ["skylobby-body"]
+       :style-class ["table-view" "skylobby-body"]
        :column-resize-policy :constrained ; TODO auto resize
        :items (or (sort-by first matchmaking-queues)
                   [])
