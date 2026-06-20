@@ -138,7 +138,7 @@
        (when (< 1 (count indexed-engines))
          [{:fx/type :h-box
            :alignment :center-left
-           :style-class ["skylobby-h2"]
+           :style-class ["h-box" "skylobby-h2"]
            :children
            [
             {:fx/type :label
