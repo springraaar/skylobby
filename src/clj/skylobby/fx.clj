@@ -87,7 +87,8 @@
    :thumb     "rgb(90,90,90)"
    :thumb-hover "rgb(110,110,110)"
    :tab-highlight "#ffd700"
-   :tab-selected-accent "rgb(160,160,160)"})
+   :tab-selected-accent "rgb(160,160,160)"
+   :icon "rgb(225,225,225)"})
 
 (def grey-ramp
   {:surface-0 "rgb(60,60,60)"
@@ -106,7 +107,8 @@
    :thumb     "rgb(120,120,120)"
    :thumb-hover "rgb(150,150,150)"
    :tab-highlight "#ffd700"
-   :tab-selected-accent "rgb(160,160,160)"})
+   :tab-selected-accent "rgb(160,160,160)"
+   :icon "rgb(235,235,235)"})
 
 (def light-ramp
   {:surface-0 "rgb(228,228,228)"
@@ -125,7 +127,8 @@
    :thumb     "rgb(150,150,150)"
    :thumb-hover "rgb(120,120,120)"
    :tab-highlight "#ffd700"
-   :tab-selected-accent "rgb(100,100,100)"})
+   :tab-selected-accent "rgb(100,100,100)"
+   :icon "rgb(70,70,70)"})
 
 ;; ── Theme author API ─────────────────────────────────────────────
 ;; Override these in custom-css.edn (loaded via the :css sub) to reskin
@@ -141,6 +144,7 @@
 ;;   .table-row-cell                table border lines
 ;;   .table-row-cell:odd / :even    row striping
 ;;   .separator:horizontal .line / :vertical .line   region separators
+;;   .ikonli-font-icon              all icon glyphs (theme-appropriate colour)
 ;; Custom CSS still wins over these built-ins (it is appended last in
 ;; stylesheet-urls), so this list is the stable set of handles.
 
@@ -150,7 +154,7 @@
    button selector) so theme authors can target each independently."
   [{:keys [surface-0 surface-1 surface-2 surface-3 border focus
            selection selection-unfocused text-on-dark text-on-light text-2
-           row-odd row-even thumb thumb-hover tab-selected-accent]}]
+           row-odd row-even thumb thumb-hover tab-selected-accent icon]}]
   {".root"
    {:-fx-base surface-1
     :-fx-accent surface-3
@@ -180,6 +184,8 @@
    ;; Buttons — own selector, subtle rounding for definition
    ".button"
    {:-fx-background-radius "3"}
+   ".ikonli-font-icon"
+   {:-fx-icon-color icon}
    ".skylobby-secondary"
    {:-fx-background-color "transparent"
     :-fx-border-color "transparent"}
@@ -245,15 +251,13 @@
   (merge (theme-data grey-ramp)
          {".check-box" {:-fx-mark-color "white"}
           ".skylobby"
-          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "white"}}
-           "-tab" {"-focus" {:-fx-background (:tab-highlight grey-ramp)
+          {"-tab" {"-focus" {:-fx-background (:tab-highlight grey-ramp)
                              :-fx-base (:tab-highlight grey-ramp)}}}}))
 
 (def black-style-data
   (merge (theme-data black-ramp)
          {".skylobby"
-          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "white"}}
-           "-chat" {"-user-list" {:-fx-text-fill "lightgrey"}}
+          {"-chat" {"-user-list" {:-fx-text-fill "lightgrey"}}
            "-tab" {"-focus" {:-fx-background (:tab-highlight black-ramp)
                              :-fx-base (:tab-highlight black-ramp)}}}}))
 
@@ -278,8 +282,7 @@
           ".menu-item:hover"
           {:-fx-background-color "rgb(230,230,230)" :-fx-text-fill "rgb(10, 10, 10)"}
           ".skylobby"
-          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "dimgrey"}}
-           "-chat"
+          {"-chat"
            {"-message"     {:-fx-fill "black"}
             "-username-ex" {:-fx-fill "rgb(20,140,140)"}
             "-message-ex"  {:-fx-fill "rgb(20,140,140)"}
@@ -316,10 +319,7 @@
    ".hyperlink"
    {:-fx-text-fill "rgb(128, 128, 128)"}
    ".skylobby"
-   {"-normal"
-    {"> .ikonli-font-icon"
-     {:-fx-icon-color "dimgrey"}}
-    "-players"
+   {"-players"
     {"-multiplayer"
      {:-fx-font-size 14
       "-nickname"

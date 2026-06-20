@@ -66,7 +66,8 @@
   (doseq [ramp [skylobby.fx/black-ramp skylobby.fx/grey-ramp skylobby.fx/light-ramp]]
     (doseq [k [:surface-0 :surface-1 :surface-2 :surface-3 :border :focus
                :selection :selection-unfocused :text-on-dark :text-on-light :text-2
-               :row-odd :row-even :thumb :thumb-hover :tab-highlight :tab-selected-accent]]
+               :row-odd :row-even :thumb :thumb-hover :tab-highlight :tab-selected-accent
+               :icon]]
       (is (contains? ramp k) (str "missing " k)))
     ;; focus must be visible, never transparent (a11y regression guard)
     (is (not= "transparent" (:focus ramp)))))
@@ -117,3 +118,13 @@
       (is (contains? d ".skylobby-secondary") (str k " missing .skylobby-secondary"))
       (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color])))
       (is (some? (get-in d [".skylobby-secondary:hover" :-fx-background-color]))))))
+
+(deftest every-preset-colors-icons
+  (doseq [k ["black" "grey" "light"]]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (some? (get-in d [".ikonli-font-icon" :-fx-icon-color]))
+          (str k " missing global .ikonli-font-icon colour")))))
+
+(deftest light-icons-are-dark
+  (is (= "rgb(70,70,70)"
+         (get-in (get skylobby.fx/style-presets "light") [".ikonli-font-icon" :-fx-icon-color]))))
