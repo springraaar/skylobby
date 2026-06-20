@@ -73,7 +73,7 @@
                 {:tooltip
                  {:fx/type tooltip-nofocus/lifecycle
                   :show-delay skylobby.fx/tooltip-show-delay-slow
-                  :style-class ["skylobby-caption"]
+                  :style-class ["tooltip" "skylobby-caption"]
                   :text tooltip}})
               :desc
               (if (or (and (zero? severity)
@@ -106,7 +106,7 @@
                 (let [style (get severity-styles issue-severity)]
                   {:fx/type :v-box
                    :style style
-                   :style-class ["skylobby-caption"]
+                   :style-class ["v-box" "skylobby-caption"]
                    :children
                    [(merge
                       {:fx/type :button
