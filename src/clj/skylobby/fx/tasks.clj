@@ -49,7 +49,7 @@
        :pref-height 8}
       {:fx/type :label
        :text " Workers"
-       :style-class ["skylobby-h1"]}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :h-box
        :alignment :center-left
        :children
@@ -59,7 +59,7 @@
             :children
             (concat
               [{:fx/type :label
-                :style-class ["skylobby-h2"]
+                :style-class ["label" "skylobby-h2"]
                 :text (str "  " k)}
                {:fx/type :text-area
                 :v-box/vgrow :always
@@ -81,7 +81,7 @@
        :pref-height 8}
       {:fx/type :label
        :text " Task Queue"
-       :style-class ["skylobby-h1"]}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :table-view
        :v-box/vgrow :always
        :column-resize-policy :constrained
