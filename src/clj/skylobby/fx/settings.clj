@@ -398,7 +398,7 @@
       :children
       [{:fx/type :h-box
         :alignment :center-left
-        :style {:-fx-font-size 20}
+        :style-class ["skylobby-h2"]
         :children
         [{:fx/type :label
           :text " Search: "}
@@ -412,7 +412,7 @@
         :vgap 32
         :hgap 10
         :padding 32
-        :style {:-fx-font-size 14}
+        :style-class ["skylobby-caption"]
         :children
         [
          {:fx/type filterable-section
@@ -459,7 +459,7 @@
             :text "Experimental! Use database for certain indexes to lower memory usage"}
            #_
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -470,7 +470,7 @@
               :text " Use database for downloads index"}]}
            #_
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -480,7 +480,7 @@
              {:fx/type :label
               :text " Use database for imports index"}]}
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -490,7 +490,7 @@
              {:fx/type :label
               :text " Use database for rapid index"}]}
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -505,8 +505,7 @@
           :children
           [
            {:fx/type :button
-            :style-class ["button" "skylobby-normal"]
-            :style {:-fx-font-size 18}
+            :style-class ["button" "skylobby-normal" "skylobby-h2"]
             :text "Configure Content Directory / Spring Root"
             :on-action {:event/type :spring-lobby/toggle-window
                         :windows-as-tabs (fx/sub-val context :windows-as-tabs)
@@ -730,7 +729,7 @@
                        :text (str " " import-source-name)}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style {:-fx-font-size 14}}]}]})
+                       :style-class ["skylobby-caption"]}]}]})
                 (import/import-sources extra-import-sources))}
              {:fx/type :h-box
               :alignment :center-left
@@ -788,7 +787,7 @@
                :on-selected-changed {:event/type :spring-lobby/assoc
                                      :key :auto-get-replay-resources}}}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["skylobby-h2"]
               :text " Replay sources from Spring roots:"}
              {:fx/type :v-box
               :children
@@ -805,10 +804,10 @@
                                      (get replay-source-enabled path))}
                       {:fx/type :label
                        :text (str " " path)
-                       :style {:-fx-font-size 18}}]}))
+                       :style-class ["skylobby-h2"]}]}))
                 (filter :builtin replay-sources))}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["skylobby-h2"]
               :text " Custom replay sources:"}
              {:fx/type :v-box
               :children
@@ -833,17 +832,17 @@
                        (concat
                          [{:fx/type :label
                            :text (str " " replay-source-name)
-                           :style {:-fx-font-size 18}}]
+                           :style-class ["skylobby-h2"]}]
                          (when recursive
                            [{:fx/type :label
                              :text " (recursive)"
                              :style {:-fx-text-fill :red}}]))}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style {:-fx-font-size 14}}]}]})
+                       :style-class ["skylobby-caption"]}]}]})
                 (remove :builtin replay-sources))}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["skylobby-h2"]
               :text " Add replay source:"}
              {:fx/type :h-box
               :alignment :center-left
@@ -1089,7 +1088,7 @@
               [
                {:fx/type :label
                 :text " Ring Sound File: "
-                :style {:-fx-font-size 18}}
+                :style-class ["skylobby-h2"]}
                {:fx/type :h-box
                 :alignment :center-left
                 :children
@@ -1111,7 +1110,7 @@
               [
                {:fx/type :label
                 :text " Ring Volume: "
-                :style {:-fx-font-size 18}}
+                :style-class ["skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1143,7 +1142,7 @@
           [
              {:fx/type :label
               :text " Music Folder: "
-              :style {:-fx-font-size 18}}
+              :style-class ["skylobby-h2"]}
              {:fx/type :h-box
               :alignment :center-left
               :children
@@ -1169,7 +1168,7 @@
               [
                {:fx/type :label
                 :text " Music Volume: "
-                :style {:-fx-font-size 18}}
+                :style-class ["skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1246,7 +1245,7 @@
                                    :key :hide-barmaager-messages}}}
            {:fx/type :label
             :text "Hide message types:"
-            :style {:-fx-font-size 20}}
+            :style-class ["skylobby-h2"]}
            {:fx/type :v-box
             :children
             (map
