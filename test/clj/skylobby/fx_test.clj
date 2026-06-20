@@ -70,3 +70,31 @@
       (is (contains? ramp k) (str "missing " k)))
     ;; focus must be visible, never transparent (a11y regression guard)
     (is (not= "transparent" (:focus ramp)))))
+
+(deftest theme-data-wires-ramp-into-root
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
+    (is (= "rgb(18,18,18)" (get-in d [".root" :-fx-background])))
+    (is (= "rgb(28,28,28)" (get-in d [".root" :-fx-base])))
+    (is (= "rgb(40,40,40)" (get-in d [".root" :-fx-control-inner-background])))
+    ;; focus is visible, not transparent
+    (is (= "rgb(120,120,130)" (get-in d [".root" :-fx-focus-color])))))
+
+(deftest theme-data-defines-structural-selectors
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
+    (doseq [sel [".root" ".tab" ".tab:selected" ".tab-header-background"
+                 ".table-view" ".table-row-cell:odd" ".table-row-cell:even"
+                 ".scroll-bar:vertical .thumb"]]
+      (is (contains? d sel) (str "missing selector " sel)))))
+
+(deftest presets-keep-public-api
+  (is (= #{"black" "grey" "light"} (set (keys skylobby.fx/style-presets))))
+  ;; each preset still a non-empty map with a themed root
+  (doseq [k ["black" "grey" "light"]]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (map? d))
+      (is (contains? (get d ".root") :-fx-background)))))
+
+(deftest every-preset-has-visible-focus
+  (doseq [k ["black" "grey" "light"]]
+    (is (not= "transparent"
+              (get-in (get skylobby.fx/style-presets k) [".root" :-fx-focus-color])))))

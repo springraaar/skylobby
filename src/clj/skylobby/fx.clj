@@ -121,206 +121,127 @@
    :thumb-hover "rgb(120,120,120)"
    :tab-highlight "#ffd700"})
 
-; https://tomsondev.bestsolution.at/2014/03/13/eclipse-on-javafx-get-dark-the-power-of-javafx-css
-(def grey-style-data
+(defn theme-data
+  "Build a cljfx.css style-data map from a surface/colour ramp.
+   Element selectors are deliberately separate (tabs are NOT styled via the
+   button selector) so theme authors can target each independently."
+  [{:keys [surface-0 surface-1 surface-2 surface-3 border focus
+           selection selection-unfocused text-2
+           row-odd row-even thumb thumb-hover]}]
   {".root"
-   {:-fx-base "rgb(80, 80, 80)"
-    :-fx-accent "rgb(110, 110, 110)"
-    :-fx-background "rgb(60, 60, 60)"
-    ;:-fx-background-color "rgb(0, 0, 0, 255)" ; tooltips
-    :-fx-control-inner-background "rgb(90, 90, 90)"
-    :-fx-selection-bar-non-focused "rgb(120, 120, 120)"
-    :-fx-focus-color "transparent"
+   {:-fx-base surface-1
+    :-fx-accent surface-3
+    :-fx-background surface-0
+    :-fx-control-inner-background surface-2
+    :-fx-selection-bar-non-focused selection-unfocused
+    :-fx-focus-color focus
     :-fx-faint-focus-color "transparent"}
+   ;; Tabs — own selectors, separate from .button
    ".tab"
-   {:-fx-base "rgb(70, 70, 70)"
-    :-fx-background "rgb(90, 90, 90)"
-    :-fx-accent "rgb(0, 0, 0)"}
+   {:-fx-base surface-2
+    :-fx-background surface-1}
    ".tab:selected"
-   {:-fx-background "rgb(60, 60, 60)"
-    :-fx-accent "rgb(160, 160, 160)"}
+   {:-fx-background surface-0}
+   ".tab-header-background"
+   {:-fx-background-color surface-0}
+   ;; Buttons — own selector, subtle rounding for definition
+   ".button"
+   {:-fx-background-radius "3"}
+   ;; Region separators / borders
+   ".separator:horizontal .line"
+   {:-fx-border-color (str border " transparent transparent transparent")
+    :-fx-border-width "1"}
+   ".separator:vertical .line"
+   {:-fx-border-color (str "transparent " border " transparent transparent")
+    :-fx-border-width "1"}
+   ;; Inputs / text areas
    ".styled-text-area"
-   {:-fx-background-color "rgb(40, 40, 40)"}
+   {:-fx-background-color surface-0}
    ".text-field"
-   {:-fx-prompt-text-fill "rgb(180, 180, 180)"}
+   {:-fx-prompt-text-fill text-2}
+   ;; Scroll bars
    ".scroll-bar .thumb"
    {:-fx-background-radius "2, 1"
     :-fx-background-insets "3, 4"}
    ".scroll-bar:vertical .thumb"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   {:-fx-background-color (str thumb ",linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))")}
    ".scroll-bar:horizontal .thumb"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   {:-fx-background-color (str thumb ",linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))")}
    ".scroll-bar:vertical .thumb:hover"
-   {:-fx-background-color "rgb(140,140,140),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   {:-fx-background-color (str thumb-hover ",linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))")}
    ".scroll-bar:horizontal .thumb:hover"
-   {:-fx-background-color "rgb(140,140,140),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
-   ".doc-link, .hyperlink"
-   {:-fx-text-fill "rgb(70,70,255)"
-    :-fx-cursor "hand"
-    :-fx-underline true}
-   ".doc-link:hover, .hyperlink:hover"
-   {:-fx-text-fill "rgb(70,130,255)"}
-   ".table-row-cell:odd"
-   {:-fx-background-color "rgb(68, 68, 68)"}
-   ".table-row-cell:even"
-   {:-fx-background-color "rgb(56, 56, 56)"}
-   ".table-row-cell:odd:selected,.table-row-cell:even:selected"
-   {:-fx-background-color "rgb(100, 100, 100)"}
-   ".table-row-cell:odd:empty, .table-row-cell:even:empty"
-   {:-fx-background-color "transparent"}
-   ".check-box"
-   {:-fx-mark-color "white"}
-   ".combo-box .arrow-button .arrow, .scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
-   {:-fx-background-color "white"}
-   ".skylobby"
-   {"-normal"
-    {"> .ikonli-font-icon"
-     {:-fx-icon-color "white"}}
-    "-tab"
-    {"-focus"
-     {:-fx-background "#ffd700"
-      :-fx-base "#ffd700"}}}})
-(def black-style-data
-  {".root"
-   {:-fx-base "rgb(30, 30, 30)"
-    :-fx-accent "rgb(65, 65, 65)"
-    :-fx-background "rgb(0, 0, 0)"
-    :-fx-control-inner-background "rgb(40, 40, 40)"
-    :-fx-selection-bar-non-focused "rgb(55, 55, 55)"
-    :-fx-focus-color "transparent"
-    :-fx-faint-focus-color "transparent"}
-   ".tab"
-   {:-fx-base "rgb(45, 45, 45)"
-    :-fx-background "rgb(60, 60, 60)"
-    :-fx-accent "rgb(0, 0, 0)"}
-   ".tab:selected"
-   {:-fx-background "rgb(0, 0, 0)"
-    :-fx-accent "rgb(160, 160, 160)"}
-   ".styled-text-area"
-   {:-fx-background-color "rgb(0, 0, 0)"}
-   ".text-field"
-   {:-fx-prompt-text-fill "rgb(180, 180, 180)"}
-   ".scroll-bar .thumb"
-   {:-fx-background-radius "2, 1"
-    :-fx-background-insets "3, 4"}
-   ".scroll-bar:vertical .thumb"
-   {:-fx-background-color "rgb(90,90,90),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
-   ".scroll-bar:horizontal .thumb"
-   {:-fx-background-color "rgb(90,90,90),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
-   ".scroll-bar:vertical .thumb:hover"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
-   ".scroll-bar:horizontal .thumb:hover"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
-   ".doc-link, .hyperlink"
-   {:-fx-text-fill "rgb(70,70,255)"
-    :-fx-cursor "hand"
-    :-fx-underline true}
-   ".doc-link:hover, .hyperlink:hover"
-   {:-fx-text-fill "rgb(70,130,255)"}
-   ".table-row-cell:odd"
-   {:-fx-background-color "rgb(28, 28, 28)"}
-   ".table-row-cell:even"
-   {:-fx-background-color "rgb(18, 18, 18)"}
-   ".table-row-cell:odd:selected,.table-row-cell:even:selected"
-   {:-fx-background-color "rgb(70, 70, 70)"}
-   ".table-row-cell:odd:empty, .table-row-cell:even:empty"
-   {:-fx-background-color "transparent"}
+   {:-fx-background-color (str thumb-hover ",linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))")}
    ".combo-box .arrow-button .arrow,.scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
-   {:-fx-background-color "white"}
-   ".skylobby"
-   {"-normal"
-    {"> .ikonli-font-icon"
-     {:-fx-icon-color "white"}}
-    "-chat"
-    {"-user-list"
-     {:-fx-text-fill "lightgrey"}}
-    "-tab"
-    {"-focus"
-     {:-fx-background "#ffd700"
-      :-fx-base "#ffd700"}}}})
-(def light-style-data
-  {
-".root"
-   {:-fx-base "rgb(180, 180, 180)"
-    :-fx-accent "rgb(200, 200, 200)"
-    :-fx-background "rgb(220, 220, 220)"
-    :-fx-control-inner-background "rgb(200, 200, 200)"
-    :-fx-selection-bar-non-focused "rgb(235, 235, 235)"
-    :-fx-focus-color "transparent"
-    :-fx-faint-focus-color "transparent"}
-   ".tab"
-   {:-fx-base "rgb(170, 170, 170)"
-    :-fx-background "rgb(180, 180, 180)"
-    :-fx-accent "rgb(0, 0, 0)"}
-   ".tab:selected"
-   {:-fx-background "rgb(220, 220, 220)"
-    :-fx-accent "rgb(100, 100, 100)"}
-   ".styled-text-area"
-   {:-fx-background-color "rgb(255, 255, 255)"}
-   ".scroll-bar .thumb"
-   {:-fx-background-radius "2, 1"
-    :-fx-background-insets "3, 4"}
-   ".scroll-bar:vertical .thumb"
-   {:-fx-background-color "rgb(150,150,150),linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))" }
-   ".scroll-bar:horizontal .thumb"
-   {:-fx-background-color "rgb(150,150,150),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))" }
-   ".scroll-bar:vertical .thumb:hover"
-   {:-fx-background-color "rgb(255,255,255),linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))" }
-   ".scroll-bar:horizontal .thumb:hover"
-   {:-fx-background-color "rgb(255,255,255),linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))" }
+   {:-fx-background-color text-2}
+   ;; Links
    ".doc-link, .hyperlink"
    {:-fx-text-fill "rgb(70,70,255)"
     :-fx-cursor "hand"
     :-fx-underline true}
    ".doc-link:hover, .hyperlink:hover"
    {:-fx-text-fill "rgb(70,130,255)"}
+   ;; Tables — background + a dedicated border-line treatment
+   ".table-view"
+   {:-fx-background-color surface-1
+    :-fx-border-color border
+    :-fx-border-width "1"}
+   ".table-view .column-header-background"
+   {:-fx-background-color surface-2}
+   ".table-view .column-header .label"
+   {:-fx-text-fill "-fx-text-base-color"
+    :-fx-font-weight "bold"}
+   ".table-row-cell"
+   {:-fx-border-color (str "transparent transparent " border " transparent")
+    :-fx-table-cell-border-color border}
    ".table-row-cell:odd"
-   {:-fx-background-color "rgb(190, 190, 190)"}
+   {:-fx-background-color row-odd}
    ".table-row-cell:even"
-   {:-fx-background-color "rgb(175, 175, 175)"}
+   {:-fx-background-color row-even}
    ".table-row-cell:odd:selected,.table-row-cell:even:selected"
-   {:-fx-background-color "rgb(240, 240, 240)"}
+   {:-fx-background-color selection}
    ".table-row-cell:odd:empty, .table-row-cell:even:empty"
-   {:-fx-background-color "transparent"}
-   ".skilluncertainty0"
-   {:-fx-text-fill "rgb(0, 0, 0)"}
-   ".skilluncertainty1"
-   {:-fx-text-fill "rgb(50, 40, 30)"}
-   ".skilluncertainty2"
-   {:-fx-text-fill "rgb(80, 60, 40)"}
-   ".skilluncertainty3"
-   {:-fx-text-fill "rgb(120, 80, 40)"}
-   ".combo-box-popup .list-cell:selected"
-   {:-fx-background-color "rgb(240, 240, 240)"
-    :-fx-text-fill "rgb(10, 10, 10)"}
-   ".combo-box-popup .list-cell:hover"
-   {:-fx-background-color "rgb(210,210,210)"
-    :-fx-text-fill "rgb(20, 20, 20)"}
-   ".menu-item:hover"
-   {:-fx-background-color "rgb(230,230,230)"
-    :-fx-text-fill "rgb(10, 10, 10)"}
-   ".skylobby"
-   {"-normal"
-    {"> .ikonli-font-icon"
-     {:-fx-icon-color "dimgrey"}}
-    "-chat"
-    {
-     "-message"
-     {:-fx-fill "black"}
-     "-username-ex"
-     {:-fx-fill "rgb(20,140,140)"}
-     "-message-ex"
-     {:-fx-fill "rgb(20,140,140)"}
-     "-user-list"
-     {:-fx-text-fill "black"}}
-    "-console"
-    {
-     "-message"
-     {:-fx-fill "black"}}
-    "-tab"
-    {"-focus"
-     {:-fx-background "#ffd700"
-      :-fx-base "#ffd700"}}}})
+   {:-fx-background-color "transparent"}})
+
+;; Theme-specific extras merged over the generated base.
+(def grey-style-data
+  (merge (theme-data grey-ramp)
+         {".check-box" {:-fx-mark-color "white"}
+          ".skylobby"
+          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "white"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight grey-ramp)
+                             :-fx-base (:tab-highlight grey-ramp)}}}}))
+
+(def black-style-data
+  (merge (theme-data black-ramp)
+         {".skylobby"
+          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "white"}}
+           "-chat" {"-user-list" {:-fx-text-fill "lightgrey"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight black-ramp)
+                             :-fx-base (:tab-highlight black-ramp)}}}}))
+
+(def light-style-data
+  (merge (theme-data light-ramp)
+         {".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
+          ".skilluncertainty1" {:-fx-text-fill "rgb(50, 40, 30)"}
+          ".skilluncertainty2" {:-fx-text-fill "rgb(80, 60, 40)"}
+          ".skilluncertainty3" {:-fx-text-fill "rgb(120, 80, 40)"}
+          ".combo-box-popup .list-cell:selected"
+          {:-fx-background-color "rgb(240, 240, 240)" :-fx-text-fill "rgb(10, 10, 10)"}
+          ".combo-box-popup .list-cell:hover"
+          {:-fx-background-color "rgb(210,210,210)" :-fx-text-fill "rgb(20, 20, 20)"}
+          ".menu-item:hover"
+          {:-fx-background-color "rgb(230,230,230)" :-fx-text-fill "rgb(10, 10, 10)"}
+          ".skylobby"
+          {"-normal" {"> .ikonli-font-icon" {:-fx-icon-color "dimgrey"}}
+           "-chat"
+           {"-message"     {:-fx-fill "black"}
+            "-username-ex" {:-fx-fill "rgb(20,140,140)"}
+            "-message-ex"  {:-fx-fill "rgb(20,140,140)"}
+            "-user-list"   {:-fx-text-fill "black"}}
+           "-console"
+           {"-message" {:-fx-fill "black"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight light-ramp)
+                             :-fx-base (:tab-highlight light-ramp)}}}}))
 (def default-style-data black-style-data)
 
 (def style-presets
