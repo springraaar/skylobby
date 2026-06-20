@@ -34,7 +34,7 @@
      [{:fx/type :flow-pane
        :alignment :center-left
        :hgap 4
-       :style-class ["skylobby-body"]
+       :style-class ["flow-pane" "skylobby-body"]
        :children
        (concat
          (when (or (and selected-battle selected-battle-details)
