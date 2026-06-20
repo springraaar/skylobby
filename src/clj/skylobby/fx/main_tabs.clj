@@ -81,7 +81,7 @@
        :desc
        {:fx/type :tab-pane
         :on-tabs-changed {:event/type :spring-lobby/my-channels-tab-action}
-        :style {:-fx-font-size 16}
+        :style-class ["tab-pane" "skylobby-body"]
         :tabs
         (map
           (fn [channel-name]
@@ -188,7 +188,7 @@
         :h-box/hgrow :always
         :children
         [{:fx/type :label
-          :style {:-fx-font-size 20}
+          :style-class ["label" "skylobby-h2"]
           :text (str (:battle-title selected-battle-details))}
          {:fx/type fx.players-table/players-table
           :v-box/vgrow :always
@@ -300,9 +300,9 @@
              :selected-index (or selected-index 0)}
      :desc
      {:fx/type :tab-pane
-      :style {:-fx-font-size 16
-              :-fx-min-height 164
+      :style {:-fx-min-height 164
               :-fx-pref-height 164}
+      :style-class ["tab-pane" "skylobby-body"]
       :tabs
       (concat
         (when show-battle-tab
@@ -336,7 +336,7 @@
                  :h-box/hgrow :always
                  :children
                  [{:fx/type :label
-                   :style {:-fx-font-size 20}
+                   :style-class ["label" "skylobby-h2"]
                    :text "Waiting for battle details from server..."}]}]})}])
         [{:fx/type :tab
           :graphic {:fx/type :label
