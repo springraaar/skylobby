@@ -310,6 +310,14 @@
 ; so that themes can override
 (def default-classes
   {
+   ".skylobby-h1"
+   {:-fx-font-size 22}
+   ".skylobby-h2"
+   {:-fx-font-size 18}
+   ".skylobby-body"
+   {:-fx-font-size 16}
+   ".skylobby-caption"
+   {:-fx-font-size 13}
    ".skilluncertainty0"
    {:-fx-text-fill "rgb(255, 255, 255)"}
    ".skilluncertainty1"

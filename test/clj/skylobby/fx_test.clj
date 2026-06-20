@@ -137,3 +137,8 @@
 
 (deftest light-surface-0-nudged
   (is (= "rgb(220,220,220)" (:surface-0 skylobby.fx/light-ramp))))
+
+(deftest default-classes-define-typography
+  (doseq [c [".skylobby-h1" ".skylobby-h2" ".skylobby-body" ".skylobby-caption"]]
+    (is (contains? skylobby.fx/default-classes c) (str "missing " c))
+    (is (number? (get-in skylobby.fx/default-classes [c :-fx-font-size])))))
