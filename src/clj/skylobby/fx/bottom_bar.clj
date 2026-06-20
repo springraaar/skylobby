@@ -99,7 +99,7 @@
         server-key (fx/sub-ctx context skylobby.fx/selected-tab-server-key-sub)]
     {:fx/type :h-box
      :alignment :center-left
-     :style-class ["skylobby-caption"]
+     :style-class ["h-box" "skylobby-caption"]
      :children
      (concat
        [{:fx/type app-update-button}
