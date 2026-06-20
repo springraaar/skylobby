@@ -119,7 +119,7 @@
       :root
       (if show-servers-window
         {:fx/type :v-box
-         :style {:-fx-font-size 16}
+         :style-class ["skylobby-body"]
          :children
          [{:fx/type :h-box
            :alignment :center-left
@@ -258,7 +258,7 @@
                      (if (contains? servers server-url)
                        "Update" "Add")
                      " server")
-             :style {:-fx-font-size 20}
+             :style-class ["skylobby-h2"]
              :disable (or (string/blank? server-host)
                           (= (normalize-server-data old-server-data)
                              (normalize-server-data update-server-data)))
