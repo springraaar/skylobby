@@ -77,14 +77,17 @@
     (is (= "rgb(28,28,28)" (get-in d [".root" :-fx-base])))
     (is (= "rgb(40,40,40)" (get-in d [".root" :-fx-control-inner-background])))
     ;; focus is visible, not transparent
-    (is (= "rgb(120,120,130)" (get-in d [".root" :-fx-focus-color])))))
+    (is (= "rgb(120,120,130)" (get-in d [".root" :-fx-focus-color])))
+    ;; primary text color is wired from the ramp token
+    (is (= "rgb(228,228,228)" (get-in d [".root" :-fx-text-base-color])))))
 
 (deftest theme-data-defines-structural-selectors
   (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
     (doseq [sel [".root" ".tab" ".tab:selected" ".tab-header-background"
                  ".table-view" ".table-row-cell:odd" ".table-row-cell:even"
                  ".scroll-bar:vertical .thumb"]]
-      (is (contains? d sel) (str "missing selector " sel)))))
+      (is (contains? d sel) (str "missing selector " sel)))
+    (is (some? (get-in d [".scroll-bar:vertical .thumb" :-fx-background-color])))))
 
 (deftest presets-keep-public-api
   (is (= #{"black" "grey" "light"} (set (keys skylobby.fx/style-presets))))

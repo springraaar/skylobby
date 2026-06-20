@@ -144,7 +144,7 @@
    Element selectors are deliberately separate (tabs are NOT styled via the
    button selector) so theme authors can target each independently."
   [{:keys [surface-0 surface-1 surface-2 surface-3 border focus
-           selection selection-unfocused text-2
+           selection selection-unfocused text-1 text-2
            row-odd row-even thumb thumb-hover tab-selected-accent]}]
   {".root"
    {:-fx-base surface-1
@@ -153,7 +153,8 @@
     :-fx-control-inner-background surface-2
     :-fx-selection-bar-non-focused selection-unfocused
     :-fx-focus-color focus
-    :-fx-faint-focus-color "transparent"}
+    :-fx-faint-focus-color "transparent"
+    :-fx-text-base-color text-1}
    ;; Tabs — own selectors, separate from .button
    ".tab"
    {:-fx-base surface-2
