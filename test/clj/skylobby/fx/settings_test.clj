@@ -25,3 +25,9 @@
         (fx.settings/settings-window-impl
           {:fx/context (fx/create-context nil)
            :screen-bounds {}}))))
+
+
+(deftest filterable-section-is-carded
+  (let [result (fx.settings/filterable-section {:title "Example" :search "" :children []})]
+    (is (= :v-box (:fx/type result)))
+    (is (= ["skylobby-card"] (:style-class result)))))

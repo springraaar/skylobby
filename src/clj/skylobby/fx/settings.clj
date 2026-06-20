@@ -81,6 +81,7 @@
     (if (or (string/includes? title-lc search-lc)
             (some #(string/includes? % search-lc) children-titles))
       {:fx/type :v-box
+       :style-class ["skylobby-card"]
        :pref-width 580
        :min-width 580
        :max-width 580
