@@ -101,3 +101,9 @@
   (doseq [k ["black" "grey" "light"]]
     (is (not= "transparent"
               (get-in (get skylobby.fx/style-presets k) [".root" :-fx-focus-color])))))
+
+(deftest every-preset-has-card-class
+  (doseq [k ["black" "grey" "light"]]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-card") (str k " missing .skylobby-card"))
+      (is (some? (get-in d [".skylobby-card" :-fx-background-color]))))))

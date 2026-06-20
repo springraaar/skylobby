@@ -130,6 +130,7 @@
 ;;   .root                          app surfaces (-fx-background/-fx-base/...)
 ;;   .tab / .tab:selected           tab states (separate from buttons)
 ;;   .tab-header-background         the strip behind tab headers
+;;   .skylobby-card                 raised grouped panel (welcome columns, etc.)
 ;;   .button                        buttons only
 ;;   .table-view                    table background + outer border
 ;;   .table-view .column-header-background   table header strip
@@ -165,6 +166,13 @@
     :-fx-accent tab-selected-accent}
    ".tab-header-background"
    {:-fx-background-color surface-0}
+   ".skylobby-card"
+   {:-fx-background-color surface-2
+    :-fx-background-radius "6"
+    :-fx-border-color border
+    :-fx-border-radius "6"
+    :-fx-border-width "1"
+    :-fx-padding "16"}
    ;; Buttons — own selector, subtle rounding for definition
    ".button"
    {:-fx-background-radius "3"}
