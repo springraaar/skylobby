@@ -438,7 +438,7 @@
             {:fx/type :label
              :text " Auto import or download resources"}]}]}]
     {:fx/type :h-box
-     :style {:-fx-font-size 16}
+     :style-class ["h-box" "skylobby-body"]
      :alignment :center-left
      :children
      [
@@ -576,8 +576,8 @@
                    :content
                    {:fx/type fx.rich-text/lifecycle-inline
                     :editable false
-                    :style {:-fx-font-family skylobby.fx/monospace-font-family
-                            :-fx-font-size 18}
+                    :style {:-fx-font-family skylobby.fx/monospace-font-family}
+                   :style-class ["rich-text-area" "skylobby-h2"]
                     :wrap-text true
                     :document (chat-log-document
                                 chat-log
@@ -1224,7 +1224,7 @@
            :v-box/vgrow :always}
           {:fx/type :h-box
            :alignment :center-left
-           :style {:-fx-font-size 16}
+           :style-class ["h-box" "skylobby-body"]
            :children
            [
             {:fx/type :button
@@ -1361,12 +1361,12 @@
             refresh-tasks (fx/sub-ctx context skylobby.fx/tasks-of-type-sub :spring-lobby/refresh-replays)
             filter-sources-items (fx/sub-ctx context filter-sources-items-sub)]
         {:fx/type :v-box
-         :style {:-fx-font-size 14}
+         :style-class ["v-box" "skylobby-caption"]
          :children
          (concat
            [{:fx/type :h-box
              :alignment :top-left
-             :style {:-fx-font-size 16}
+             :style-class ["h-box" "skylobby-body"]
              :children
              [
               {:fx/type :flow-pane
