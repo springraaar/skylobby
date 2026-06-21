@@ -2394,7 +2394,7 @@
 (defmethod event-handler ::update-css
   [{:keys [css css-preset]}]
   (log/info "Registering CSS with" (count css) "keys for preset" css-preset)
-  (let [registered (css/register :skylobby.fx/current css)]
+  (let [registered (skylobby.fx/file-backed-css :skylobby.fx/current css)]
     (swap! *state assoc
            :css registered
            :css-preset css-preset)))

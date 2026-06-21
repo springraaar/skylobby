@@ -437,6 +437,26 @@
 (def default-classes-css
   (css/register ::default-classes default-classes))
 
+(def current-css-filename "skylobby-current.css")
+
+(defn file-backed-css
+  "Register style-data under id, and also write the compiled CSS to a file in the
+  app root, returning the registered map with ::css/url pointing at that file.
+  JavaFX resolves relative url(...) references against the stylesheet's own
+  location, so this lets custom CSS reference images (e.g. a welcome background)
+  by paths relative to the app root, alongside custom-css.edn. A content-hash
+  URL fragment is appended so hot-reload still triggers a reapply (JavaFX's file
+  handler ignores the fragment when loading)."
+  [id style-data]
+  (let [registered (css/register id style-data)]
+    (try
+      (let [^java.io.File out (fs/file (fs/app-root) current-css-filename)]
+        (spit out (slurp (::css/url registered)))
+        (assoc registered ::css/url (str (.toURL (.toURI out)) "#" (hash style-data))))
+      (catch Exception e
+        (log/error e "Error writing file-backed CSS, falling back to in-memory")
+        registered))))
+
 (defn stylesheet-urls [css]
   [
    (str (::css/url default-classes-css))
