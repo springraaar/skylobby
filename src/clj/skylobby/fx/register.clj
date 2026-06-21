@@ -58,6 +58,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Username: "}
             {:fx/type :text-field
              :h-box/hgrow :always
@@ -68,6 +69,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Password: "}
             {:fx/type :password-field
              :h-box/hgrow :always
@@ -78,6 +80,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Confirm: "}
             {:fx/type :password-field
              :h-box/hgrow :always
@@ -88,6 +91,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Email: "}
             {:fx/type :text-field
              :h-box/hgrow :always

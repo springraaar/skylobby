@@ -91,6 +91,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Battle Name: "}
               {:fx/type :text-field
                :text (str battle-title)
@@ -102,6 +103,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Battle Password: "}
               {:fx/type :text-field
                :text (str battle-password)
@@ -114,6 +116,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Port: "}
               {:fx/type :text-field
                :text (str battle-port)
@@ -140,6 +143,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " NAT Type: "}
               {:fx/type :combo-box
                :value battle-nat-type

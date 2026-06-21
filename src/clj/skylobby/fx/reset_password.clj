@@ -56,6 +56,7 @@
              :alignment :center-left
              :children
              [{:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Email: "}
               {:fx/type :text-field
                :h-box/hgrow :always
@@ -83,6 +84,7 @@
                :alignment :center-left
                :children
                [{:fx/type :label
+                 :style-class ["label" "skylobby-form-label"]
                  :text " Code: "}
                 {:fx/type :text-field
                  :h-box/hgrow :always
