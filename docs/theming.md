@@ -264,7 +264,7 @@ you can re-tint or restyle a single screen without affecting the rest. These hav
 | `.combo-box .arrow-button .arrow,.scroll-bar .increment-arrow,.scroll-bar .decrement-arrow` | theme | Combo arrow + scroll-bar step arrows (`text-2`). |
 | `.check-box` | default-classes (size), theme (mark) | Checkboxes. Fixed 16px font; mark colour set per-theme (e.g. grey theme uses white). |
 | `.text-field` | default-classes (size) + theme (prompt) | Text inputs. Fixed 16px font; prompt-text colour from `text-2`. |
-| `.skylobby-form-label` | default-classes | Fixed-width (150px min) right-aligned label column, so form inputs line up regardless of label length. |
+| `.skylobby-form-label` | default-classes | Fixed-width (150px min) left-aligned label column, so form inputs line up regardless of label length. |
 | `.menu-item:hover` | light theme | Light-theme menu hover colour. |
 
 ### Typography

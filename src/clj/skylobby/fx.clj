@@ -167,7 +167,7 @@
 ;;   .skylobby-secondary            flat/quiet button variant (de-emphasised nav)
 ;;   .skylobby-primary              prominent call-to-action button (Start Game)
 ;;   .combo-box / .check-box / .text-field   inputs, fixed normal font size
-;;   .skylobby-form-label           fixed-width right-aligned form label column
+;;   .skylobby-form-label           fixed-width left-aligned form label column
 ;;   .button                        buttons only
 ;;   .table-view                    table background + outer border
 ;;   .table-view .column-header-background   table header strip
@@ -470,11 +470,11 @@
    {:-fx-font-size 16}
    ".text-field"
    {:-fx-font-size 16}
-   ; form rows: a fixed-width right-aligned label column so inputs line up
+   ; form rows: a fixed-width left-aligned label column so inputs line up
    ; regardless of label text length
    ".skylobby-form-label"
    {:-fx-min-width 150
-    :-fx-alignment "center-right"}
+    :-fx-alignment "center-left"}
    ".skilluncertainty0"
    {:-fx-text-fill "rgb(255, 255, 255)"}
    ".skilluncertainty1"
