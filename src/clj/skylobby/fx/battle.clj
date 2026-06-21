@@ -713,9 +713,7 @@
                   :text "Leave Battle"
                   :on-action {:event/type :spring-lobby/leave-battle
                               :client-data (fx/sub-val context get-in [:by-server server-key :client-data])
-                              :server-key server-key}}
-                 {:fx/type :pane
-                  :h-box/margin 4}])
+                              :server-key server-key}}])
               (when (and (not singleplayer)
                          (not direct-connect))
                 [(if (fx/sub-val context :pop-out-battle)
@@ -734,8 +732,6 @@
                     :on-action {:event/type :spring-lobby/assoc
                                 :key :pop-out-battle
                                 :value true}})])
-              [{:fx/type :pane
-                :h-box/margin 4}]
               (when (and (not singleplayer)
                          (not direct-connect))
                 [(if (fx/sub-val context :pop-out-chat)
