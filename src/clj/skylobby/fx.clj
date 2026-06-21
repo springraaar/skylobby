@@ -53,10 +53,13 @@
           (changed [_this _observable _old-value new-value]
             (swap! divider-positions assoc divider-key new-value)))))))
 
+;; A real, well-hinted monospace face reads far better than the bare generic
+;; "monospace" keyword, which renders thin/low-contrast on macOS and Linux.
+;; This is a font-family preference list: JavaFX uses the first installed
+;; family (Menlo on macOS, Consolas on Windows, DejaVu/Liberation on Linux) and
+;; falls back to the generic keyword if none are present.
 (def monospace-font-family
-  (if (fs/windows?)
-    "Consolas"
-    "monospace"))
+  "Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace")
 
 
 ;; ── Design tokens ────────────────────────────────────────────────
