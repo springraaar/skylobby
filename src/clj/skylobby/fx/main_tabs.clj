@@ -87,6 +87,7 @@
           (fn [channel-name]
             {:fx/type :tab
              :graphic {:fx/type :label
+                       :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-pound:16"}
                        :text (str channel-name)}
              :id channel-name
              :style-class (concat ["tab"] (when (and highlight-tabs-with-new-chat-messages
@@ -308,6 +309,7 @@
         (when show-battle-tab
           [{:fx/type :tab
             :graphic {:fx/type :label
+                      :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-sword:18"}
                       :text (or (:battle-title (get battles battle-id))
                                 "Battle")}
             :closable true
@@ -340,6 +342,7 @@
                    :text "Waiting for battle details from server..."}]}]})}])
         [{:fx/type :tab
           :graphic {:fx/type :label
+                    :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-view-list:18"}
                     :text "Battles"}
           :closable false
           :id "battles"
@@ -378,6 +381,7 @@
                  :h-box/hgrow :always}]))}}]
         [{:fx/type :tab
           :graphic {:fx/type :label
+                    :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-message-text:18"}
                     :text (str "Chat" (when (seq friend-requests)
                                         (str " (" (count friend-requests) " friend requests)")))}
           :closable false
@@ -472,6 +476,7 @@
                                :server-key server-key}}]}]}]}]}}
          {:fx/type :tab
           :graphic {:fx/type :label
+                    :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-console:18"}
                     :text "Console"}
           :closable false
           :id "console"
@@ -482,6 +487,7 @@
         (when matchmaking
           [{:fx/type :tab
             :graphic {:fx/type :label
+                      :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-account-multiple:18"}
                       :text "Matchmaking"}
             :closable false
             :id "matchmaking"
@@ -500,6 +506,7 @@
                 (fn [[battle-id _battle]]
                   {:fx/type :tab
                    :graphic {:fx/type :label
+                             :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-history:16"}
                              :text (str "(old) battle " battle-id)}
                    :closable true
                    :on-close-request {:event/type :spring-lobby/dissoc-in
