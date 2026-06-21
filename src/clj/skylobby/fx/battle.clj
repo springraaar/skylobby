@@ -587,7 +587,173 @@
         warn-invalid-start-positions (and map-teams
                                           (not= startpostype "Choose in game")
                                           (< (count map-teams)
-                                             (count team-counts)))]
+                                             (count team-counts)))
+        start-game-controls
+        {:fx/type :h-box
+         :alignment :center-left
+         :style-class ["h-box" "skylobby-h1"]
+         :children
+         (concat
+           [
+            {:fx/type fx.ext.node/with-tooltip-props
+             :props
+             {:tooltip
+              {:fx/type tooltip-nofocus/lifecycle
+               :show-delay skylobby.fx/tooltip-show-delay
+               :style-class ["tooltip" "skylobby-body"]
+               :text (cond
+                       warn-invalid-start-positions
+                       (str "Map does not have enough start positions. "
+                            "Set start position type to Choose in Game "
+                            "and draw boxes on the map.")
+                       debug-spring "Write script.txt and show Spring command"
+                       am-host (if singleplayer
+                                 "Start the game"
+                                 "You are the host, start the game")
+                       host-ingame "Join game in progress"
+                       :else (str "Call vote to start the game"))}}
+             :desc
+             {:fx/type :button
+              :style-class ["button" "skylobby-primary"]
+              :style (if warn-invalid-start-positions
+                       (dissoc warn-severity :-fx-background-color)
+                       {})
+              :text (cond
+                      spring-starting
+                      "Game starting"
+                      spring-running
+                      "Game running"
+                      (and
+                        (not am-host)
+                        (or
+                          (and am-spec
+                               (not host-ingame)
+                               (not singleplayer)
+                               (not= :direct-host server-type))
+                          (and (not host-ingame)
+                               (= :direct-client server-type))))
+                      "Game not running"
+                      :else
+                      (if debug-spring
+                        "Debug Spring"
+                        (str (if (and (not singleplayer)
+                                      (not= :direct-host server-type)
+                                      (or host-ingame am-spec)
+                                      (not am-host))
+                               "Join" "Start")
+                             " Game")))
+              :disable (boolean
+                         (or spring-starting
+                             spring-running
+                             (and debug-spring (fx/sub-val context :show-spring-debug))
+                             (and (= :direct-client server-type)
+                                  (not host-ingame))
+                             (and (not singleplayer)
+                                  (not am-host)
+                                  (not= :direct-host server-type)
+                                  (or (and (not host-ingame) am-spec)
+                                      (not in-sync)))))
+              :on-action
+              (merge
+                {:event/type :spring-lobby/start-battle}
+                (let [resources (fx/sub-ctx context sub/spring-resources spring-root)]
+                  (if singleplayer
+                    resources
+                    (dissoc resources :engine-version :map-name :mod-name)))
+                {:battle (merge
+                           battle
+                           (when direct-connect
+                             {:battle-ip (:hostname server-key)}))
+                 :battles battles
+                 :users users
+                 :username username}
+                {:am-host am-host
+                 :am-spec am-spec
+                 :battle-map-details battle-map-details
+                 :battle-mod-details battle-mod-details
+                 :battle-status my-battle-status
+                 :channel-name channel-name
+                 :client-data client-data
+                 :debug-spring debug-spring
+                 :host-ingame host-ingame
+                 :server-key server-key
+                 :singleplayer singleplayer
+                 :spring-isolation-dir spring-root})}}]
+           (when (and (or spring-starting
+                          spring-running)
+                      (or singleplayer
+                          direct-connect))
+             [{:fx/type fx.ext.node/with-tooltip-props
+               :props
+               {:tooltip
+                {:fx/type tooltip-nofocus/lifecycle
+                 :show-delay skylobby.fx/tooltip-show-delay
+                 :style-class ["tooltip" "skylobby-body"]
+                 :text "Allow another copy of spring to run"}}
+               :desc
+               {:fx/type :button
+                :style-class ["button" "skylobby-normal"]
+                :text ""
+                :on-action
+                {:event/type :spring-lobby/assoc-in
+                 :path [(if spring-starting
+                          :spring-starting
+                          :spring-running)
+                        server-key battle-id]
+                 :value false}
+                :graphic
+                {:fx/type font-icon/lifecycle
+                 :icon-literal "mdi-content-copy:20"}}}]))}
+        nav-buttons
+        (concat
+          (when battle-id
+            (concat
+              (when-not direct-connect
+                [{:fx/type :button
+                  :text "Leave Battle"
+                  :on-action {:event/type :spring-lobby/leave-battle
+                              :client-data (fx/sub-val context get-in [:by-server server-key :client-data])
+                              :server-key server-key}}
+                 {:fx/type :pane
+                  :h-box/margin 4}])
+              (when (and (not singleplayer)
+                         (not direct-connect))
+                [(if (fx/sub-val context :pop-out-battle)
+                   {:fx/type :button
+                    :text "Pop In Battle "
+                    :graphic
+                    {:fx/type font-icon/lifecycle
+                     :icon-literal "mdi-window-maximize:16:white"}
+                    :on-action {:event/type :spring-lobby/dissoc
+                                :key :pop-out-battle}}
+                   {:fx/type :button
+                    :text "Pop Out Battle "
+                    :graphic
+                    {:fx/type font-icon/lifecycle
+                     :icon-literal "mdi-open-in-new:16:white"}
+                    :on-action {:event/type :spring-lobby/assoc
+                                :key :pop-out-battle
+                                :value true}})])
+              [{:fx/type :pane
+                :h-box/margin 4}]
+              (when (and (not singleplayer)
+                         (not direct-connect))
+                [(if (fx/sub-val context :pop-out-chat)
+                   {:fx/type :button
+                    :text "Pop In Chat "
+                    :graphic
+                    {:fx/type font-icon/lifecycle
+                     :icon-literal "mdi-window-maximize:16:white"}
+                    :on-action {:event/type :spring-lobby/dissoc
+                                :key :pop-out-chat}}
+                   {:fx/type :button
+                    :text "Pop Out Chat "
+                    :graphic
+                    {:fx/type font-icon/lifecycle
+                     :icon-literal "mdi-open-in-new:16:white"}
+                    :on-action {:event/type :spring-lobby/assoc
+                                :key :pop-out-chat
+                                :value true}})]))))]
     {:fx/type :v-box
      :padding 8
      :spacing 4
@@ -599,6 +765,7 @@
        :orientation :horizontal
        :children
        (concat
+         [start-game-controls]
          sync-buttons
          [{:fx/type :pane
            :pref-width 16}]
@@ -835,122 +1002,7 @@
                      :server-key server-key}}}
                   {:fx/type :label
                    :style-class ["label" "skylobby-body"]
-                   :text "Auto Unspec "}])))}
-          {:fx/type :h-box
-           :alignment :center-left
-           :style-class ["h-box" "skylobby-h1"]
-           :children
-           (concat
-             [
-              {:fx/type fx.ext.node/with-tooltip-props
-               :props
-               {:tooltip
-                {:fx/type tooltip-nofocus/lifecycle
-                 :show-delay skylobby.fx/tooltip-show-delay
-                 :style-class ["tooltip" "skylobby-body"]
-                 :text (cond
-                         warn-invalid-start-positions
-                         (str "Map does not have enough start positions. "
-                              "Set start position type to Choose in Game "
-                              "and draw boxes on the map.")
-                         debug-spring "Write script.txt and show Spring command"
-                         am-host (if singleplayer
-                                   "Start the game"
-                                   "You are the host, start the game")
-                         host-ingame "Join game in progress"
-                         :else (str "Call vote to start the game"))}}
-               :desc
-               {:fx/type :button
-                :style-class ["button" "skylobby-primary"]
-                :style (if warn-invalid-start-positions
-                         (dissoc warn-severity :-fx-background-color)
-                         {})
-                :text (cond
-                        spring-starting
-                        "Game starting"
-                        spring-running
-                        "Game running"
-                        (and
-                          (not am-host)
-                          (or
-                            (and am-spec
-                                 (not host-ingame)
-                                 (not singleplayer)
-                                 (not= :direct-host server-type))
-                            (and (not host-ingame)
-                                 (= :direct-client server-type))))
-                        "Game not running"
-                        :else
-                        (if debug-spring
-                          "Debug Spring"
-                          (str (if (and (not singleplayer)
-                                        (not= :direct-host server-type)
-                                        (or host-ingame am-spec)
-                                        (not am-host))
-                                 "Join" "Start")
-                               " Game")))
-                :disable (boolean
-                           (or spring-starting
-                               spring-running
-                               (and debug-spring (fx/sub-val context :show-spring-debug))
-                               (and (= :direct-client server-type)
-                                    (not host-ingame))
-                               (and (not singleplayer)
-                                    (not am-host)
-                                    (not= :direct-host server-type)
-                                    (or (and (not host-ingame) am-spec)
-                                        (not in-sync)))))
-                :on-action
-                (merge
-                  {:event/type :spring-lobby/start-battle}
-                  (let [resources (fx/sub-ctx context sub/spring-resources spring-root)]
-                    (if singleplayer
-                      resources
-                      (dissoc resources :engine-version :map-name :mod-name)))
-                  {:battle (merge
-                             battle
-                             (when direct-connect
-                               {:battle-ip (:hostname server-key)}))
-                   :battles battles
-                   :users users
-                   :username username}
-                  {:am-host am-host
-                   :am-spec am-spec
-                   :battle-map-details battle-map-details
-                   :battle-mod-details battle-mod-details
-                   :battle-status my-battle-status
-                   :channel-name channel-name
-                   :client-data client-data
-                   :debug-spring debug-spring
-                   :host-ingame host-ingame
-                   :server-key server-key
-                   :singleplayer singleplayer
-                   :spring-isolation-dir spring-root})}}]
-             (when (and (or spring-starting
-                            spring-running)
-                        (or singleplayer
-                            direct-connect))
-               [{:fx/type fx.ext.node/with-tooltip-props
-                 :props
-                 {:tooltip
-                  {:fx/type tooltip-nofocus/lifecycle
-                   :show-delay skylobby.fx/tooltip-show-delay
-                   :style-class ["tooltip" "skylobby-body"]
-                   :text "Allow another copy of spring to run"}}
-                 :desc
-                 {:fx/type :button
-                  :style-class ["button" "skylobby-normal"]
-                  :text ""
-                  :on-action
-                  {:event/type :spring-lobby/assoc-in
-                   :path [(if spring-starting
-                            :spring-starting
-                            :spring-running)
-                          server-key battle-id]
-                   :value false}
-                  :graphic
-                  {:fx/type font-icon/lifecycle
-                   :icon-literal "mdi-content-copy:20"}}}]))}]
+                   :text "Auto Unspec "}])))}]
          (when (and am-host
                     (not direct-connect))
            [{:fx/type :h-box
@@ -1035,7 +1087,8 @@
                           (str
                             "("
                             (string/join ", " team-skills)
-                            ")")))}]))}
+                            ")")))}])
+         nav-buttons)}
       {:fx/type battle-accolades
        :server-key server-key}]}))
 
@@ -1959,60 +2012,6 @@
       {:fx/type :v-box
        :children
        [
-      {:fx/type :h-box
-       :alignment :center-left
-       :style-class ["h-box" "skylobby-body"]
-       :style {:-fx-padding 8}
-       :children
-       (concat
-         (when battle-id
-           (concat
-             (when-not direct-connect
-               [{:fx/type :button
-                 :text "Leave Battle"
-                 :on-action {:event/type :spring-lobby/leave-battle
-                             :client-data (fx/sub-val context get-in [:by-server server-key :client-data])
-                             :server-key server-key}}
-                {:fx/type :pane
-                 :h-box/margin 4}])
-             (when (and (not singleplayer)
-                        (not direct-connect))
-               [(if (fx/sub-val context :pop-out-battle)
-                  {:fx/type :button
-                   :text "Pop In Battle "
-                   :graphic
-                   {:fx/type font-icon/lifecycle
-                    :icon-literal "mdi-window-maximize:16:white"}
-                   :on-action {:event/type :spring-lobby/dissoc
-                               :key :pop-out-battle}}
-                  {:fx/type :button
-                   :text "Pop Out Battle "
-                   :graphic
-                   {:fx/type font-icon/lifecycle
-                    :icon-literal "mdi-open-in-new:16:white"}
-                   :on-action {:event/type :spring-lobby/assoc
-                               :key :pop-out-battle
-                               :value true}})])
-             [{:fx/type :pane
-               :h-box/margin 4}]
-             (when (and (not singleplayer)
-                        (not direct-connect))
-               [(if pop-out-chat
-                  {:fx/type :button
-                   :text "Pop In Chat "
-                   :graphic
-                   {:fx/type font-icon/lifecycle
-                    :icon-literal "mdi-window-maximize:16:white"}
-                   :on-action {:event/type :spring-lobby/dissoc
-                               :key :pop-out-chat}}
-                  {:fx/type :button
-                   :text "Pop Out Chat "
-                   :graphic
-                   {:fx/type font-icon/lifecycle
-                    :icon-literal "mdi-open-in-new:16:white"}
-                   :on-action {:event/type :spring-lobby/assoc
-                               :key :pop-out-chat
-                               :value true}})]))))}
       {:fx/type :h-box
        :v-box/vgrow :always
        :style-class ["h-box" "skylobby-body"]
