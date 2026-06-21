@@ -14,7 +14,7 @@
 
 
 (def server-window-width 640)
-(def server-window-height 400)
+(def server-window-height 560)
 
 (def fixed-order ; reversed
   [

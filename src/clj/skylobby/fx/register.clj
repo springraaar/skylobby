@@ -13,7 +13,7 @@
 
 
 (def register-window-width 500)
-(def register-window-height 400)
+(def register-window-height 500)
 
 
 (defn register-window-impl

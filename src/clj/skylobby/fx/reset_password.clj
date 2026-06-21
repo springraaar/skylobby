@@ -12,7 +12,7 @@
 
 
 (def reset-password-window-width 500)
-(def reset-password-window-height 400)
+(def reset-password-window-height 520)
 
 
 (defn reset-password-window-impl
