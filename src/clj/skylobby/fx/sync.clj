@@ -54,10 +54,12 @@
                :-fx-border-radius 3
                :-fx-border-style "solid"
                :-fx-border-width 1
-               :-fx-pref-width 400})
+               :-fx-pref-width 400
+               :-fx-max-width 400})
      :children
      (concat
        [{:fx/type :label
+         :wrap-text true
          :text (str resource
                     (if (zero? worst-severity) " synced"
                       " status:"))
@@ -90,6 +92,7 @@
                    (fn [file]
                      {:text (str (fs/filename file))})}
                   {:fx/type :label
+                   :wrap-text true
                    :text display-text
                    :style-class ["label" "skylobby-caption"]
                    :graphic
