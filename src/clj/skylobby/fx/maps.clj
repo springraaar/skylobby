@@ -66,7 +66,7 @@
       {:children
        (concat
          [{:fx/type :label
-           :alignment :center-left
+           :style-class ["label" "skylobby-form-label"]
            :text " Map: "}]
          (if (empty? maps)
            (if suggest

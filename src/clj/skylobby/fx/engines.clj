@@ -55,6 +55,7 @@
           {:children
            (concat
              [{:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Engine: "}]
              (if (empty? engines)
                (if suggest

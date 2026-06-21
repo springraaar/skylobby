@@ -53,7 +53,7 @@
       {:children
        (concat
          [{:fx/type :label
-           :alignment :center-left
+           :style-class ["label" "skylobby-form-label"]
            :text " Game: "}]
          (if (empty? games)
            (if suggest
