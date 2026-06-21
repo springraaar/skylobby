@@ -223,8 +223,6 @@
       :-fx-max-width minimap-size
       :-fx-min-height minimap-size
       :-fx-max-height minimap-size}
-     :on-scroll {:event/type :spring-lobby/minimap-scroll
-                 :minimap-type-key minimap-type-key}
      :children
      [{:fx/type :v-box
        :alignment :center
