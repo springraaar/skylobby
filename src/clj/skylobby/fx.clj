@@ -348,6 +348,63 @@
            "-tab" {"-focus" {:-fx-background (:tab-highlight catppuccin-mocha-ramp)
                              :-fx-base (:tab-highlight catppuccin-mocha-ramp)}}}}))
 
+;; Catppuccin Latte - the light Catppuccin variant (https://catppuccin.com).
+(def catppuccin-latte-ramp
+  {:surface-0 "rgb(220,224,232)"   ; crust
+   :surface-1 "rgb(230,233,239)"   ; mantle
+   :surface-2 "rgb(239,241,245)"   ; base
+   :surface-3 "rgb(255,255,255)"   ; raised / white
+   :border    "rgb(172,176,190)"   ; surface2
+   :focus     "rgb(30,102,245)"    ; blue
+   :selection "rgb(202,216,252)"   ; blue-tinted highlight
+   :selection-unfocused "rgb(204,208,218)" ; surface0
+   :text-on-dark  "rgb(239,241,245)" ; base (light fallback)
+   :text-on-light "rgb(76,79,105)"   ; text (the dark text actually shown)
+   :text-2    "rgb(108,111,133)"   ; subtext0
+   :row-odd   "rgb(239,241,245)"   ; base
+   :row-even  "rgb(230,233,239)"   ; mantle
+   :thumb     "rgb(156,160,176)"   ; overlay0
+   :thumb-hover "rgb(140,143,161)" ; overlay1
+   :tab-highlight "rgb(223,142,29)" ; yellow
+   :tab-selected-accent "rgb(114,135,253)" ; lavender
+   :icon "rgb(76,79,105)"})        ; text (dark icons for a light theme)
+
+;; Light theme: like light-style-data, chat/console/inputs need explicit
+;; contrast overrides so the dark-theme defaults (white text, washed-out
+;; thumbs) don't bleed through on a light background.
+(def catppuccin-latte-style-data
+  (merge (theme-data catppuccin-latte-ramp)
+         {".scroll-bar:vertical .thumb"
+          {:-fx-background-color "rgb(156,160,176),linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:horizontal .thumb"
+          {:-fx-background-color "rgb(156,160,176),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:vertical .thumb:hover"
+          {:-fx-background-color "rgb(124,127,147),linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".scroll-bar:horizontal .thumb:hover"
+          {:-fx-background-color "rgb(124,127,147),linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
+          ".skilluncertainty1" {:-fx-text-fill "rgb(50, 40, 30)"}
+          ".skilluncertainty2" {:-fx-text-fill "rgb(80, 60, 40)"}
+          ".skilluncertainty3" {:-fx-text-fill "rgb(120, 80, 40)"}
+          ".combo-box-popup .list-cell:selected"
+          {:-fx-background-color "rgb(204,208,218)" :-fx-text-fill "rgb(76,79,105)"}
+          ".combo-box-popup .list-cell:hover"
+          {:-fx-background-color "rgb(220,224,232)" :-fx-text-fill "rgb(76,79,105)"}
+          ".menu-item:hover"
+          {:-fx-background-color "rgb(220,224,232)" :-fx-text-fill "rgb(76,79,105)"}
+          ".styled-text-area"
+          {:-fx-background-color "rgb(239,241,245)"}
+          ".skylobby"
+          {"-chat"
+           {"-message"     {:-fx-fill "rgb(76,79,105)"}
+            "-username-ex" {:-fx-fill "rgb(23,146,153)"}
+            "-message-ex"  {:-fx-fill "rgb(23,146,153)"}
+            "-user-list"   {:-fx-text-fill "rgb(76,79,105)"}}
+           "-console"
+           {"-message" {:-fx-fill "rgb(76,79,105)"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight catppuccin-latte-ramp)
+                             :-fx-base (:tab-highlight catppuccin-latte-ramp)}}}}))
+
 (def default-style-data black-style-data)
 
 (def style-presets
@@ -355,7 +412,8 @@
    "black" black-style-data
    "grey" grey-style-data
    "light" light-style-data
-   "catppuccin-mocha" catppuccin-mocha-style-data})
+   "catppuccin-mocha" catppuccin-mocha-style-data
+   "catppuccin-latte" catppuccin-latte-style-data})
 
 
 (def default-style

@@ -937,7 +937,12 @@
               :on-action {:event/type :spring-lobby/update-css
                           :css skylobby.fx/catppuccin-mocha-style-data
                           :css-preset "catppuccin-mocha"}
-              :text "Catppuccin Mocha"}]}
+              :text "Catppuccin Mocha"}
+             {:fx/type :button
+              :on-action {:event/type :spring-lobby/update-css
+                          :css skylobby.fx/catppuccin-latte-style-data
+                          :css-preset "catppuccin-latte"}
+              :text "Catppuccin Latte"}]}
            {:fx/type :pane
             :pref-height 8}
            (let [custom-file (fs/file (fs/app-root) "custom-css.edn")]

@@ -92,7 +92,8 @@ The file content is a single EDN **style-data map** — the same shape described
 
 Open **Settings → Appearance**. There you'll find:
 
-- Four **preset buttons**: Black (default), Grey, Light, Catppuccin Mocha.
+- Five **preset buttons**: Black (default), Grey, Light, Catppuccin Mocha,
+  Catppuccin Latte.
 - A **"Load custom CSS as EDN from: `<path>`"** button. The path shown is your
   `custom-css.edn`. Clicking it parses the file and applies it; a success/error
   message appears beneath.
@@ -484,6 +485,7 @@ Selectable from **Settings → Appearance**. Defined in `src/clj/skylobby/fx.clj
 | **Grey** | `grey-style-data` (from `grey-ramp`) | Mid-grey surfaces; white checkbox mark. |
 | **Light** | `light-style-data` (from `light-ramp`) | Light surfaces with several chat/console/scroll-bar contrast overrides. |
 | **Catppuccin Mocha** | `catppuccin-mocha-style-data` (from `catppuccin-mocha-ramp`) | Blue-tinted dark theme — see <https://catppuccin.com>. |
+| **Catppuccin Latte** | `catppuccin-latte-style-data` (from `catppuccin-latte-ramp`) | Light Catppuccin variant; carries the same light-mode contrast overrides as Light. |
 
 The set is registered in `style-presets`. `default-style-data` aliases
 `black-style-data`.

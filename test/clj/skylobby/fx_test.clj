@@ -94,7 +94,7 @@
     (is (some? (get-in d [".scroll-bar:vertical .thumb" :-fx-background-color])))))
 
 (deftest presets-keep-public-api
-  (is (= #{"black" "grey" "light" "catppuccin-mocha"} (set (keys skylobby.fx/style-presets))))
+  (is (= #{"black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"} (set (keys skylobby.fx/style-presets))))
   ;; each preset still a non-empty map with a themed root
   (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
@@ -128,6 +128,13 @@
 (deftest light-icons-are-dark
   (is (= "rgb(70,70,70)"
          (get-in (get skylobby.fx/style-presets "light") [".ikonli-font-icon" :-fx-icon-color]))))
+
+(deftest catppuccin-latte-is-a-light-theme
+  ;; dark icons + dark chat text confirm the light-mode contrast overrides are present
+  (is (= "rgb(76,79,105)"
+         (get-in (get skylobby.fx/style-presets "catppuccin-latte") [".ikonli-font-icon" :-fx-icon-color])))
+  (is (= "rgb(76,79,105)"
+         (get-in skylobby.fx/catppuccin-latte-style-data [".skylobby" "-chat" "-message" :-fx-fill]))))
 
 (deftest every-preset-has-primary-button
   (doseq [k (keys skylobby.fx/style-presets)]
