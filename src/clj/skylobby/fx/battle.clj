@@ -1954,9 +1954,15 @@
                           :server-key server-key}
                          {:fx/type :pane})
         direct-connect (#{:direct-client :direct-host} (u/server-type server-key))]
-    {:fx/type :v-box
+    {:fx/type :h-box
+     :style-class ["h-box" "skylobby-body"]
+     :alignment :top-left
      :children
      [
+      {:fx/type :v-box
+       :h-box/hgrow :always
+       :children
+       [
       {:fx/type :h-box
        :alignment :center-left
        :style-class ["h-box" "skylobby-body"]
@@ -2023,10 +2029,8 @@
            :children
            [players-table
             resources-pane
-            battle-buttons]}
-          battle-tabs]
-         (concat
-           [{:fx/type ext-recreate-on-key-changed
+            battle-buttons]}]
+         [{:fx/type ext-recreate-on-key-changed
              :h-box/hgrow :always
              :key (str battle-layout)
              :desc
@@ -2058,8 +2062,8 @@
                            [resources-pane]))}
                       battle-buttons])}]
                  (when-not pop-out-chat
-                   [battle-chat]))}}}]
-           [battle-tabs]))}]}))
+                   [battle-chat]))}}}])}]}
+      battle-tabs]}))
 
 (defn battle-view
   [state]
