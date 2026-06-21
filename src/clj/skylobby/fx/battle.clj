@@ -1947,13 +1947,17 @@
                           :server-key server-key}
                          {:fx/type :pane})
         direct-connect (#{:direct-client :direct-host} (u/server-type server-key))]
-    {:fx/type :h-box
-     :style-class ["h-box" "skylobby-body" "skylobby-screen-battle"]
-     :alignment :top-left
-     :children
-     [
+    {:fx/type fx/ext-on-instance-lifecycle
+     :on-created (fn [^javafx.scene.control.SplitPane node]
+                   (skylobby.fx/add-divider-listener node :battle-sidebar))
+     :desc
+     {:fx/type :split-pane
+      :orientation :horizontal
+      :style-class ["split-pane" "skylobby-body" "skylobby-screen-battle"]
+      :divider-positions [(or (get divider-positions :battle-sidebar) 0.7)]
+      :items
+      [
       {:fx/type :v-box
-       :h-box/hgrow :always
        :children
        [
       {:fx/type :h-box
@@ -2056,7 +2060,7 @@
                       battle-buttons])}]
                  (when-not pop-out-chat
                    [battle-chat]))}}}])}]}
-      battle-tabs]}))
+      battle-tabs]}}))
 
 (defn battle-view
   [state]
