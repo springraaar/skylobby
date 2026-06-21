@@ -515,6 +515,123 @@
            "-tab" {"-focus" {:-fx-background (:tab-highlight light-brown-ramp)
                              :-fx-base (:tab-highlight light-brown-ramp)}}}}))
 
+;; Atelier Sulphurpool - base16 scheme by Bram de Haan (a muted indigo dark
+;; theme). https://tinted-theming.github.io/tinted-gallery/#base16-atelier-sulphurpool
+(def atelier-sulphurpool-ramp
+  {:surface-0 "#202746"  ; base00
+   :surface-1 "#293256"  ; base01
+   :surface-2 "#5e6687"  ; base02
+   :surface-3 "#6b7394"  ; base03
+   :border    "#898ea4"  ; base04
+   :focus     "#3d8fd1"  ; base0D (blue)
+   :selection "#5e6687"  ; base02
+   :selection-unfocused "#293256" ; base01
+   :text-on-dark  "#979db4" ; base05
+   :text-on-light "#202746" ; base00
+   :text-2    "#898ea4"  ; base04
+   :row-odd   "#293256"  ; base01
+   :row-even  "#202746"  ; base00
+   :thumb     "#6b7394"  ; base03
+   :thumb-hover "#898ea4" ; base04
+   :tab-highlight "#c08b30" ; base0A (yellow)
+   :tab-selected-accent "#6679cc" ; base0E (indigo)
+   :icon "#979db4"})     ; base05
+
+(def atelier-sulphurpool-style-data
+  (merge (theme-data atelier-sulphurpool-ramp)
+         {".skylobby"
+          {"-chat" {"-user-list" {:-fx-text-fill (:text-on-dark atelier-sulphurpool-ramp)}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight atelier-sulphurpool-ramp)
+                             :-fx-base (:tab-highlight atelier-sulphurpool-ramp)}}}}))
+
+;; HardHacker - base16 scheme (dark, pink-accented).
+;; https://tinted-theming.github.io/tinted-gallery/#base16-hardhacker
+(def hardhacker-ramp
+  {:surface-0 "#211e2a"  ; base00
+   :surface-1 "#2c2737"  ; base01
+   :surface-2 "#3f3951"  ; base02
+   :surface-3 "#6e6780"  ; base03
+   :border    "#8a829e"  ; base04
+   :focus     "#95a6f4"  ; base0D (blue)
+   :selection "#3f3951"  ; base02
+   :selection-unfocused "#2c2737" ; base01
+   :text-on-dark  "#e4dee9" ; base05
+   :text-on-light "#211e2a" ; base00
+   :text-2    "#8a829e"  ; base04
+   :row-odd   "#2c2737"  ; base01
+   :row-even  "#211e2a"  ; base00
+   :thumb     "#6e6780"  ; base03
+   :thumb-hover "#8a829e" ; base04
+   :tab-highlight "#ebde76" ; base0A (yellow)
+   :tab-selected-accent "#ff79c6" ; base0E (pink)
+   :icon "#e4dee9"})     ; base05
+
+(def hardhacker-style-data
+  (merge (theme-data hardhacker-ramp)
+         {".skylobby"
+          {"-chat" {"-user-list" {:-fx-text-fill (:text-on-dark hardhacker-ramp)}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight hardhacker-ramp)
+                             :-fx-base (:tab-highlight hardhacker-ramp)}}}}))
+
+;; Sakura - base16 scheme by Misterio77 (a soft pink LIGHT theme). Sakura
+;; only supplies three light background steps, so the raised surface, borders,
+;; selection and scroll thumbs are derived dusty-rose tints.
+;; https://tinted-theming.github.io/tinted-gallery/#base16-sakura
+(def sakura-ramp
+  {:surface-0 "#e0ccd1"  ; base02 (deepest bg)
+   :surface-1 "#f8e2e7"  ; base01
+   :surface-2 "#feedf3"  ; base00 (main bg)
+   :surface-3 "#fff6fa"  ; derived near-white pink (raised)
+   :border    "#dcc0c7"  ; derived dusty-rose divider
+   :focus     "#006e93"  ; base0D (blue)
+   :selection "#f1dae0"  ; derived pink selection tint
+   :selection-unfocused "#e0ccd1" ; base02
+   :text-on-dark  "#feedf3" ; base00 (light fallback)
+   :text-on-light "#564448" ; base05 (dark text actually shown)
+   :text-2    "#755f64"  ; base03 (muted)
+   :row-odd   "#feedf3"  ; base00
+   :row-even  "#f8e2e7"  ; base01
+   :thumb     "#cdaeb5"  ; derived
+   :thumb-hover "#b8949c" ; derived
+   :tab-highlight "#c29461" ; base0A (gold)
+   :tab-selected-accent "#5e2180" ; base0E (purple)
+   :icon "#564448"})     ; base05 (dark icons for a light theme)
+
+;; Light theme: chat/console/inputs need explicit contrast overrides so the
+;; dark-theme defaults (white text, washed-out thumbs) don't bleed through.
+(def sakura-style-data
+  (merge (theme-data sakura-ramp)
+         {".scroll-bar:vertical .thumb"
+          {:-fx-background-color "#cdaeb5,linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:horizontal .thumb"
+          {:-fx-background-color "#cdaeb5,linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:vertical .thumb:hover"
+          {:-fx-background-color "#b8949c,linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".scroll-bar:horizontal .thumb:hover"
+          {:-fx-background-color "#b8949c,linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
+          ".skilluncertainty1" {:-fx-text-fill "rgb(50, 40, 30)"}
+          ".skilluncertainty2" {:-fx-text-fill "rgb(80, 60, 40)"}
+          ".skilluncertainty3" {:-fx-text-fill "rgb(120, 80, 40)"}
+          ".combo-box-popup .list-cell:selected"
+          {:-fx-background-color "#f1dae0" :-fx-text-fill "#564448"}
+          ".combo-box-popup .list-cell:hover"
+          {:-fx-background-color "#f8e2e7" :-fx-text-fill "#564448"}
+          ".menu-item:hover"
+          {:-fx-background-color "#f8e2e7" :-fx-text-fill "#564448"}
+          ".styled-text-area"
+          {:-fx-background-color "#feedf3"}
+          ".skylobby"
+          {"-chat"
+           {"-message"     {:-fx-fill "#564448"}
+            "-username-ex" {:-fx-fill "#1d8991"}
+            "-message-ex"  {:-fx-fill "#1d8991"}
+            "-user-list"   {:-fx-text-fill "#564448"}}
+           "-console"
+           {"-message" {:-fx-fill "#564448"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight sakura-ramp)
+                             :-fx-base (:tab-highlight sakura-ramp)}}}}))
+
 (def default-style-data black-style-data)
 
 (def style-presets
@@ -525,7 +642,10 @@
    "catppuccin-mocha" catppuccin-mocha-style-data
    "catppuccin-latte" catppuccin-latte-style-data
    "dark-brown" dark-brown-style-data
-   "light-brown" light-brown-style-data})
+   "light-brown" light-brown-style-data
+   "atelier-sulphurpool" atelier-sulphurpool-style-data
+   "hardhacker" hardhacker-style-data
+   "sakura" sakura-style-data})
 
 
 (def default-style

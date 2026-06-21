@@ -37,7 +37,7 @@
 
 ;; Shipped style presets, in display order, with friendly labels for the picker.
 (def style-preset-order
-  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte" "dark-brown" "light-brown"])
+  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte" "dark-brown" "light-brown" "atelier-sulphurpool" "hardhacker" "sakura"])
 
 (def style-preset-labels
   {"black" "Black (default)"
@@ -46,7 +46,10 @@
    "catppuccin-mocha" "Catppuccin Mocha"
    "catppuccin-latte" "Catppuccin Latte"
    "dark-brown" "Dark Brown"
-   "light-brown" "Light Brown"})
+   "light-brown" "Light Brown"
+   "atelier-sulphurpool" "Atelier Sulphurpool"
+   "hardhacker" "HardHacker"
+   "sakura" "Sakura"})
 
 (defn style-preset-cell [preset]
   {:text (get style-preset-labels preset (str preset))})
