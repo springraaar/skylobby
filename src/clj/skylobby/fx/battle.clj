@@ -870,9 +870,6 @@
                         "Game starting"
                         spring-running
                         "Game running"
-                        (and (not singleplayer)
-                             (not in-sync))
-                        "Not synced"
                         (and
                           (not am-host)
                           (or
