@@ -647,6 +647,30 @@
    "hardhacker" hardhacker-style-data
    "sakura" sakura-style-data})
 
+;; Per-theme tint for the welcome banner (skylobby_banner.png). The banner's
+;; dominant hue is ~216 (blue); these JavaFX :color-adjust values rotate that
+;; toward each theme's accent (hue is -1..1 = -180..180 degrees) and lift
+;; brightness for light themes. A preset absent from this map (incl. the
+;; neutral dark "black"/"grey" and "custom") leaves the original banner, whose
+;; blue starfield already suits them. The metallic logo text is near-grey so it
+;; stays silver while the starfield takes the hue. Match is approximate by design.
+(def banner-color-adjust
+  {"light"               {:brightness 0.3 :saturation -0.1}
+   "catppuccin-mocha"    {:saturation 0.08}
+   "catppuccin-latte"    {:brightness 0.3 :saturation -0.05}
+   "dark-brown"          {:hue 0.93 :saturation 0.1}
+   "light-brown"         {:hue 0.93 :brightness 0.3 :saturation 0.1}
+   "atelier-sulphurpool" {:hue 0.07 :saturation 0.08}
+   "hardhacker"          {:hue 0.61 :saturation 0.15}
+   "sakura"              {:hue 0.34 :brightness 0.3 :saturation 0.05}})
+
+(defn banner-effect
+  "JavaFX :color-adjust effect prop map tinting the welcome banner to match the
+  given style preset, or nil to leave the banner untinted."
+  [css-preset]
+  (when-let [adj (get banner-color-adjust css-preset)]
+    (assoc adj :fx/type :color-adjust)))
+
 
 (def default-style
   (css/register ::default black-style-data))

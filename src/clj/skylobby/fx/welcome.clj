@@ -361,6 +361,16 @@
                         :verification-code verification-code}}]}]))}))
 
 
+(defn banner-image [{:fx/keys [context]}]
+  (let [effect (skylobby.fx/banner-effect (fx/sub-val context :css-preset))]
+    (cond-> {:fx/type :image-view
+             :image (str (io/resource "skylobby_banner.png"))
+             :fit-width 800
+             :preserve-ratio true
+             :smooth true}
+      effect (assoc :effect effect))))
+
+
 (defn- welcome-view-impl
   [_state]
   {:fx/type :v-box
@@ -370,11 +380,7 @@
    [
     {:fx/type :pane
      :v-box/vgrow :always}
-    {:fx/type :image-view
-      :image (str (clojure.java.io/resource "skylobby_banner.png"))
-      :fit-width 800
-      :preserve-ratio true
-      :smooth true}
+    {:fx/type banner-image}
     {:fx/type :h-box
      :alignment :center
      :spacing 14
