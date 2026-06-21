@@ -1820,14 +1820,7 @@
              :spring-isolation-dir spring-root}
             {:fx/type :label
              :text " Game: Get an engine first"})
-          {:fx/type maps-view
-           :map-name map-name
-           :on-value-changed
-           {:event/type :skylobby.fx.event.battle/map-changed
-            :battle-id battle-id
-            :server-key server-key
-            :spring-root spring-root}
-           :spring-isolation-dir spring-root}
+          ;; Map selection lives in the sidebar minimap tab; no duplicate here.
           {:fx/type :pane
            :style {:-fx-pref-height 8}}
           resources-buttons]
