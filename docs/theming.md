@@ -16,10 +16,9 @@ theme tweak silently does nothing.
 3. [Two ways to theme](#two-ways-to-theme)
 4. [Colour-ramp reference](#colour-ramp-reference)
 5. [Selector reference](#selector-reference)
-6. [What's new in this release](#whats-new-in-this-release)
-7. [Worked examples](#worked-examples)
-8. [Shipped presets](#shipped-presets)
-9. [Maintenance](#maintenance)
+6. [Worked examples](#worked-examples)
+7. [Shipped presets](#shipped-presets)
+8. [Maintenance](#maintenance)
 
 ---
 
@@ -214,6 +213,26 @@ listed are what skylobby sets — you can set any valid JavaFX CSS property.
 | `.root` | theme | App-wide surfaces and looked-up colours (see table above). |
 | `.skylobby-card` | theme | Raised grouped panel (welcome columns, etc.): background, 6px radius, 1px border, 16px padding. |
 
+#### Per-screen surfaces
+
+Each top-level screen's root node carries its own `.skylobby-screen-*` class, so
+you can re-tint or restyle a single screen without affecting the rest. These have
+**no** rule of their own — they exist purely as targeting handles.
+
+| Selector | Screen |
+|---|---|
+| `.skylobby-screen-welcome` | Welcome / landing |
+| `.skylobby-screen-settings` | Settings |
+| `.skylobby-screen-battle` | Battle room |
+| `.skylobby-screen-server` | Server view |
+| `.skylobby-screen-spring-picker` | Spring/engine picker |
+| `.skylobby-screen-replays` | Replays |
+| `.skylobby-screen-scenarios` | Scenarios |
+| `.skylobby-screen-downloads` | Downloads |
+| `.skylobby-screen-rapid` | Rapid (package download) |
+| `.skylobby-screen-import` | Import |
+| `.skylobby-screen-tasks` | Tasks |
+
 ### Tabs
 
 | Selector | Source | What it is |
@@ -284,7 +303,7 @@ wired into the generated CSS).
 (The light theme overrides these four `.thumb`/`:hover` rules with darker
 gradients for contrast against pale surfaces.)
 
-### Sliders *(new)*
+### Sliders
 
 | Selector | Source | What it is |
 |---|---|---|
@@ -325,26 +344,6 @@ gradients for contrast against pale surfaces.)
 | Selector | Source | What it is |
 |---|---|---|
 | `.styled-text-area` | default-classes + theme | Chat/console/log surfaces. default-classes sets a dark background; theme sets `surface-0`; the light theme lifts it to near-white for contrast under dark text. |
-
-### Per-screen hooks *(new)*
-
-Each top-level screen's root node carries a `.skylobby-screen-*` class, letting you
-re-tint or restyle one screen without affecting the rest. (They have **no** rules
-of their own in default-classes — they exist purely as targeting handles.)
-
-| Selector | Screen |
-|---|---|
-| `.skylobby-screen-welcome` | Welcome / landing |
-| `.skylobby-screen-settings` | Settings |
-| `.skylobby-screen-battle` | Battle room |
-| `.skylobby-screen-server` | Server view |
-| `.skylobby-screen-spring-picker` | Spring/engine picker |
-| `.skylobby-screen-replays` | Replays |
-| `.skylobby-screen-scenarios` | Scenarios |
-| `.skylobby-screen-downloads` | Downloads |
-| `.skylobby-screen-rapid` | Rapid (package download) |
-| `.skylobby-screen-import` | Import |
-| `.skylobby-screen-tasks` | Tasks |
 
 ### Player / skill-uncertainty classes
 
@@ -413,28 +412,6 @@ Sixteen classes mapping the classic mIRC colour palette (`\x03NN`):
 |---|---|---|
 | `.skylobby-spring-log-err` | default-classes | Engine stderr lines (red). |
 | `.skylobby-spring-log-out` | default-classes | Engine stdout lines (white). |
-
----
-
-## What's new in this release
-
-The `ux-polish` work widened the themeable surface considerably. Additions:
-
-- **Typography vocabulary** — `.skylobby-h1` / `-h2` / `-body` / `-caption`
-  semantic text classes with theme-aware colours.
-- **Consistent control sizing** — `.combo-box`, `.combo-box-popup .list-cell`,
-  `.check-box`, `.text-field` all render at one fixed "normal" size app-wide,
-  regardless of the heading-sized container they sit in.
-- **`.skylobby-form-label`** — fixed-width right-aligned label column so form
-  inputs line up.
-- **Per-screen hooks** — `.skylobby-screen-*` on each screen root (see table).
-- **`.skylobby-primary:disabled`** — a disabled CTA drops the gold for a neutral
-  surface.
-- **Slider styling** — `.slider .track` / `.thumb` / hover+pressed states.
-- **Catppuccin Mocha preset** — a blue-tinted dark theme built by the ramp
-  approach.
-- **Light-theme chat/console contrast override** — chat, console and text-area
-  surfaces lifted to near-white with dark text under the light theme.
 
 ---
 
