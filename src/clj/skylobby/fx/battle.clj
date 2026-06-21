@@ -786,7 +786,7 @@
                  :server-key server-key})}}]}
           {:fx/type :h-box
            :alignment :center-left
-           :style-class ["h-box" "skylobby-h1"]
+           :style-class ["h-box" "skylobby-body"]
            :children
            (concat
              (when-not am-spec
@@ -1744,10 +1744,10 @@
             direct-connect-server)
       {:fx/type :v-box
        :min-width 580
+       :style-class ["v-box" "skylobby-body"]
        :style (if singleplayer
-                {:-fx-font-size 20}
-                {:-fx-font-size 18
-                 :-fx-pref-width 800})
+                {}
+                {:-fx-pref-width 800})
        :children
        (concat
          [
