@@ -92,7 +92,7 @@ The file content is a single EDN **style-data map** — the same shape described
 
 Open **Settings → Appearance**. There you'll find:
 
-- Five **preset buttons**: Black (default), Grey, Light, Catppuccin Mocha,
+- A **preset dropdown**: Black (default), Grey, Light, Catppuccin Mocha,
   Catppuccin Latte.
 - A **"Load custom CSS as EDN from: `<path>`"** button. The path shown is your
   `custom-css.edn`. Clicking it parses the file and applies it; a success/error

@@ -2400,6 +2400,14 @@
            :css-preset css-preset)))
 
 
+(defmethod event-handler ::update-css-preset
+  [{:fx/keys [event]}]
+  (when-let [css (get skylobby.fx/style-presets event)]
+    (event-handler {:event/type ::update-css
+                    :css css
+                    :css-preset event})))
+
+
 (defmethod event-handler ::load-custom-css-edn
   [{:keys [file]}]
   (if (fs/exists? file)

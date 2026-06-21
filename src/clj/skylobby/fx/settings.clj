@@ -35,6 +35,21 @@
    "horizontal"])
 
 
+;; Shipped style presets, in display order, with friendly labels for the picker.
+(def style-preset-order
+  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"])
+
+(def style-preset-labels
+  {"black" "Black (default)"
+   "grey" "Grey"
+   "light" "Light"
+   "catppuccin-mocha" "Catppuccin Mocha"
+   "catppuccin-latte" "Catppuccin Latte"})
+
+(defn style-preset-cell [preset]
+  {:text (get style-preset-labels preset (str preset))})
+
+
 (defn highlighted-label [{:keys [title search]}]
   (let [search-lc (if search
                     (string/lower-case search)
@@ -918,31 +933,14 @@
             [
              {:fx/type :label
               :text " Preset: "}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/black-style-data
-                          :css-preset "black"}
-              :text "Black (default)"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/grey-style-data
-                          :css-preset "grey"}
-              :text "Grey"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/light-style-data
-                          :css-preset "light"}
-              :text "Light"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/catppuccin-mocha-style-data
-                          :css-preset "catppuccin-mocha"}
-              :text "Catppuccin Mocha"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/catppuccin-latte-style-data
-                          :css-preset "catppuccin-latte"}
-              :text "Catppuccin Latte"}]}
+             {:fx/type :combo-box
+              :value (fx/sub-val context :css-preset)
+              :items style-preset-order
+              :on-value-changed {:event/type :spring-lobby/update-css-preset}
+              :button-cell style-preset-cell
+              :cell-factory
+              {:fx/cell-type :list-cell
+               :describe style-preset-cell}}]}
            {:fx/type :pane
             :pref-height 8}
            (let [custom-file (fs/file (fs/app-root) "custom-css.edn")]
