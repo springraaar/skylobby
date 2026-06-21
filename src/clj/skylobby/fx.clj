@@ -139,6 +139,7 @@
 ;;   .skylobby-card                 raised grouped panel (welcome columns, etc.)
 ;;   .skylobby-secondary            flat/quiet button variant (de-emphasised nav)
 ;;   .skylobby-primary              prominent call-to-action button (Start Game)
+;;   .combo-box / .check-box / .text-field   inputs, fixed normal font size
 ;;   .button                        buttons only
 ;;   .table-view                    table background + outer border
 ;;   .table-view .column-header-background   table header strip
@@ -324,6 +325,17 @@
    ".skylobby-caption"
    {:-fx-font-size 13
     :-fx-text-fill "-fx-text-base-color"}
+   ; Inputs render at one consistent "normal" size app-wide. A direct rule on
+   ; the control beats any font-size inherited from a heading-sized container,
+   ; so combos/checkboxes/fields stay uniform regardless of where they sit.
+   ".combo-box"
+   {:-fx-font-size 16}
+   ".combo-box-popup .list-cell"
+   {:-fx-font-size 16}
+   ".check-box"
+   {:-fx-font-size 16}
+   ".text-field"
+   {:-fx-font-size 16}
    ".skilluncertainty0"
    {:-fx-text-fill "rgb(255, 255, 255)"}
    ".skilluncertainty1"
