@@ -142,3 +142,15 @@
   (doseq [c [".skylobby-h1" ".skylobby-h2" ".skylobby-body" ".skylobby-caption"]]
     (is (contains? skylobby.fx/default-classes c) (str "missing " c))
     (is (number? (get-in skylobby.fx/default-classes [c :-fx-font-size])))))
+
+;; Guards for stable handles documented in docs/theming.md, so the doc can't
+;; silently drift from code.
+(deftest default-classes-define-form-label
+  (is (contains? skylobby.fx/default-classes ".skylobby-form-label"))
+  (is (= 150 (get-in skylobby.fx/default-classes [".skylobby-form-label" :-fx-min-width]))))
+
+(deftest every-preset-has-disabled-primary
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-primary:disabled") (str k " missing .skylobby-primary:disabled"))
+      (is (some? (get-in d [".skylobby-primary:disabled" :-fx-base]))))))
