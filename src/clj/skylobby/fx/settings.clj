@@ -412,7 +412,7 @@
         :vgap 32
         :hgap 10
         :padding 32
-        :style-class ["flow-pane" "skylobby-caption"]
+        :style-class ["flow-pane" "skylobby-body"]
         :children
         [
          {:fx/type filterable-section
