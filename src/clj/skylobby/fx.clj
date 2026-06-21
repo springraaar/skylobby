@@ -211,6 +211,17 @@
     :-fx-border-radius "6"
     :-fx-border-width "1"
     :-fx-padding "16"}
+   ;; Tooltips render in their own popup window, so they don't inherit the
+   ;; app surfaces and otherwise keep modena's hardcoded dark background.
+   ;; Text fill is laddered off the tooltip's own surface so it stays
+   ;; readable on both light and dark themes.
+   ".tooltip"
+   {:-fx-background-color surface-2
+    :-fx-text-fill (str "ladder(" surface-2 ", " text-on-dark " 49%, " text-on-light " 50%)")
+    :-fx-background-radius "6"
+    :-fx-border-color border
+    :-fx-border-radius "6"
+    :-fx-border-width "1"}
    ;; Buttons — own selector, subtle rounding for definition
    ".button"
    {:-fx-background-radius "3"}
