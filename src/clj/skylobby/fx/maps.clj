@@ -24,7 +24,7 @@
 
 
 (def map-browse-image-size 162)
-(def map-browse-box-height 224)
+(def map-browse-box-height 256)
 
 
 (def known-maps
@@ -287,10 +287,9 @@
                [{:fx/type :region
                  :h-box/hgrow :always}
                 {:fx/type :label
+                 :style-class ["label" "skylobby-caption"]
                  :text (str total-maps " maps (" total-files " files | "
-                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
-                 :style {:-fx-margin-left 10
-                         :-fx-text-fill :lightgray}}]
+                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")}]
            
                )}
             {:fx/type :scroll-pane
@@ -394,7 +393,9 @@
                      {:fx/type :label
                       :style-class ["label" "skylobby-caption"]
                       :text (str " " map-name)
-                      :wrap-text true}
+                      :wrap-text true
+                      :alignment :center
+                      :style {:-fx-max-width map-browse-image-size}}
                      {:fx/type :label
                       :alignment :center-left
                       :text (when-let [{:keys [map-width map-height]} map-details]
