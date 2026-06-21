@@ -1075,7 +1075,6 @@
     {:fx/type :tab-pane
      :style {:-fx-min-width (+ minimap-size 20)
              :-fx-pref-width (+ minimap-size 20)
-             :-fx-max-width (+ minimap-size 20)
              :-fx-pref-height (+ minimap-size 164)}
      :tabs
      [{:fx/type :tab
