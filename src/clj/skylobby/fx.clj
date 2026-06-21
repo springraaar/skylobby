@@ -53,6 +53,26 @@
           (changed [_this _observable _old-value new-value]
             (swap! divider-positions assoc divider-key new-value)))))))
 
+;; Injected by spring-lobby at startup: a (fn [server-key width]) that pushes the
+;; measured available width of the auto-filling battle minimap into reactive app
+;; state. nil (no-op) until set, so this namespace stays decoupled from *state.
+(def minimap-width-impl nil)
+
+(defn add-minimap-width-listener
+  "Report node's live width (rounded to 8px steps to limit re-render churn) for
+   server-key's auto-filling battle minimap, via minimap-width-impl."
+  [server-key ^javafx.scene.layout.Region node]
+  (let [width-property (.widthProperty node)
+        report (fn [w]
+                 (when (and minimap-width-impl (pos? w))
+                   (minimap-width-impl server-key
+                     (int (* 8 (Math/round (/ (double w) 8.0)))))))]
+    (.addListener width-property
+      (reify javafx.beans.value.ChangeListener
+        (changed [_this _observable _old-value new-value]
+          (report new-value))))
+    (report (.getValue width-property))))
+
 ;; A real, well-hinted monospace face reads far better than the bare generic
 ;; "monospace" keyword, which renders thin/low-contrast on macOS and Linux.
 ;; This is a font-family preference list: JavaFX uses the first installed

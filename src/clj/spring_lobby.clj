@@ -4072,6 +4072,13 @@
    (alter-var-root #'skylobby.client.handler/ring-impl (constantly ring-impl))
    (alter-var-root #'skylobby.client.handler/notify-impl (constantly notify-impl))
    (alter-var-root #'skylobby.client.handler/focus-impl (constantly focus-impl))
+   ;; Let the battle minimap's width listener push measured widths into reactive
+   ;; state so the minimap auto-fills the (resizable) sidebar.
+   (alter-var-root #'skylobby.fx/minimap-width-impl
+     (constantly
+       (fn [server-key width]
+         (when (not= width (get-in @state-atom [:battle-minimap-widths server-key]))
+           (swap! state-atom assoc-in [:battle-minimap-widths server-key] width)))))
    (task-handlers/add-handlers handle-task state-atom)
    (try
      (let [custom-css-file (fs/file (fs/app-root) "custom-css.edn")]

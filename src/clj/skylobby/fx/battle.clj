@@ -1066,12 +1066,21 @@
         username (fx/sub-val context get-in [:by-server server-key :username])
         users (fx/sub-val context get-in [:by-server server-key :users])
         battle-opt-tab-label-font-size 12
-        minimap-size (fx/sub-val context :minimap-size)
-        minimap-size (or (u/to-number minimap-size)
-                         fx.minimap/default-minimap-size)]
-    {:fx/type :tab-pane
-     :style {:-fx-min-width (+ minimap-size 20)
-             :-fx-pref-width (+ minimap-size 20)
+        ;; Auto-fill: size the minimap to the sidebar's measured width (captured
+        ;; by add-minimap-width-listener below), capped at the old max so it never
+        ;; gets huge, floored so it never collapses. No user size control needed.
+        battle-minimap-width (fx/sub-val context get-in [:battle-minimap-widths server-key])
+        minimap-size (if-let [w (u/to-number battle-minimap-width)]
+                       (-> (- w 20)
+                           (min fx.minimap/default-minimap-size)
+                           (max 120)
+                           int)
+                       fx.minimap/default-minimap-size)]
+    {:fx/type fx/ext-on-instance-lifecycle
+     :on-created (partial skylobby.fx/add-minimap-width-listener server-key)
+     :desc
+     {:fx/type :tab-pane
+     :style {:-fx-min-width 220
              :-fx-pref-height (+ minimap-size 164)}
      :tabs
      [{:fx/type :tab
@@ -1092,6 +1101,7 @@
          :children
          [{:fx/type fx.minimap/minimap-pane
            :server-key server-key
+           :minimap-size minimap-size
            :minimap-type-key :minimap-type}
           {:fx/type :v-box
            :min-width minimap-size
@@ -1142,13 +1152,6 @@
               {:fx/type :flow-pane
                :children
                [
-                {:fx/type :label
-                 :text (str " Display (px): ")}
-                {:fx/type :combo-box
-                 :value minimap-size
-                 :items fx.minimap/minimap-sizes
-                 :on-value-changed {:event/type :spring-lobby/assoc
-                                    :key :minimap-size}}
                 {:fx/type :combo-box
                  :value (fx/sub-val context :minimap-type)
                  :items minimap-types
@@ -1490,7 +1493,7 @@
                        (assoc
                          (fx/sub-val context get-in [:by-server server-key])
                          :battle-map-details battle-map-details
-                         :battle-mod-details battle-mod-details)))}]}}]}))
+                         :battle-mod-details battle-mod-details)))}]}}]}}))
 
 
 (defn vote-messages-sub [context server-key channel-name]

@@ -180,7 +180,7 @@
 
 (defn minimap-pane-impl
   [{:fx/keys [context]
-    :keys [is-replay map-name minimap-type-key players scripttags server-key start-positions]
+    :keys [is-replay map-name minimap-size minimap-type-key players scripttags server-key start-positions]
     :or {minimap-type-key :minimap-type}}]
   (let [
         am-host (fx/sub-ctx context sub/am-host server-key)
@@ -199,7 +199,7 @@
         scripttags (or scripttags
                        (fx/sub-val context get-in [:by-server server-key :battle :scripttags]))
         scripttags (clojure.walk/stringify-keys scripttags)
-        minimap-size (fx/sub-val context :minimap-size)
+        minimap-size (or minimap-size (fx/sub-val context :minimap-size))
         minimap-type (fx/sub-val context minimap-type-key)
         {:keys [smf]} map-details
         {:keys [minimap-height minimap-width]
