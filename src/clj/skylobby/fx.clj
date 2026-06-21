@@ -84,8 +84,8 @@
    :text-2    "rgb(150,150,150)"
    :row-odd   "rgb(30,30,30)"
    :row-even  "rgb(20,20,20)"
-   :thumb     "rgb(90,90,90)"
-   :thumb-hover "rgb(110,110,110)"
+   :thumb     "rgb(120,120,120)"
+   :thumb-hover "rgb(155,155,155)"
    :tab-highlight "#ffd700"
    :tab-selected-accent "rgb(160,160,160)"
    :icon "rgb(225,225,225)"})
@@ -213,10 +213,10 @@
    {:-fx-background-color surface-0}
    ".text-field"
    {:-fx-prompt-text-fill text-2}
-   ;; Scroll bars
+   ;; Scroll bars - thicker, higher-contrast thumbs so they read clearly
    ".scroll-bar .thumb"
-   {:-fx-background-radius "2, 1"
-    :-fx-background-insets "3, 4"}
+   {:-fx-background-radius "3, 2"
+    :-fx-background-insets "1, 2"}
    ".scroll-bar:vertical .thumb"
    {:-fx-background-color (str thumb ",linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))")}
    ".scroll-bar:horizontal .thumb"
@@ -227,6 +227,16 @@
    {:-fx-background-color (str thumb-hover ",linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))")}
    ".combo-box .arrow-button .arrow,.scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
    {:-fx-background-color text-2}
+   ;; Sliders - give the track and handle a clear, visible treatment
+   ".slider .track"
+   {:-fx-background-color surface-3
+    :-fx-background-radius "3"}
+   ".slider .thumb"
+   {:-fx-background-color thumb-hover
+    :-fx-background-radius "8"
+    :-fx-padding "7"}
+   ".slider:hover .thumb,.slider .thumb:pressed"
+   {:-fx-background-color focus}
    ;; Links
    ".doc-link, .hyperlink"
    {:-fx-text-fill "rgb(70,70,255)"
@@ -291,6 +301,10 @@
           {:-fx-background-color "rgb(210,210,210)" :-fx-text-fill "rgb(20, 20, 20)"}
           ".menu-item:hover"
           {:-fx-background-color "rgb(230,230,230)" :-fx-text-fill "rgb(10, 10, 10)"}
+          ; chat/console sit on the deepest surface (grey) by default, which is
+          ; low-contrast under dark text in light theme - lift to near-white
+          ".styled-text-area"
+          {:-fx-background-color "rgb(250,250,250)"}
           ".skylobby"
           {"-chat"
            {"-message"     {:-fx-fill "black"}
@@ -301,13 +315,42 @@
            {"-message" {:-fx-fill "black"}}
            "-tab" {"-focus" {:-fx-background (:tab-highlight light-ramp)
                              :-fx-base (:tab-highlight light-ramp)}}}}))
+;; Catppuccin Mocha - a blue-tinted dark theme (https://catppuccin.com).
+(def catppuccin-mocha-ramp
+  {:surface-0 "rgb(24,24,37)"      ; mantle
+   :surface-1 "rgb(30,30,46)"      ; base
+   :surface-2 "rgb(49,50,68)"      ; surface0
+   :surface-3 "rgb(69,71,90)"      ; surface1
+   :border    "rgb(88,91,112)"     ; surface2
+   :focus     "rgb(137,180,250)"   ; blue
+   :selection "rgb(69,71,90)"      ; surface1
+   :selection-unfocused "rgb(49,50,68)" ; surface0
+   :text-on-dark  "rgb(205,214,244)" ; text
+   :text-on-light "rgb(30,30,46)"     ; base
+   :text-2    "rgb(166,173,200)"   ; subtext0
+   :row-odd   "rgb(30,30,46)"      ; base
+   :row-even  "rgb(24,24,37)"      ; mantle
+   :thumb     "rgb(108,112,134)"   ; overlay0
+   :thumb-hover "rgb(127,132,156)" ; overlay1
+   :tab-highlight "rgb(249,226,175)" ; yellow
+   :tab-selected-accent "rgb(180,190,254)" ; lavender
+   :icon "rgb(205,214,244)"})
+
+(def catppuccin-mocha-style-data
+  (merge (theme-data catppuccin-mocha-ramp)
+         {".skylobby"
+          {"-chat" {"-user-list" {:-fx-text-fill "rgb(205,214,244)"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight catppuccin-mocha-ramp)
+                             :-fx-base (:tab-highlight catppuccin-mocha-ramp)}}}}))
+
 (def default-style-data black-style-data)
 
 (def style-presets
   {
    "black" black-style-data
    "grey" grey-style-data
-   "light" light-style-data})
+   "light" light-style-data
+   "catppuccin-mocha" catppuccin-mocha-style-data})
 
 
 (def default-style

@@ -931,7 +931,12 @@
               :on-action {:event/type :spring-lobby/update-css
                           :css skylobby.fx/light-style-data
                           :css-preset "light"}
-              :text "Light"}]}
+              :text "Light"}
+             {:fx/type :button
+              :on-action {:event/type :spring-lobby/update-css
+                          :css skylobby.fx/catppuccin-mocha-style-data
+                          :css-preset "catppuccin-mocha"}
+              :text "Catppuccin Mocha"}]}
            {:fx/type :pane
             :pref-height 8}
            (let [custom-file (fs/file (fs/app-root) "custom-css.edn")]

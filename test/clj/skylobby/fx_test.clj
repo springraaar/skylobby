@@ -94,33 +94,33 @@
     (is (some? (get-in d [".scroll-bar:vertical .thumb" :-fx-background-color])))))
 
 (deftest presets-keep-public-api
-  (is (= #{"black" "grey" "light"} (set (keys skylobby.fx/style-presets))))
+  (is (= #{"black" "grey" "light" "catppuccin-mocha"} (set (keys skylobby.fx/style-presets))))
   ;; each preset still a non-empty map with a themed root
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
       (is (map? d))
       (is (contains? (get d ".root") :-fx-background)))))
 
 (deftest every-preset-has-visible-focus
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (is (not= "transparent"
               (get-in (get skylobby.fx/style-presets k) [".root" :-fx-focus-color])))))
 
 (deftest every-preset-has-card-class
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-card") (str k " missing .skylobby-card"))
       (is (some? (get-in d [".skylobby-card" :-fx-background-color]))))))
 
 (deftest every-preset-has-secondary-button
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-secondary") (str k " missing .skylobby-secondary"))
       (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color])))
       (is (some? (get-in d [".skylobby-secondary:hover" :-fx-background-color]))))))
 
 (deftest every-preset-colors-icons
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
       (is (some? (get-in d [".ikonli-font-icon" :-fx-icon-color]))
           (str k " missing global .ikonli-font-icon colour")))))
@@ -130,7 +130,7 @@
          (get-in (get skylobby.fx/style-presets "light") [".ikonli-font-icon" :-fx-icon-color]))))
 
 (deftest every-preset-has-primary-button
-  (doseq [k ["black" "grey" "light"]]
+  (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
       (is (contains? d ".skylobby-primary") (str k " missing .skylobby-primary"))
       (is (some? (get-in d [".skylobby-primary" :-fx-base]))))))
