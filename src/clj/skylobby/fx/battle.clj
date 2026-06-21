@@ -1822,14 +1822,7 @@
             :on-selected-changed {:event/type :spring-lobby/assoc
                                   :key :auto-get-resources}}
            {:fx/type :label
-            :text " Auto import or download resources"}]}
-         {:fx/type :h-box
-          :alignment :center-left
-          :children
-          [{:fx/type :label
-            :text "Force sync check: "}
-           {:fx/type sync-button
-            :server-key server-key}]}]}})))
+            :text " Auto import or download resources"}]}]}})))
 
 
 (defn my-player-sub [context server-key battle-id]
