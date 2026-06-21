@@ -428,6 +428,93 @@
            "-tab" {"-focus" {:-fx-background (:tab-highlight catppuccin-latte-ramp)
                              :-fx-base (:tab-highlight catppuccin-latte-ramp)}}}}))
 
+;; Dark Brown - a warm dark theme inspired by the Beyond All Reason in-game
+;; HUD: charcoal-brown panels with orange/red glowing borders and amber-gold
+;; accents.
+(def dark-brown-ramp
+  {:surface-0 "rgb(18,15,12)"       ; deepest warm charcoal
+   :surface-1 "rgb(28,23,18)"       ; base panel
+   :surface-2 "rgb(42,34,26)"       ; card / hover
+   :surface-3 "rgb(58,46,34)"       ; raised / selected
+   :border    "rgb(120,70,35)"      ; warm orange-tinted edge
+   :focus     "rgb(230,120,40)"     ; orange focus ring
+   :selection "rgb(80,55,30)"
+   :selection-unfocused "rgb(55,42,26)"
+   :text-on-dark  "rgb(235,225,210)" ; warm off-white
+   :text-on-light "rgb(25,20,15)"
+   :text-2    "rgb(180,150,110)"    ; muted amber
+   :row-odd   "rgb(30,25,20)"
+   :row-even  "rgb(22,18,14)"
+   :thumb     "rgb(140,95,55)"
+   :thumb-hover "rgb(180,120,65)"
+   :tab-highlight "rgb(240,170,50)" ; amber-gold
+   :tab-selected-accent "rgb(225,110,40)" ; orange
+   :icon "rgb(235,180,110)"})       ; warm amber icons
+
+(def dark-brown-style-data
+  (merge (theme-data dark-brown-ramp)
+         {".skylobby"
+          {"-chat" {"-user-list" {:-fx-text-fill "rgb(235,225,210)"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight dark-brown-ramp)
+                             :-fx-base (:tab-highlight dark-brown-ramp)}}}}))
+
+;; Light Brown - the light counterpart to Dark Brown: warm sand/tan surfaces
+;; with dark-brown text and the same orange/amber accents.
+(def light-brown-ramp
+  {:surface-0 "rgb(214,198,170)"    ; deep sand (crust)
+   :surface-1 "rgb(226,212,186)"    ; base panel
+   :surface-2 "rgb(236,224,202)"    ; card / hover
+   :surface-3 "rgb(248,240,224)"    ; raised / near-white sand
+   :border    "rgb(170,120,70)"     ; warm brown edge
+   :focus     "rgb(200,100,30)"     ; orange focus ring
+   :selection "rgb(232,200,150)"
+   :selection-unfocused "rgb(222,206,180)"
+   :text-on-dark  "rgb(245,235,215)" ; light fallback
+   :text-on-light "rgb(60,40,20)"   ; dark brown (text actually shown)
+   :text-2    "rgb(120,90,55)"      ; muted brown
+   :row-odd   "rgb(236,224,202)"
+   :row-even  "rgb(226,212,186)"
+   :thumb     "rgb(170,140,100)"
+   :thumb-hover "rgb(150,120,80)"
+   :tab-highlight "rgb(210,130,30)" ; amber-orange
+   :tab-selected-accent "rgb(200,100,30)" ; orange
+   :icon "rgb(80,55,30)"})          ; dark brown icons for a light theme
+
+;; Light theme: chat/console/inputs need explicit contrast overrides so the
+;; dark-theme defaults (white text, washed-out thumbs) don't bleed through.
+(def light-brown-style-data
+  (merge (theme-data light-brown-ramp)
+         {".scroll-bar:vertical .thumb"
+          {:-fx-background-color "rgb(170,140,100),linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:horizontal .thumb"
+          {:-fx-background-color "rgb(170,140,100),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))"}
+          ".scroll-bar:vertical .thumb:hover"
+          {:-fx-background-color "rgb(150,120,80),linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".scroll-bar:horizontal .thumb:hover"
+          {:-fx-background-color "rgb(150,120,80),linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))"}
+          ".skilluncertainty0" {:-fx-text-fill "rgb(0, 0, 0)"}
+          ".skilluncertainty1" {:-fx-text-fill "rgb(50, 40, 30)"}
+          ".skilluncertainty2" {:-fx-text-fill "rgb(80, 60, 40)"}
+          ".skilluncertainty3" {:-fx-text-fill "rgb(120, 80, 40)"}
+          ".combo-box-popup .list-cell:selected"
+          {:-fx-background-color "rgb(232,200,150)" :-fx-text-fill "rgb(60,40,20)"}
+          ".combo-box-popup .list-cell:hover"
+          {:-fx-background-color "rgb(226,212,186)" :-fx-text-fill "rgb(60,40,20)"}
+          ".menu-item:hover"
+          {:-fx-background-color "rgb(226,212,186)" :-fx-text-fill "rgb(60,40,20)"}
+          ".styled-text-area"
+          {:-fx-background-color "rgb(248,240,224)"}
+          ".skylobby"
+          {"-chat"
+           {"-message"     {:-fx-fill "rgb(60,40,20)"}
+            "-username-ex" {:-fx-fill "rgb(150,75,15)"}
+            "-message-ex"  {:-fx-fill "rgb(150,75,15)"}
+            "-user-list"   {:-fx-text-fill "rgb(60,40,20)"}}
+           "-console"
+           {"-message" {:-fx-fill "rgb(60,40,20)"}}
+           "-tab" {"-focus" {:-fx-background (:tab-highlight light-brown-ramp)
+                             :-fx-base (:tab-highlight light-brown-ramp)}}}}))
+
 (def default-style-data black-style-data)
 
 (def style-presets
@@ -436,7 +523,9 @@
    "grey" grey-style-data
    "light" light-style-data
    "catppuccin-mocha" catppuccin-mocha-style-data
-   "catppuccin-latte" catppuccin-latte-style-data})
+   "catppuccin-latte" catppuccin-latte-style-data
+   "dark-brown" dark-brown-style-data
+   "light-brown" light-brown-style-data})
 
 
 (def default-style
