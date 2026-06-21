@@ -21,6 +21,8 @@ The recommended way to install skylobby is to run the installer package for the 
 
 The original install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
 
+To reskin skylobby, see the [theme-author reference](docs/theming.md) — an exhaustive guide to every themeable selector, colour-ramp key, and the `custom-css.edn` workflow.
+
 Feel free to open an [issue](https://github.com/springraaar/skylobby/issues) if you find a bug or have a feature request.
 
 ## Dev
