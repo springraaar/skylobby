@@ -196,6 +196,11 @@
    ".skylobby-primary"
    {:-fx-base "#ffd700"
     :-fx-background "#ffd700"}
+   ; A disabled CTA (e.g. Start Game while not synced) must not read as a
+   ; live gold button - fall back to a normal neutral control surface.
+   ".skylobby-primary:disabled"
+   {:-fx-base surface-2
+    :-fx-background surface-2}
    ;; Region separators / borders
    ".separator:horizontal .line"
    {:-fx-border-color (str border " transparent transparent transparent")
