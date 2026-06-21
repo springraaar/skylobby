@@ -131,6 +131,9 @@
    :icon "rgb(70,70,70)"})
 
 ;; ── Theme author API ─────────────────────────────────────────────
+;; Full theme-author reference: docs/theming.md (enumerates every selector,
+;; ramp key, and the custom-css.edn workflow). The list below is a quick
+;; curated subset of the most common handles.
 ;; Override these in custom-css.edn (loaded via the :css sub) to reskin
 ;; without fighting the global -fx-base cascade:
 ;;   .root                          app surfaces (-fx-background/-fx-base/...)
