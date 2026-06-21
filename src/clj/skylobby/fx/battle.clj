@@ -1167,6 +1167,7 @@
                                          :client-data client-data
                                          :message "!rotationEndGame off"
                                          :server-key server-key}
+                 :buttons-below true
                  :disable disable
                  :flow true
                  :map-name map-name

@@ -50,7 +50,7 @@
 
 (defn maps-view-impl
   [{:fx/keys [context]
-    :keys [action-disable-rotate disable flow map-name on-value-changed spring-isolation-dir suggest text-only]
+    :keys [action-disable-rotate buttons-below disable flow map-name on-value-changed spring-isolation-dir suggest text-only]
     :or {flow true}}]
   (let [
         {:keys [maps maps-by-name spring-root-path]} (fx/sub-ctx context sub/spring-resources spring-isolation-dir)
@@ -59,11 +59,8 @@
         on-value-changed (or on-value-changed
                              {:event/type :spring-lobby/assoc-in
                               :path [:by-spring-root spring-root-path :map-name]})
-        dice-icon (fx/sub-ctx context dice-icon-sub)]
-    (merge
-      {:fx/type (if flow :flow-pane :h-box)}
-      (when-not flow {:alignment :center-left})
-      {:children
+        dice-icon (fx/sub-ctx context dice-icon-sub)
+        input-children
        (concat
          [{:fx/type :label
            :style-class ["label" "skylobby-form-label"]
@@ -124,7 +121,9 @@
                      {:text (str map-name)})}
                   :on-key-pressed {:event/type :spring-lobby/maps-key-pressed}
                   :on-hidden {:event/type :spring-lobby/dissoc
-                              :key :map-input-prefix}})}]))
+                              :key :map-input-prefix}})}])))
+        button-children
+       (concat
          [{:fx/type :button
            :text ""
            :on-action {:event/type :spring-lobby/show-maps-window
@@ -195,7 +194,17 @@
              :on-action action-disable-rotate
              :graphic
              {:fx/type font-icon/lifecycle
-              :icon-literal "mdi-lock:16:white"}}}]))})))
+              :icon-literal "mdi-lock:16:white"}}}]))]
+    (if buttons-below
+      {:fx/type :v-box
+       :spacing 4
+       :children
+       [{:fx/type :flow-pane :children input-children}
+        {:fx/type :flow-pane :children button-children}]}
+      (merge
+        {:fx/type (if flow :flow-pane :h-box)}
+        (when-not flow {:alignment :center-left})
+        {:children (concat input-children button-children)}))))
 
 
 (defn maps-view [state]
