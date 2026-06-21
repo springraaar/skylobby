@@ -1361,7 +1361,7 @@
             refresh-tasks (fx/sub-ctx context skylobby.fx/tasks-of-type-sub :spring-lobby/refresh-replays)
             filter-sources-items (fx/sub-ctx context filter-sources-items-sub)]
         {:fx/type :v-box
-         :style-class ["v-box" "skylobby-caption"]
+         :style-class ["v-box" "skylobby-caption" "skylobby-screen-replays"]
          :children
          (concat
            [{:fx/type :h-box

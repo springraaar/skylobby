@@ -1948,7 +1948,7 @@
                          {:fx/type :pane})
         direct-connect (#{:direct-client :direct-host} (u/server-type server-key))]
     {:fx/type :h-box
-     :style-class ["h-box" "skylobby-body"]
+     :style-class ["h-box" "skylobby-body" "skylobby-screen-battle"]
      :alignment :top-left
      :children
      [

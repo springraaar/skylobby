@@ -137,6 +137,7 @@
 ;;   .tab / .tab:selected           tab states (separate from buttons)
 ;;   .tab-header-background         the strip behind tab headers
 ;;   .skylobby-card                 raised grouped panel (welcome columns, etc.)
+;;   .skylobby-screen-*             per-screen root hooks (welcome/settings/battle/server/spring-picker/replays/scenarios/downloads/rapid/import/tasks)
 ;;   .skylobby-secondary            flat/quiet button variant (de-emphasised nav)
 ;;   .skylobby-primary              prominent call-to-action button (Start Game)
 ;;   .combo-box / .check-box / .text-field   inputs, fixed normal font size

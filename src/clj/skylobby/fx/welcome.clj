@@ -365,7 +365,7 @@
   [_state]
   {:fx/type :v-box
    :alignment :center
-   :style-class ["v-box" "skylobby-h2"]
+   :style-class ["v-box" "skylobby-h2" "skylobby-screen-welcome"]
    :children
    [
     {:fx/type :pane

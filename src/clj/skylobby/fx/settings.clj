@@ -392,6 +392,7 @@
         user-agent-override (fx/sub-val context :user-agent-override)
         windows-as-tabs (fx/sub-val context :windows-as-tabs)]
     {:fx/type :scroll-pane
+     :style-class ["scroll-pane" "skylobby-screen-settings"]
      :fit-to-width true
      :content
      {:fx/type :v-box

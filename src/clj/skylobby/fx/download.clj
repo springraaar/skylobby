@@ -73,7 +73,7 @@
                                        true)))
                            (sort-by (comp #(or % "") :resource-filename) skylobby.fx/case-insensitive-natural-comparator))]
     {:fx/type :v-box
-     :style-class ["v-box" "skylobby-body"]
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-downloads"]
      :children
      [{:fx/type :h-box
        :alignment :center-left

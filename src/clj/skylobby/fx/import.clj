@@ -75,7 +75,7 @@
                           set)
         refreshing-imports (seq (get tasks-by-type :spring-lobby/scan-imports))]
     {:fx/type :v-box
-     :style-class ["v-box" "skylobby-body"]
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-import"]
      :children
      [{:fx/type :button
        :text (if refreshing-imports "Refreshing..." "Refresh All Imports")

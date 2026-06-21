@@ -20,7 +20,7 @@
   [{:fx/keys [context]}]
   (let [task-threads (fx/sub-val context :task-threads)]
     {:fx/type :v-box
-     :style-class ["v-box" "skylobby-body"]
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-tasks"]
      :children
      [
       {:fx/type :h-box

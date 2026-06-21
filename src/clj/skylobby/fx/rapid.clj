@@ -79,6 +79,7 @@
                                 (sort-by :version skylobby.fx/case-insensitive-natural-comparator))
                            [])]
     {:fx/type :v-box
+     :style-class ["v-box" "skylobby-screen-rapid"]
      :children
      [{:fx/type :h-box
        :style-class ["h-box" "skylobby-body"]

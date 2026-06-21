@@ -88,7 +88,7 @@
                       (seq rapid-packages-tasks))]
     {:fx/type :v-box
      :alignment :top-center
-     :style-class ["v-box" "skylobby-body"]
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-scenarios"]
      :children
      (concat
        [{:fx/type :h-box

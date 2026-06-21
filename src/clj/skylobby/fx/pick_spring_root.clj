@@ -39,6 +39,7 @@
                              {:title "Beyond All Reason"
                               :file (fs/bar-root)}]]
     {:fx/type :v-box
+     :style-class ["v-box" "skylobby-screen-spring-picker"]
      :children
      [{:fx/type :pane
        :v-box/vgrow :always}
