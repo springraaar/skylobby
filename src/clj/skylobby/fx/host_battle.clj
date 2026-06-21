@@ -15,7 +15,7 @@
 
 
 (def host-battle-window-width 700)
-(def host-battle-window-height 400)
+(def host-battle-window-height 620)
 
 (def host-battle-window-keys
   [:battle-password :battle-port :battle-title :by-server :by-spring-root :css :engine-filter :engine-version
