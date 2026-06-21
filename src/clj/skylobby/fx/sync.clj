@@ -10,9 +10,11 @@
 (set! *warn-on-reflection* true)
 
 
-(def ok-green "#008000")
-(def warn-yellow "#FFD700")
-(def error-red "#DD0000")
+; Muted status fills - clearly green/amber/red but desaturated to sit in the
+; neutral theme instead of shouting. Text auto-contrasts via -fx-text-base-color.
+(def ok-green "#2e6b3e")
+(def warn-yellow "#8a6d24")
+(def error-red "#9a3b3b")
 (def ok-severity
   {:-fx-base ok-green
    :-fx-background ok-green
@@ -99,10 +101,7 @@
                            (if (= -1 severity)
                              "sync"
                              "exclamation"))
-                         ":16:"
-                         (if (= 1 overall-severity)
-                           "black"
-                           "white"))}})
+                         ":16:white")}})
                 (let [style (get severity-styles issue-severity)]
                   {:fx/type :v-box
                    :style style
