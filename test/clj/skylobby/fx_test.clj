@@ -85,6 +85,19 @@
       (is (re-find #"rgb\(228,228,228\)" tbc))
       (is (re-find #"rgb\(20,20,20\)" tbc)))))
 
+(deftest theme-data-tooltip-text-is-theme-contrasted
+  ;; Tooltips render in their own popup window and don't inherit .root, so the
+  ;; .tooltip rule must set -fx-text-base-color (not only -fx-text-fill): child
+  ;; labels inside a tooltip :graphic resolve their fill from text-base-color,
+  ;; and without this they keep modena's default light tooltip text - invisible
+  ;; on light themes (Light Brown white-on-light regression).
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)
+        tbc (get-in d [".tooltip" :-fx-text-base-color])]
+    (is (some? tbc) ".tooltip must define -fx-text-base-color")
+    (is (re-find #"^ladder\(" tbc))
+    (is (re-find #"rgb\(228,228,228\)" tbc))
+    (is (re-find #"rgb\(20,20,20\)" tbc))))
+
 (deftest theme-data-defines-structural-selectors
   (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
     (doseq [sel [".root" ".tab" ".tab:selected" ".tab-header-background"

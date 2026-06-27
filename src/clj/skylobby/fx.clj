@@ -214,10 +214,13 @@
    ;; Tooltips render in their own popup window, so they don't inherit the
    ;; app surfaces and otherwise keep modena's hardcoded dark background.
    ;; Text fill is laddered off the tooltip's own surface so it stays
-   ;; readable on both light and dark themes.
+   ;; readable on both light and dark themes. -fx-text-base-color carries the
+   ;; same ladder so child labels inside a tooltip :graphic (e.g. the battle
+   ;; list tooltip) inherit it instead of modena's default light text.
    ".tooltip"
    {:-fx-background-color surface-2
     :-fx-text-fill (str "ladder(" surface-2 ", " text-on-dark " 49%, " text-on-light " 50%)")
+    :-fx-text-base-color (str "ladder(" surface-2 ", " text-on-dark " 49%, " text-on-light " 50%)")
     :-fx-background-radius "6"
     :-fx-border-color border
     :-fx-border-radius "6"
