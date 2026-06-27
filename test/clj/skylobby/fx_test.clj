@@ -107,7 +107,9 @@
     (is (some? (get-in d [".scroll-bar:vertical .thumb" :-fx-background-color])))))
 
 (deftest presets-keep-public-api
-  (is (= #{"black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"} (set (keys skylobby.fx/style-presets))))
+  (is (= #{"black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"
+           "dark-brown" "light-brown" "atelier-sulphurpool" "hardhacker" "sakura"}
+         (set (keys skylobby.fx/style-presets))))
   ;; each preset still a non-empty map with a themed root
   (doseq [k (keys skylobby.fx/style-presets)]
     (let [d (get skylobby.fx/style-presets k)]
