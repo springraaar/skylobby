@@ -6,7 +6,7 @@
 # jpackage/mac argfile points at resources/icon.ico, a Windows icon jpackage
 # can't use on macOS. This script does the mac packaging properly:
 #   1. builds the host GUI uberjar (target/skylobby.jar),
-#   2. generates an .icns from resources/icon1024.png,
+#   2. generates an .icns from the per-size PNG icons (resources/icon16..512.png),
 #   3. runs `jpackage --type app-image` to produce dist/skylobby.app.
 #
 # The result bundles a full Java runtime, so it runs on a Mac with no JDK.
@@ -70,17 +70,18 @@ trap 'rm -rf "$ICNS_DIR"' EXIT
 ICONSET="$ICNS_DIR/skylobby.iconset"
 ICNS="$ICNS_DIR/skylobby.icns"
 mkdir -p "$ICONSET"
-# Standard macOS iconset sizes (@1x and @2x), all scaled from icon1024.png.
-sips -z 16 16     resources/icon1024.png --out "$ICONSET/icon_16x16.png"      >/dev/null
-sips -z 32 32     resources/icon1024.png --out "$ICONSET/icon_16x16@2x.png"   >/dev/null
-sips -z 32 32     resources/icon1024.png --out "$ICONSET/icon_32x32.png"      >/dev/null
-sips -z 64 64     resources/icon1024.png --out "$ICONSET/icon_32x32@2x.png"   >/dev/null
-sips -z 128 128   resources/icon1024.png --out "$ICONSET/icon_128x128.png"    >/dev/null
-sips -z 256 256   resources/icon1024.png --out "$ICONSET/icon_128x128@2x.png" >/dev/null
-sips -z 256 256   resources/icon1024.png --out "$ICONSET/icon_256x256.png"    >/dev/null
-sips -z 512 512   resources/icon1024.png --out "$ICONSET/icon_256x256@2x.png" >/dev/null
-sips -z 512 512   resources/icon1024.png --out "$ICONSET/icon_512x512.png"    >/dev/null
-cp resources/icon1024.png "$ICONSET/icon_512x512@2x.png"
+# Copy raar's per-size icons (icon16..512) into the iconset at native
+# resolution. icon1024.png / icon.svg still carry the OLD logo upstream, so
+# they're intentionally not used; the largest rep is therefore 512x512.
+cp resources/icon16.png  "$ICONSET/icon_16x16.png"
+cp resources/icon32.png  "$ICONSET/icon_16x16@2x.png"
+cp resources/icon32.png  "$ICONSET/icon_32x32.png"
+cp resources/icon64.png  "$ICONSET/icon_32x32@2x.png"
+cp resources/icon128.png "$ICONSET/icon_128x128.png"
+cp resources/icon256.png "$ICONSET/icon_128x128@2x.png"
+cp resources/icon256.png "$ICONSET/icon_256x256.png"
+cp resources/icon512.png "$ICONSET/icon_256x256@2x.png"
+cp resources/icon512.png "$ICONSET/icon_512x512.png"
 iconutil -c icns "$ICONSET" -o "$ICNS"
 
 # ── 4. Package the .app ──────────────────────────────────────────────────

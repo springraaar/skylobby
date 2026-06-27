@@ -25,3 +25,5 @@
 /target/
 /trace.edn
 /*.build_artifacts.txt
+/dist/skylobby.app/
+.DS_Store
