@@ -37,7 +37,7 @@
 
 ;; Shipped style presets, in display order, with friendly labels for the picker.
 (def style-preset-order
-  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte" "dark-brown" "light-brown" "atelier-sulphurpool" "hardhacker" "sakura"])
+  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte" "dark-brown" "light-brown" "hardhacker" "sakura"])
 
 (def style-preset-labels
   {"black" "Black (default)"
@@ -47,7 +47,6 @@
    "catppuccin-latte" "Catppuccin Latte"
    "dark-brown" "Dark Brown"
    "light-brown" "Light Brown"
-   "atelier-sulphurpool" "Atelier Sulphurpool"
    "hardhacker" "HardHacker"
    "sakura" "Sakura"})
 

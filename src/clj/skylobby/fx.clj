@@ -529,35 +529,6 @@
            "-tab" {"-focus" {:-fx-background (:tab-highlight light-brown-ramp)
                              :-fx-base (:tab-highlight light-brown-ramp)}}}}))
 
-;; Atelier Sulphurpool - base16 scheme by Bram de Haan (a muted indigo dark
-;; theme). https://tinted-theming.github.io/tinted-gallery/#base16-atelier-sulphurpool
-(def atelier-sulphurpool-ramp
-  {:surface-0 "#202746"  ; base00
-   :surface-1 "#293256"  ; base01
-   :surface-2 "#5e6687"  ; base02
-   :surface-3 "#6b7394"  ; base03
-   :border    "#898ea4"  ; base04
-   :focus     "#3d8fd1"  ; base0D (blue)
-   :selection "#5e6687"  ; base02
-   :selection-unfocused "#293256" ; base01
-   :text-on-dark  "#979db4" ; base05
-   :text-on-light "#202746" ; base00
-   :text-2    "#898ea4"  ; base04
-   :row-odd   "#293256"  ; base01
-   :row-even  "#202746"  ; base00
-   :thumb     "#6b7394"  ; base03
-   :thumb-hover "#898ea4" ; base04
-   :tab-highlight "#c08b30" ; base0A (yellow)
-   :tab-selected-accent "#6679cc" ; base0E (indigo)
-   :icon "#979db4"})     ; base05
-
-(def atelier-sulphurpool-style-data
-  (merge (theme-data atelier-sulphurpool-ramp)
-         {".skylobby"
-          {"-chat" {"-user-list" {:-fx-text-fill (:text-on-dark atelier-sulphurpool-ramp)}}
-           "-tab" {"-focus" {:-fx-background (:tab-highlight atelier-sulphurpool-ramp)
-                             :-fx-base (:tab-highlight atelier-sulphurpool-ramp)}}}}))
-
 ;; HardHacker - base16 scheme (dark, pink-accented).
 ;; https://tinted-theming.github.io/tinted-gallery/#base16-hardhacker
 (def hardhacker-ramp
@@ -657,7 +628,6 @@
    "catppuccin-latte" catppuccin-latte-style-data
    "dark-brown" dark-brown-style-data
    "light-brown" light-brown-style-data
-   "atelier-sulphurpool" atelier-sulphurpool-style-data
    "hardhacker" hardhacker-style-data
    "sakura" sakura-style-data})
 
@@ -674,7 +644,6 @@
    "catppuccin-latte"    {:brightness 0.3 :saturation -0.05}
    "dark-brown"          {:hue 0.93 :saturation 0.1}
    "light-brown"         {:hue 0.93 :brightness 0.3 :saturation 0.1}
-   "atelier-sulphurpool" {:hue 0.07 :saturation 0.08}
    "hardhacker"          {:hue 0.61 :saturation 0.15}
    "sakura"              {:hue 0.34 :brightness 0.3 :saturation 0.05}})
 

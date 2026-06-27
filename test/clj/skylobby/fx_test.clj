@@ -108,7 +108,7 @@
 
 (deftest presets-keep-public-api
   (is (= #{"black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"
-           "dark-brown" "light-brown" "atelier-sulphurpool" "hardhacker" "sakura"}
+           "dark-brown" "light-brown" "hardhacker" "sakura"}
          (set (keys skylobby.fx/style-presets))))
   ;; each preset still a non-empty map with a themed root
   (doseq [k (keys skylobby.fx/style-presets)]
