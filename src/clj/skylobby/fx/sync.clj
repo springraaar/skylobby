@@ -10,19 +10,21 @@
 (set! *warn-on-reflection* true)
 
 
-; Muted status fills - clearly green/amber/red but desaturated to sit in the
-; neutral theme instead of shouting. Text auto-contrasts via -fx-text-base-color.
-(def ok-green "#2e6b3e")
-(def warn-yellow "#8a6d24")
-(def error-red "#9a3b3b")
+(def ok-green "#008000")
+(def warn-yellow "#FFD700")
+(def error-red "#DD0000")
 (def ok-severity
   {:-fx-base ok-green
    :-fx-background ok-green
    :-fx-background-color ok-green})
+; Yellow is a light fill, so foreground text must be black for contrast (the
+; laddered default resolves to light here, which is unreadable on yellow). Icons
+; that sit on a yellow severity fill set their colour at the icon-literal.
 (def warn-severity
   {:-fx-base warn-yellow
    :-fx-background warn-yellow
-   :-fx-background-color warn-yellow})
+   :-fx-background-color warn-yellow
+   :-fx-text-fill "black"})
 (def error-severity
   {:-fx-base error-red
    :-fx-background error-red
@@ -47,6 +49,8 @@
     {:fx/type :v-box
      :padding 8
      :spacing 4
+     ; on a yellow (warn) fill, mark the card so icons get a dark colour
+     :style-class (if (= 1 overall-severity) ["v-box" "skylobby-on-warn"] ["v-box"])
      :style (merge
               (get severity-styles overall-severity)
               {:-fx-background-radius 3
@@ -104,7 +108,10 @@
                            (if (= -1 severity)
                              "sync"
                              "exclamation"))
-                         ":16:white")}})
+                         ":16:"
+                         (if (= 1 overall-severity)
+                           "black"
+                           "white"))}})
                 (let [style (get severity-styles issue-severity)]
                   {:fx/type :v-box
                    :style style

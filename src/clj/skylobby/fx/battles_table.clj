@@ -231,7 +231,7 @@
          [
           {:fx/type :table-column
            :text "Game"
-           :pref-width 240
+           :pref-width 200
            :cell-value-factory :battle-modname
            :cell-factory
            {:fx/cell-type :table-cell
@@ -246,7 +246,7 @@
           {:fx/type :table-column
            :text "Status"
            :resizable false
-           :pref-width 112
+           :pref-width 60
            :cell-value-factory identity
            :cell-factory
            {:fx/cell-type :table-cell
@@ -283,7 +283,7 @@
                                     (u/format-duration (java-time/duration diff :millis)))))}}])))}}))}}
           {:fx/type :table-column
            :text "Map"
-           :pref-width 200
+           :pref-width 170
            :cell-value-factory :battle-map
            :cell-factory
            {:fx/cell-type :table-cell
@@ -301,7 +301,7 @@
           {:fx/type :table-column
            :text "Play (Spec)"
            :resizable false
-           :pref-width 110
+           :pref-width 96
            :cell-value-factory (juxt
                                  (comp count :users)
                                  #(or (u/to-number (:battle-spectators %)) 0))
@@ -633,7 +633,7 @@
          {:fx/type :table-column
           :text "Status"
           :resizable false
-          :pref-width 112
+          :pref-width 60
           :cell-value-factory identity
           :cell-factory
           {:fx/cell-type :table-cell

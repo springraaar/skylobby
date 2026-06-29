@@ -205,7 +205,7 @@
    ".tab-header-background"
    {:-fx-background-color surface-0}
    ".skylobby-card"
-   {:-fx-background-color surface-2
+   {:-fx-background-color surface-1
     :-fx-background-radius "6"
     :-fx-border-color border
     :-fx-border-radius "6"
@@ -235,14 +235,29 @@
     :-fx-border-color "transparent"}
    ".skylobby-secondary:hover"
    {:-fx-background-color surface-2}
+   ; Gold reads as a light surface, so text and icons on a gold CTA must be dark
+   ; for contrast - white-on-gold is near-illegible. Pin both explicitly rather
+   ; than relying on the laddered default, which resolves light here.
    ".skylobby-primary"
    {:-fx-base "#ffd700"
-    :-fx-background "#ffd700"}
+    :-fx-background "#ffd700"
+    :-fx-text-fill "rgb(20,20,20)"}
+   ".skylobby-primary .ikonli-font-icon"
+   {:-fx-icon-color "rgb(20,20,20)"}
    ; A disabled CTA (e.g. Start Game while not synced) must not read as a
-   ; live gold button - fall back to a normal neutral control surface.
+   ; live gold button - fall back to a normal neutral control surface, and
+   ; restore the laddered (light-on-dark) foreground to match it.
    ".skylobby-primary:disabled"
    {:-fx-base surface-2
-    :-fx-background surface-2}
+    :-fx-background surface-2
+    :-fx-text-fill "-fx-text-base-color"}
+   ".skylobby-primary:disabled .ikonli-font-icon"
+   {:-fx-icon-color icon}
+   ; Icons sitting on a yellow severity fill (sync warnings) must be dark too.
+   ; This is more specific than .ikonli-font-icon so it wins the cascade and
+   ; overrides the theme's light icon colour on those yellow surfaces.
+   ".skylobby-on-warn .ikonli-font-icon"
+   {:-fx-icon-color "rgb(20,20,20)"}
    ;; Region separators / borders
    ".separator:horizontal .line"
    {:-fx-border-color (str border " transparent transparent transparent")
@@ -250,6 +265,15 @@
    ".separator:vertical .line"
    {:-fx-border-color (str "transparent " border " transparent transparent")
     :-fx-border-width "1"}
+   ;; Split-pane drag handle - a flat boundary bar in the theme border colour.
+   ;; The default modena divider centres a textured grip that reads like a
+   ;; scroll-bar thumb, so the grabber dots are hidden.
+   ".split-pane > .split-pane-divider"
+   {:-fx-background-color border
+    :-fx-padding "0 2 0 2"}
+   ".split-pane > .split-pane-divider > .horizontal-grabber,.split-pane > .split-pane-divider > .vertical-grabber"
+   {:-fx-background-color "transparent"
+    :-fx-padding "0"}
    ;; Inputs / text areas
    ".styled-text-area"
    {:-fx-background-color surface-0}

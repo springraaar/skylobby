@@ -75,7 +75,6 @@
 
 (defn text-style [font-size]
   {:-fx-font-family monospace-font-family
-   :-fx-font-weight "bold"
    :-fx-font-size (font-size-or-default font-size)})
 
 

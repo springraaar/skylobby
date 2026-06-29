@@ -430,6 +430,11 @@
                               warn-severity)
                             :-fx-background-color
                             :-fx-font-size)
+        ; black on the yellow syncing fill, white on the dark green/red fills
+        sync-icon-color (case (int (or my-sync-status -1))
+                          1 "white"
+                          2 "white"
+                          "black")
         sync-buttons (if-not singleplayer
                        [{:fx/type :h-box
                          :alignment :center-left
@@ -439,6 +444,9 @@
                            :server-key server-key}
                           {:fx/type :button
                            :text " "
+                           :style-class (if (= "black" sync-icon-color)
+                                          ["button" "skylobby-on-warn"]
+                                          ["button"])
                            :on-action {:event/type :spring-lobby/assoc
                                        :key :battle-resource-details
                                        :value (not (boolean battle-resource-details))}
@@ -452,8 +460,8 @@
                               :text " "}
                              {:fx/type font-icon/lifecycle
                               :icon-literal (if battle-resource-details
-                                              (str "mdi-window-maximize:" font-icon-size ":white")
-                                              (str "mdi-open-in-new:" font-icon-size ":white"))}]}}]}]
+                                              (str "mdi-window-maximize:" font-icon-size ":" sync-icon-color)
+                                              (str "mdi-open-in-new:" font-icon-size ":" sync-icon-color))}]}}]}]
                        [{:fx/type :button
                          :text "Reload Resources"
                          :tooltip

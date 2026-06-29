@@ -665,7 +665,7 @@
          [{:fx/type :table-column
            :text "Nickname"
            :resizable true
-           :min-width 200
+           :min-width 150
            :cell-value-factory (juxt
                                  (comp (fnil string/lower-case "") u/nickname)
                                  u/nickname
@@ -781,7 +781,7 @@
            [{:fx/type :table-column
              :text "Skill"
              :resizable false
-             :pref-width 100
+             :pref-width 72
              :cell-value-factory (juxt sort-skill :skilluncertainty :skill)
              :cell-factory
              {:fx/cell-type :table-cell
@@ -914,7 +914,7 @@
            [{:fx/type :table-column
              :text "Color"
              :resizable false
-             :pref-width 140
+             :pref-width 72
              :cell-value-factory (juxt :team-color u/nickname identity)
              :cell-factory
              {:fx/cell-type :table-cell
@@ -935,6 +935,8 @@
                         :desc
                         (merge
                           {:fx/type :color-picker
+                           ; hide the hex label so the column needs only swatch + arrow
+                           :style {:-fx-color-label-visible false}
                            :value (fx.color/spring-color-to-javafx team-color)
                            :disable (boolean disable)}
                           (when-not disable

@@ -938,7 +938,9 @@
              {:fx/type :label
               :text " Preset: "}
              {:fx/type :combo-box
-              :value (fx/sub-val context :css-preset)
+              ; nil css-preset means the shipped default (black) is applied, so
+              ; show that in the picker instead of a blank selection on first run.
+              :value (or (fx/sub-val context :css-preset) "black")
               :items style-preset-order
               :on-value-changed {:event/type :spring-lobby/update-css-preset}
               :button-cell style-preset-cell
