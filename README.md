@@ -67,3 +67,12 @@ To build an installer, then run `jpackage` for your platform, for example on Win
 ```bash
 jpackage @jpackage/lobby @jpackage/windows
 ```
+
+or on macOS (Apple Silicon)
+
+```bash
+jpackage --app-version 1.0.0 @jpackage/lobby @jpackage/mac
+```
+
+NOTE: macOS `jpackage` rejects an app version with a major component of `0`, so a placeholder
+`--app-version` such as `1.0.0` is required; the real version remains in the jar manifest.

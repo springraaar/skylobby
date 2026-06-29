@@ -3,6 +3,7 @@
 /*.bin
 /*.db
 /*.deb
+/*.dmg
 /*.dll
 /*.exe
 /*.jar
@@ -21,7 +22,10 @@
 /node_modules/
 /pom.xml
 /skylobby-*.msi
+/skylobby.iconset/
 /skylobby
 /target/
 /trace.edn
 /*.build_artifacts.txt
+/dist/skylobby.app/
+.DS_Store

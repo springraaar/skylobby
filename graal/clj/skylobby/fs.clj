@@ -30,7 +30,7 @@
 (set! *warn-on-reflection* true)
 
 
-(declare file canonical-path)
+(declare file canonical-path extract-7z-apache)
 
 
 (def ^:dynamic app-root-override nil)
@@ -40,17 +40,28 @@
 
 
 (def is-7z-initialized (atom false))
+(def is-7z-init-attempted (atom false))
 
 
 (def lock (Object.))
 
 
-(defn init-7z! []
+(defn init-7z!
+  "Attempts to load the sevenzipjbinding native library. Returns true if 7z native extraction is
+  available. On platforms without a bundled native library (e.g. macOS aarch64) this logs a warning
+  and returns false instead of throwing, so callers can fall back to pure-Java extraction."
+  []
   (locking lock
-    (let [^"[Ljava.nio.file.attribute.FileAttribute;" attributes (into-array FileAttribute [])
-          temp-dir (.toFile (Files/createTempDirectory "skylobby-7z" attributes))]
-      (SevenZip/initSevenZipFromPlatformJAR temp-dir))
-    (reset! is-7z-initialized true)))
+    (when-not @is-7z-init-attempted
+      (reset! is-7z-init-attempted true)
+      (try
+        (let [^"[Ljava.nio.file.attribute.FileAttribute;" attributes (into-array FileAttribute [])
+              temp-dir (.toFile (Files/createTempDirectory "skylobby-7z" attributes))]
+          (SevenZip/initSevenZipFromPlatformJAR temp-dir))
+        (reset! is-7z-initialized true)
+        (catch Throwable t
+          (log/warn t "Unable to initialize 7-Zip native library; falling back to pure-Java 7z extraction"))))
+    @is-7z-initialized))
 
 
 (def app-folder (str "." u/app-name))
@@ -539,6 +550,10 @@
   ([^File f ^File dest]
    (when-not @is-7z-initialized
      (init-7z!))
+   (if-not @is-7z-initialized
+     (do
+       (log/warn "7-Zip native library unavailable on this platform; using pure-Java extraction for" f)
+       (extract-7z-apache f dest))
    (let [before (u/curr-millis)
          dest (try
                 (FileUtils/forceMkdir dest)
@@ -571,7 +586,7 @@
                    ; https://gist.github.com/borisbrodski/6120309
                    (->ExtractToDiskCallback archive callback-state dest))))
      (log/info "Finished extracting" f "to" dest "in" (- (u/curr-millis) before) "ms")
-     dest)))
+     dest))))
 
 
 (defn extract-7z-apache
