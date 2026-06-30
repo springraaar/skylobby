@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31016](https://github.com/springraaar/skylobby/releases/tag/0.9.31016) - 2026-06-30
+
+- Added macOS build support (PR by tomjn)
+
 ## [0.9.31015](https://github.com/springraaar/skylobby/releases/tag/0.9.31015) - 2026-04-19
 
 - Added "Recoil Official" server to the default list
