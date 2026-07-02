@@ -8,6 +8,7 @@
     [skylobby.fx.battle :as fx.battle]
     [skylobby.fx.bottom-bar :as fx.bottom-bar]
     [skylobby.fx.download :as fx.download]
+    [skylobby.fx.font-icon :as font-icon]
     [skylobby.fx.import :as fx.import]
     [skylobby.fx.pick-spring-root :as fx.pick-spring-root]
     [skylobby.fx.rapid :as fx.rapid]
@@ -76,7 +77,7 @@
      :children
      [
       {:fx/type :h-box
-       :style {:-fx-font-size 20}
+       :style-class ["h-box" "skylobby-h2"]
        :v-box/vgrow :always
        :children
        [{:fx/type :pane
@@ -298,8 +299,8 @@
         show-accolades (fx/sub-val context :show-accolades)
         windows-as-tabs (fx/sub-val context :windows-as-tabs)
         tab-ids (concat
-                  (when show-spring-picker ["spring"])
                   ["welcome"]
+                  (when show-spring-picker ["spring"])
                   (when windows-as-tabs
                     (concat
                       (when show-settings
@@ -333,7 +334,7 @@
         selected-tab-channel (fx/sub-val context :selected-tab-channel)
         mute (fx/sub-val context :mute)]
     {:fx/type :v-box
-     :style {:-fx-font-size 14}
+     :style-class ["v-box" "skylobby-caption"]
      :alignment :top-left
      :children
      [
@@ -348,34 +349,37 @@
        {:fx/type :tab-pane
         :tabs
         (concat
+          [{:fx/type :tab
+            :id "welcome"
+            :closable false
+            :graphic {:fx/type :label
+                      :text "Home"
+                      :style-class ["label" "skylobby-h2"]
+                      :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-home:18"}}
+            :content
+            {:fx/type fx.welcome/welcome-view
+             :v-box/vgrow :always}}]
           (when show-spring-picker
             [{:fx/type :tab
               :id "spring"
               :closable true
               :graphic {:fx/type :label
                         :text "Content Directory"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-white-balance-sunny:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-spring-picker
                                  :value false}
               :content
               {:fx/type fx.pick-spring-root/pick-spring-root-view}}])
-          [{:fx/type :tab
-            :id "welcome"
-            :closable false
-            :graphic {:fx/type :label
-                      :text "Main"
-                      :style {:-fx-font-size 18}}
-            :content
-            {:fx/type fx.welcome/welcome-view
-             :v-box/vgrow :always}}]
           (when (and windows-as-tabs show-settings)
             [{:fx/type :tab
               :id "settings"
               :closable true
               :graphic {:fx/type :label
                         :text "Settings"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-settings:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-settings-window
                                  :value false}
@@ -387,7 +391,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Replays"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-movie:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-replays
                                  :value false}
@@ -399,7 +404,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Scenarios"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-checkerboard:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-scenarios-window
                                  :value false}
@@ -411,7 +417,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "HTTP Download"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-download:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-downloader
                                  :value false}
@@ -423,7 +430,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Rapid"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-flash:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-rapid-downloader
                                  :value false}
@@ -435,7 +443,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Importer"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-import:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-importer
                                  :value false}
@@ -447,7 +456,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Tasks"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-playlist-check:18"}}
               :on-close-request {:event/type :spring-lobby/assoc
                                  :key :show-tasks-window
                                  :value false}
@@ -459,7 +469,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "Singleplayer"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-account:18"}}
               :on-close-request {:event/type :spring-lobby/dissoc-in
                                  :path [:by-server :local]}
               :content
@@ -472,7 +483,8 @@
               :closable true
               :graphic {:fx/type :label
                         :text "LAN / Direct Connect"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]
+                        :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-lan-connect:18"}}
               :on-close-request {:event/type :spring-lobby/dissoc
                                  :key :show-direct-connect}
               :content
@@ -485,9 +497,10 @@
                :id (str server-key)
                :closable true
                :graphic {:fx/type :text-flow
-                   :children [{:fx/type :label
-                         :text (name (:server-type server-key)) 
-                         :style {:-fx-font-size 18}}
+                   :children [{:fx/type font-icon/lifecycle :icon-literal "mdi-server-network:18"}
+                         {:fx/type :label
+                         :text (name (:server-type server-key))
+                         :style-class ["label" "skylobby-h2"]}
                          {:fx/type :label
                          :text (str (name (:server-type server-key))
                                     " "
@@ -496,7 +509,8 @@
                                     (:hostname server-key)
                                     ":"
                                     (:port server-key))
-                         :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                         :style {:-fx-opacity 0.7}
+                         :style-class ["label" "skylobby-caption"]}
                          ]}
                :on-close-request {:event/type :spring-lobby/disconnect
                                   :server-key server-key}
@@ -536,13 +550,15 @@
                  :id (str server-key)
                  :style-class classes
                  :graphic {:fx/type :text-flow
-                   :children [{:fx/type :label
+                   :children [{:fx/type font-icon/lifecycle :icon-literal "mdi-server-network:18"}
+                           {:fx/type :label
                            :text (let [[_ server-config] (fx/sub-val context get-in [:by-server server-key :server])]
                                         (:alias server-config))
-                           :style {:-fx-font-size 18}}
+                           :style-class ["label" "skylobby-h2"]}
                            {:fx/type :label
                            :text (str " (" server-key ")")
-                           :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                           :style {:-fx-opacity 0.7}
+                         :style-class ["label" "skylobby-caption"]}
                            ]}
                  :on-close-request {:event/type :spring-lobby/disconnect
                                     :server-key server-key}
@@ -557,7 +573,7 @@
               :closable false
               :graphic {:fx/type :label
                         :text "All Servers"
-                        :style {:-fx-font-size 18}}
+                        :style-class ["label" "skylobby-h2"]}
               :content
               (merge
                 {:fx/type multi-server-tab}

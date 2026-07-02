@@ -35,6 +35,25 @@
    "horizontal"])
 
 
+;; Shipped style presets, in display order, with friendly labels for the picker.
+(def style-preset-order
+  ["black" "grey" "light" "catppuccin-mocha" "catppuccin-latte" "dark-brown" "light-brown" "hardhacker" "sakura"])
+
+(def style-preset-labels
+  {"black" "Black (default)"
+   "grey" "Grey"
+   "light" "Light"
+   "catppuccin-mocha" "Catppuccin Mocha"
+   "catppuccin-latte" "Catppuccin Latte"
+   "dark-brown" "Dark Brown"
+   "light-brown" "Light Brown"
+   "hardhacker" "HardHacker"
+   "sakura" "Sakura"})
+
+(defn style-preset-cell [preset]
+  {:text (get style-preset-labels preset (str preset))})
+
+
 (defn highlighted-label [{:keys [title search]}]
   (let [search-lc (if search
                     (string/lower-case search)
@@ -62,7 +81,7 @@
         title-lc (string/lower-case (or title ""))]
     (if (string/includes? title-lc search-lc)
       {:fx/type :h-box
-       :style {:-fx-font-size 18}
+       :style-class ["skylobby-body"]
        :alignment :center-left
        :children
        [check-box
@@ -81,13 +100,15 @@
     (if (or (string/includes? title-lc search-lc)
             (some #(string/includes? % search-lc) children-titles))
       {:fx/type :v-box
+       :style-class ["skylobby-card"]
        :pref-width 580
        :min-width 580
        :max-width 580
+       :spacing 8
        :children
        (concat
          [{:fx/type :pane
-           :style {:-fx-font-size 24}
+           :style-class ["pane" "skylobby-h1"]
            :children
            [
             {:fx/type highlighted-label
@@ -390,13 +411,14 @@
         user-agent-override (fx/sub-val context :user-agent-override)
         windows-as-tabs (fx/sub-val context :windows-as-tabs)]
     {:fx/type :scroll-pane
+     :style-class ["scroll-pane" "skylobby-screen-settings"]
      :fit-to-width true
      :content
      {:fx/type :v-box
       :children
       [{:fx/type :h-box
         :alignment :center-left
-        :style {:-fx-font-size 20}
+        :style-class ["h-box" "skylobby-h2"]
         :children
         [{:fx/type :label
           :text " Search: "}
@@ -410,7 +432,7 @@
         :vgap 32
         :hgap 10
         :padding 32
-        :style {:-fx-font-size 14}
+        :style-class ["flow-pane" "skylobby-body"]
         :children
         [
          {:fx/type filterable-section
@@ -457,7 +479,7 @@
             :text "Experimental! Use database for certain indexes to lower memory usage"}
            #_
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -468,7 +490,7 @@
               :text " Use database for downloads index"}]}
            #_
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -478,7 +500,7 @@
              {:fx/type :label
               :text " Use database for imports index"}]}
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -488,7 +510,7 @@
              {:fx/type :label
               :text " Use database for rapid index"}]}
            {:fx/type :h-box
-            :style {:-fx-font-size 18}
+            :style-class ["h-box" "skylobby-h2"]
             :children
             [
              {:fx/type :check-box
@@ -503,8 +525,7 @@
           :children
           [
            {:fx/type :button
-            :style-class ["button" "skylobby-normal"]
-            :style {:-fx-font-size 18}
+            :style-class ["button" "skylobby-normal" "skylobby-h2"]
             :text "Configure Content Directory / Spring Root"
             :on-action {:event/type :spring-lobby/toggle-window
                         :windows-as-tabs (fx/sub-val context :windows-as-tabs)
@@ -728,7 +749,7 @@
                        :text (str " " import-source-name)}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style {:-fx-font-size 14}}]}]})
+                       :style-class ["label" "skylobby-caption"]}]}]})
                 (import/import-sources extra-import-sources))}
              {:fx/type :h-box
               :alignment :center-left
@@ -786,7 +807,7 @@
                :on-selected-changed {:event/type :spring-lobby/assoc
                                      :key :auto-get-replay-resources}}}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["label" "skylobby-h2"]
               :text " Replay sources from Spring roots:"}
              {:fx/type :v-box
               :children
@@ -803,10 +824,10 @@
                                      (get replay-source-enabled path))}
                       {:fx/type :label
                        :text (str " " path)
-                       :style {:-fx-font-size 18}}]}))
+                       :style-class ["label" "skylobby-h2"]}]}))
                 (filter :builtin replay-sources))}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["label" "skylobby-h2"]
               :text " Custom replay sources:"}
              {:fx/type :v-box
               :children
@@ -831,17 +852,17 @@
                        (concat
                          [{:fx/type :label
                            :text (str " " replay-source-name)
-                           :style {:-fx-font-size 18}}]
+                           :style-class ["label" "skylobby-h2"]}]
                          (when recursive
                            [{:fx/type :label
                              :text " (recursive)"
                              :style {:-fx-text-fill :red}}]))}
                       {:fx/type :label
                        :text (str " " (fs/canonical-path file))
-                       :style {:-fx-font-size 14}}]}]})
+                       :style-class ["label" "skylobby-caption"]}]}]})
                 (remove :builtin replay-sources))}
              {:fx/type :label
-              :style {:-fx-font-size 20}
+              :style-class ["label" "skylobby-h2"]
               :text " Add replay source:"}
              {:fx/type :h-box
               :alignment :center-left
@@ -916,21 +937,16 @@
             [
              {:fx/type :label
               :text " Preset: "}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/black-style-data
-                          :css-preset "black"}
-              :text "Black (default)"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/grey-style-data
-                          :css-preset "grey"}
-              :text "Grey"}
-             {:fx/type :button
-              :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/light-style-data
-                          :css-preset "light"}
-              :text "Light"}]}
+             {:fx/type :combo-box
+              ; nil css-preset means the shipped default (black) is applied, so
+              ; show that in the picker instead of a blank selection on first run.
+              :value (or (fx/sub-val context :css-preset) "black")
+              :items style-preset-order
+              :on-value-changed {:event/type :spring-lobby/update-css-preset}
+              :button-cell style-preset-cell
+              :cell-factory
+              {:fx/cell-type :list-cell
+               :describe style-preset-cell}}]}
            {:fx/type :pane
             :pref-height 8}
            (let [custom-file (fs/file (fs/app-root) "custom-css.edn")]
@@ -944,7 +960,10 @@
                [{:fx/type :label
                  :text (str "Load custom CSS as EDN from:")}
                 {:fx/type :label
-                 :text (str custom-file)}]}})
+                 :text (str custom-file)}
+                {:fx/type :label
+                 :style-class ["label" "skylobby-caption"]
+                 :text "Saved changes auto-reload while the app is running"}]}})
            {:fx/type :label
             :text (str (fx/sub-val context :load-custom-css-edn-message))}
            #_
@@ -1084,7 +1103,7 @@
               [
                {:fx/type :label
                 :text " Ring Sound File: "
-                :style {:-fx-font-size 18}}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :h-box
                 :alignment :center-left
                 :children
@@ -1106,7 +1125,7 @@
               [
                {:fx/type :label
                 :text " Ring Volume: "
-                :style {:-fx-font-size 18}}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1138,7 +1157,7 @@
           [
              {:fx/type :label
               :text " Music Folder: "
-              :style {:-fx-font-size 18}}
+              :style-class ["label" "skylobby-h2"]}
              {:fx/type :h-box
               :alignment :center-left
               :children
@@ -1164,7 +1183,7 @@
               [
                {:fx/type :label
                 :text " Music Volume: "
-                :style {:-fx-font-size 18}}
+                :style-class ["label" "skylobby-h2"]}
                {:fx/type :slider
                 :min 0.0
                 :max 1.0
@@ -1241,7 +1260,7 @@
                                    :key :hide-barmaager-messages}}}
            {:fx/type :label
             :text "Hide message types:"
-            :style {:-fx-font-size 20}}
+            :style-class ["label" "skylobby-h2"]}
            {:fx/type :v-box
             :children
             (map

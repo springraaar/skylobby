@@ -20,12 +20,12 @@
   [{:fx/keys [context]}]
   (let [task-threads (fx/sub-val context :task-threads)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16}
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-tasks"]
      :children
      [
       {:fx/type :h-box
-       :style {:-fx-font-size 18
-               :-fx-padding 4}
+       :style-class ["h-box" "skylobby-h2"]
+       :style {:-fx-padding 4}
        :children
        [
         {:fx/type :check-box
@@ -35,8 +35,8 @@
         {:fx/type :label
          :text " Disable tasks"}]}
       {:fx/type :h-box
-       :style {:-fx-font-size 18
-               :-fx-padding 4}
+       :style-class ["h-box" "skylobby-h2"]
+       :style {:-fx-padding 4}
        :children
        [
         {:fx/type :check-box
@@ -49,7 +49,7 @@
        :pref-height 8}
       {:fx/type :label
        :text " Workers"
-       :style {:-fx-font-size 24}}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :h-box
        :alignment :center-left
        :children
@@ -59,7 +59,7 @@
             :children
             (concat
               [{:fx/type :label
-                :style {:-fx-font-size 20}
+                :style-class ["label" "skylobby-h2"]
                 :text (str "  " k)}
                {:fx/type :text-area
                 :v-box/vgrow :always
@@ -81,7 +81,7 @@
        :pref-height 8}
       {:fx/type :label
        :text " Task Queue"
-       :style {:-fx-font-size 24}}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :table-view
        :v-box/vgrow :always
        :column-resize-policy :constrained

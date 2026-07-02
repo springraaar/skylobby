@@ -19,7 +19,7 @@
   (let [client-data (fx/sub-val context get-in [:by-server server-key :client-data])
         matchmaking-queues (fx/sub-val context get-in [:by-server server-key :matchmaking-queues])]
     {:fx/type :v-box
-     :style {:-fx-font-size 16}
+     :style-class ["v-box" "skylobby-body"]
      :children
      [
       #_
@@ -38,10 +38,10 @@
                    :client-data client-data}}
       {:fx/type :label
        :text "Queues"
-       :style {:-fx-font-size 24}}
+       :style-class ["label" "skylobby-h1"]}
       {:fx/type :table-view
        :v-box/vgrow :always
-       :style {:-fx-font-size 16}
+       :style-class ["table-view" "skylobby-body"]
        :column-resize-policy :constrained ; TODO auto resize
        :items (or (sort-by first matchmaking-queues)
                   [])

@@ -70,8 +70,8 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16
-             :-fx-min-height 128}
+     :style-class ["v-box" "skylobby-body"]
+     :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
        :alignment :center-left
@@ -132,7 +132,7 @@
         :items filtered-battles
         :desc
         {:fx/type :table-view
-         :style {:-fx-font-size 15}
+         :style-class ["table-view" "skylobby-body"]
          :column-resize-policy :constrained
          :row-factory
          {:fx/cell-type :table-row
@@ -149,7 +149,7 @@
                           :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
                          :tooltip
                          {:fx/type tooltip-nofocus/lifecycle
-                          :style {:-fx-font-size 16}
+                          :style-class ["tooltip" "skylobby-body"]
                           :show-delay skylobby.fx/tooltip-show-delay
                           :text ""
                           :graphic
@@ -231,7 +231,7 @@
          [
           {:fx/type :table-column
            :text "Game"
-           :pref-width 240
+           :pref-width 200
            :cell-value-factory :battle-modname
            :cell-factory
            {:fx/cell-type :table-cell
@@ -246,7 +246,7 @@
           {:fx/type :table-column
            :text "Status"
            :resizable false
-           :pref-width 112
+           :pref-width 60
            :cell-value-factory identity
            :cell-factory
            {:fx/cell-type :table-cell
@@ -283,7 +283,7 @@
                                     (u/format-duration (java-time/duration diff :millis)))))}}])))}}))}}
           {:fx/type :table-column
            :text "Map"
-           :pref-width 200
+           :pref-width 170
            :cell-value-factory :battle-map
            :cell-factory
            {:fx/cell-type :table-cell
@@ -301,7 +301,7 @@
           {:fx/type :table-column
            :text "Play (Spec)"
            :resizable false
-           :pref-width 110
+           :pref-width 96
            :cell-value-factory (juxt
                                  (comp count :users)
                                  #(or (u/to-number (:battle-spectators %)) 0))
@@ -375,8 +375,8 @@
         filtered-battles (fx/sub-ctx context sub/filtered-battles server-key filter-data)
         battles-by-id (fx/sub-ctx context sub/battles-by-id server-key)]
     {:fx/type :v-box
-     :style {:-fx-font-size 16
-             :-fx-min-height 128}
+     :style-class ["v-box" "skylobby-body"]
+     :style {:-fx-min-height 128}
      :children
      [{:fx/type :h-box
        :alignment :center-left
@@ -434,7 +434,7 @@
                :selected-item (get battles-by-id selected-battle)}
        :desc
        {:fx/type :table-view
-        :style {:-fx-font-size 15}
+        :style-class ["table-view" "skylobby-body"]
         :items filtered-battles
         :row-factory
         {:fx/cell-type :table-row
@@ -453,7 +453,7 @@
                :battle-passworded (= "1" (-> battles (get selected-battle) :battle-passworded))}
               :tooltip
               {:fx/type tooltip-nofocus/lifecycle
-               :style {:-fx-font-size 16}
+               :style-class ["tooltip" "skylobby-body"]
                :show-delay skylobby.fx/tooltip-show-delay
                :text ""
                :graphic
@@ -633,7 +633,7 @@
          {:fx/type :table-column
           :text "Status"
           :resizable false
-          :pref-width 112
+          :pref-width 60
           :cell-value-factory identity
           :cell-factory
           {:fx/cell-type :table-cell

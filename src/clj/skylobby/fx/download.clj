@@ -73,7 +73,7 @@
                                        true)))
                            (sort-by (comp #(or % "") :resource-filename) skylobby.fx/case-insensitive-natural-comparator))]
     {:fx/type :v-box
-     :style {:-fx-font-size 16}
+     :style-class ["v-box" "skylobby-body" "skylobby-screen-downloads"]
      :children
      [{:fx/type :h-box
        :alignment :center-left
@@ -145,7 +145,7 @@
             :icon-literal "mdi-refresh:16:white"}}])}
       {:fx/type :h-box
        :alignment :center-left
-       :style {:-fx-font-size 16}
+       :style-class ["h-box" "skylobby-body"]
        :children
        (concat
          [{:fx/type :label
@@ -200,7 +200,7 @@
                :icon-literal "mdi-close:16:white"}}}]))}
       {:fx/type :label
        :text (str (count downloadables) " artifacts")
-       :style {:-fx-font-size 14}}
+       :style-class ["label" "skylobby-caption"]}
       {:fx/type ext-table-column-auto-size
        :v-box/vgrow :always
        :items downloadables
@@ -208,7 +208,7 @@
        {:fx/type :table-view
         :column-resize-policy :constrained
         :items downloadables
-        :style {:-fx-font-size 16}
+        :style-class ["table-view" "skylobby-body"]
         :row-factory
         {:fx/cell-type :table-row
          :describe
@@ -259,7 +259,7 @@
               :tooltip
               {:fx/type tooltip-nofocus/lifecycle
                :show-delay skylobby.fx/tooltip-show-delay
-               :style {:-fx-font-size 18}
+               :style-class ["tooltip" "skylobby-h2"]
                :text (str download-url)}})}}
          {:fx/type :table-column
           :text "Download"

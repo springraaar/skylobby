@@ -52,3 +52,127 @@
            (skylobby.fx/fitheight nil -10000))))
   (is (= 256
          (skylobby.fx/fitheight screen-bounds -10000))))
+
+(deftest type-scale-has-expected-steps
+  (is (= 14 (:base skylobby.fx/type-scale)))
+  (is (= 28 (:xxl skylobby.fx/type-scale)))
+  (is (every? number? (vals skylobby.fx/type-scale))))
+
+(deftest space-scale-is-a-numeric-ladder
+  (is (= [4 8 12 16 24 32]
+         (map skylobby.fx/space-scale [:1 :2 :3 :4 :5 :6]))))
+
+(deftest ramps-define-all-surface-keys
+  (doseq [ramp [skylobby.fx/black-ramp skylobby.fx/grey-ramp skylobby.fx/light-ramp]]
+    (doseq [k [:surface-0 :surface-1 :surface-2 :surface-3 :border :focus
+               :selection :selection-unfocused :text-on-dark :text-on-light :text-2
+               :row-odd :row-even :thumb :thumb-hover :tab-highlight :tab-selected-accent
+               :icon]]
+      (is (contains? ramp k) (str "missing " k)))
+    ;; focus must be visible, never transparent (a11y regression guard)
+    (is (not= "transparent" (:focus ramp)))))
+
+(deftest theme-data-wires-ramp-into-root
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
+    (is (= "rgb(18,18,18)" (get-in d [".root" :-fx-background])))
+    (is (= "rgb(28,28,28)" (get-in d [".root" :-fx-base])))
+    (is (= "rgb(40,40,40)" (get-in d [".root" :-fx-control-inner-background])))
+    ;; focus is visible, not transparent
+    (is (= "rgb(120,120,130)" (get-in d [".root" :-fx-focus-color])))
+    ;; primary text color is a ladder auto-contrast expression
+    (let [tbc (get-in d [".root" :-fx-text-base-color])]
+      (is (re-find #"^ladder\(-fx-base," tbc))
+      (is (re-find #"rgb\(228,228,228\)" tbc))
+      (is (re-find #"rgb\(20,20,20\)" tbc)))))
+
+(deftest theme-data-tooltip-text-is-theme-contrasted
+  ;; Tooltips render in their own popup window and don't inherit .root, so the
+  ;; .tooltip rule must set -fx-text-base-color (not only -fx-text-fill): child
+  ;; labels inside a tooltip :graphic resolve their fill from text-base-color,
+  ;; and without this they keep modena's default light tooltip text - invisible
+  ;; on light themes (Light Brown white-on-light regression).
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)
+        tbc (get-in d [".tooltip" :-fx-text-base-color])]
+    (is (some? tbc) ".tooltip must define -fx-text-base-color")
+    (is (re-find #"^ladder\(" tbc))
+    (is (re-find #"rgb\(228,228,228\)" tbc))
+    (is (re-find #"rgb\(20,20,20\)" tbc))))
+
+(deftest theme-data-defines-structural-selectors
+  (let [d (skylobby.fx/theme-data skylobby.fx/black-ramp)]
+    (doseq [sel [".root" ".tab" ".tab:selected" ".tab-header-background"
+                 ".table-view" ".table-row-cell:odd" ".table-row-cell:even"
+                 ".scroll-bar:vertical .thumb"]]
+      (is (contains? d sel) (str "missing selector " sel)))
+    (is (some? (get-in d [".scroll-bar:vertical .thumb" :-fx-background-color])))))
+
+(deftest presets-keep-public-api
+  (is (= #{"black" "grey" "light" "catppuccin-mocha" "catppuccin-latte"
+           "dark-brown" "light-brown" "hardhacker" "sakura"}
+         (set (keys skylobby.fx/style-presets))))
+  ;; each preset still a non-empty map with a themed root
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (map? d))
+      (is (contains? (get d ".root") :-fx-background)))))
+
+(deftest every-preset-has-visible-focus
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (is (not= "transparent"
+              (get-in (get skylobby.fx/style-presets k) [".root" :-fx-focus-color])))))
+
+(deftest every-preset-has-card-class
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-card") (str k " missing .skylobby-card"))
+      (is (some? (get-in d [".skylobby-card" :-fx-background-color]))))))
+
+(deftest every-preset-has-secondary-button
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-secondary") (str k " missing .skylobby-secondary"))
+      (is (= "transparent" (get-in d [".skylobby-secondary" :-fx-background-color])))
+      (is (some? (get-in d [".skylobby-secondary:hover" :-fx-background-color]))))))
+
+(deftest every-preset-colors-icons
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (some? (get-in d [".ikonli-font-icon" :-fx-icon-color]))
+          (str k " missing global .ikonli-font-icon colour")))))
+
+(deftest light-icons-are-dark
+  (is (= "rgb(70,70,70)"
+         (get-in (get skylobby.fx/style-presets "light") [".ikonli-font-icon" :-fx-icon-color]))))
+
+(deftest catppuccin-latte-is-a-light-theme
+  ;; dark icons + dark chat text confirm the light-mode contrast overrides are present
+  (is (= "rgb(76,79,105)"
+         (get-in (get skylobby.fx/style-presets "catppuccin-latte") [".ikonli-font-icon" :-fx-icon-color])))
+  (is (= "rgb(76,79,105)"
+         (get-in skylobby.fx/catppuccin-latte-style-data [".skylobby" "-chat" "-message" :-fx-fill]))))
+
+(deftest every-preset-has-primary-button
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-primary") (str k " missing .skylobby-primary"))
+      (is (some? (get-in d [".skylobby-primary" :-fx-base]))))))
+
+(deftest light-surface-0-nudged
+  (is (= "rgb(220,220,220)" (:surface-0 skylobby.fx/light-ramp))))
+
+(deftest default-classes-define-typography
+  (doseq [c [".skylobby-h1" ".skylobby-h2" ".skylobby-body" ".skylobby-caption"]]
+    (is (contains? skylobby.fx/default-classes c) (str "missing " c))
+    (is (number? (get-in skylobby.fx/default-classes [c :-fx-font-size])))))
+
+;; Guards for stable handles documented in docs/theming.md, so the doc can't
+;; silently drift from code.
+(deftest default-classes-define-form-label
+  (is (contains? skylobby.fx/default-classes ".skylobby-form-label"))
+  (is (= 150 (get-in skylobby.fx/default-classes [".skylobby-form-label" :-fx-min-width]))))
+
+(deftest every-preset-has-disabled-primary
+  (doseq [k (keys skylobby.fx/style-presets)]
+    (let [d (get skylobby.fx/style-presets k)]
+      (is (contains? d ".skylobby-primary:disabled") (str k " missing .skylobby-primary:disabled"))
+      (is (some? (get-in d [".skylobby-primary:disabled" :-fx-base]))))))

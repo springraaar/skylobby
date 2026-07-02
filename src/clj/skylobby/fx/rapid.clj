@@ -79,9 +79,10 @@
                                 (sort-by :version skylobby.fx/case-insensitive-natural-comparator))
                            [])]
     {:fx/type :v-box
+     :style-class ["v-box" "skylobby-screen-rapid"]
      :children
      [{:fx/type :h-box
-       :style {:-fx-font-size 16}
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        [{:fx/type :label
@@ -98,7 +99,7 @@
           :on-value-changed {:event/type :spring-lobby/assoc
                              :key :rapid-spring-root}}}]}
       {:fx/type :h-box
-       :style {:-fx-font-size 16}
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        [{:fx/type :label
@@ -121,7 +122,7 @@
          {:fx/type font-icon/lifecycle
           :icon-literal "mdi-refresh:16:white"}}]}
       {:fx/type :h-box
-       :style {:-fx-font-size 16}
+       :style-class ["h-box" "skylobby-body"]
        :alignment :center-left
        :children
        (concat
@@ -169,7 +170,7 @@
                :icon-literal "mdi-close:16:white"}}}]))}
       {:fx/type :label
        :text " Available Packages"
-       :style {:-fx-font-size 16}}
+       :style-class ["label" "skylobby-body"]}
       {:fx/type ext-table-column-auto-size
        :v-box/vgrow :always
        :items available-packages
@@ -177,7 +178,7 @@
        {:fx/type :table-view
         :items available-packages
         :column-resize-policy :constrained
-        :style {:-fx-font-size 16}
+        :style-class ["table-view" "skylobby-body"]
         :columns
         [{:fx/type :table-column
           :sortable false
@@ -249,7 +250,7 @@
                       :icon-literal "mdi-download:16:white"}}}))))}}]}}
       {:fx/type :h-box
        :alignment :center-left
-       :style {:-fx-font-size 16}
+       :style-class ["h-box" "skylobby-body"]
        :children
        [{:fx/type :label
          :text " Packages"}
@@ -273,7 +274,7 @@
        {:fx/type :table-view
         :column-resize-policy :constrained
         :items local-packages
-        :style {:-fx-font-size 16}
+        :style-class ["table-view" "skylobby-body"]
         :columns
         [{:fx/type :table-column
           :text "Filename"

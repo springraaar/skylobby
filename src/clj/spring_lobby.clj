@@ -1208,6 +1208,32 @@
              true)})]
     (fn [] (.close chimer))))
 
+(defn- css-reload-chimer-fn [_state-atom]
+  (log/info "Starting custom CSS hot-reload chimer")
+  (let [css-file (fs/file (fs/app-root) "custom-css.edn")
+        last-modified (atom (when (fs/exists? css-file) (fs/last-modified css-file)))
+        chimer
+        (chime/chime-at
+          (chime/periodic-seq
+            (java-time/plus (java-time/instant) (java-time/duration 5 :seconds))
+            (java-time/duration 1 :seconds))
+          (fn [_chimestamp]
+            (when (fs/exists? css-file)
+              (let [current (fs/last-modified css-file)]
+                (cond
+                  (nil? @last-modified)
+                  (reset! last-modified current)
+                  (not= current @last-modified)
+                  (do
+                    (reset! last-modified current)
+                    (log/info "Custom CSS changed, hot-reloading from" css-file)
+                    (event-handler {:event/type ::load-custom-css-edn :file css-file}))))))
+          {:error-handler
+           (fn [e]
+             (log/error e "Error in custom CSS hot-reload")
+             true)})]
+    (fn [] (.close chimer))))
+
 (defn- update-matchmaking-chimer-fn [state-atom]
   (log/info "Starting update matchmaking chimer")
   (let [chimer
@@ -2368,10 +2394,18 @@
 (defmethod event-handler ::update-css
   [{:keys [css css-preset]}]
   (log/info "Registering CSS with" (count css) "keys for preset" css-preset)
-  (let [registered (css/register :skylobby.fx/current css)]
+  (let [registered (skylobby.fx/file-backed-css :skylobby.fx/current css)]
     (swap! *state assoc
            :css registered
            :css-preset css-preset)))
+
+
+(defmethod event-handler ::update-css-preset
+  [{:fx/keys [event]}]
+  (when-let [css (get skylobby.fx/style-presets event)]
+    (event-handler {:event/type ::update-css
+                    :css css
+                    :css-preset event})))
 
 
 (defmethod event-handler ::load-custom-css-edn
@@ -4038,6 +4072,13 @@
    (alter-var-root #'skylobby.client.handler/ring-impl (constantly ring-impl))
    (alter-var-root #'skylobby.client.handler/notify-impl (constantly notify-impl))
    (alter-var-root #'skylobby.client.handler/focus-impl (constantly focus-impl))
+   ;; Let the battle minimap's width listener push measured widths into reactive
+   ;; state so the minimap auto-fills the (resizable) sidebar.
+   (alter-var-root #'skylobby.fx/minimap-width-impl
+     (constantly
+       (fn [server-key width]
+         (when (not= width (get-in @state-atom [:battle-minimap-widths server-key]))
+           (swap! state-atom assoc-in [:battle-minimap-widths server-key] width)))))
    (task-handlers/add-handlers handle-task state-atom)
    (try
      (let [custom-css-file (fs/file (fs/app-root) "custom-css.edn")]
@@ -4070,6 +4111,7 @@
          profile-print-chimer (profile-print-chimer-fn state-atom)
          spit-app-config-chimer (spit-app-config-chimer-fn state-atom)
          fix-battle-ready-chimer (fix-battle-ready-chimer-fn state-atom)
+         css-reload-chimer (css-reload-chimer-fn state-atom)
          update-matchmaking-chimer (update-matchmaking-chimer-fn state-atom)
          update-music-queue-chimer (update-music-queue-chimer-fn state-atom)
          update-now-chimer (update-now-chimer-fn state-atom)
@@ -4112,6 +4154,7 @@
          profile-print-chimer
          spit-app-config-chimer
          fix-battle-ready-chimer
+         css-reload-chimer
          update-matchmaking-chimer
          update-music-queue-chimer
          update-now-chimer

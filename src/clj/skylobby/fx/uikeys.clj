@@ -98,7 +98,7 @@
       :root
       (if show-uikeys-window
         {:fx/type :v-box
-         :style {:-fx-font-size 14}
+         :style-class ["v-box" "skylobby-caption"]
          :children
          [{:fx/type :h-box
            :alignment :center-left
@@ -174,7 +174,7 @@
                      {:tooltip
                       {:fx/type tooltip-nofocus/lifecycle
                        :show-delay skylobby.fx/tooltip-show-delay
-                       :style {:-fx-font-size 15}
+                       :style-class ["tooltip" "skylobby-body"]
                        :text (str bind-comment)}})))}}
              {:fx/type :table-column
               :text "Override"

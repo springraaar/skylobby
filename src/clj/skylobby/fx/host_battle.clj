@@ -15,7 +15,7 @@
 
 
 (def host-battle-window-width 700)
-(def host-battle-window-height 400)
+(def host-battle-window-height 620)
 
 (def host-battle-window-keys
   [:battle-password :battle-port :battle-title :by-server :by-spring-root :css :engine-filter :engine-version
@@ -80,7 +80,9 @@
                                   :scripttags scripttags
                                   :use-git-mod-version (fx/sub-val context :use-git-mod-version)}]
           {:fx/type :v-box
-           :style {:-fx-font-size 16}
+           :style-class ["v-box" "skylobby-body"]
+           :padding 16
+           :spacing 8
            :children
            [
             {:fx/type :label
@@ -89,6 +91,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Battle Name: "}
               {:fx/type :text-field
                :text (str battle-title)
@@ -100,6 +103,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Battle Password: "}
               {:fx/type :text-field
                :text (str battle-password)
@@ -112,6 +116,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Port: "}
               {:fx/type :text-field
                :text (str battle-port)
@@ -138,6 +143,7 @@
              :children
              [
               {:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " NAT Type: "}
               {:fx/type :combo-box
                :value battle-nat-type

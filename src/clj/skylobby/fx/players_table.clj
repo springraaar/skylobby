@@ -105,11 +105,11 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style {:-fx-font-size 16}
+       :style-class ["v-box" "skylobby-body"]
        :children
        [
         {:fx/type :label
-         :style {:-fx-font-size 24}
+         :style-class ["label" "skylobby-h1"]
          :text (str bot-username)}
         {:fx/type :label
          :text "Options:"}
@@ -125,7 +125,7 @@
            :server-key server-key
            :singleplayer (= server-key :local)}]}
         {:fx/type :button
-         :style {:-fx-font-size 24}
+         :style-class ["button" "skylobby-h1"]
          :text "Save"
          :on-action {:event/type :spring-lobby/save-aioptions
                      :am-host am-host
@@ -158,7 +158,7 @@
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
       :root
       {:fx/type :v-box
-       :style {:-fx-font-size 20}
+       :style-class ["v-box" "skylobby-h2"]
        :children
        [
         {:fx/type :h-box
@@ -166,10 +166,10 @@
          :children
          [
           {:fx/type :label
-           :style {:-fx-font-size 24}
+           :style-class ["label" "skylobby-h1"]
            :text " Report user: "}
           {:fx/type :label
-           :style {:-fx-font-size 28}
+           :style-class ["label" "skylobby-h1"]
            :text (str username)}]}
         {:fx/type :h-box
          :alignment :center
@@ -233,8 +233,8 @@
         marked? (get marked-users username)
         host-username (fx/sub-ctx context sub/host-username server-key)]
     {:fx/type :context-menu
-     :style {:-fx-font-size 16
-             :-fx-font-weight "normal"}
+     :style-class ["context-menu" "skylobby-body"]
+     :style {:-fx-font-weight "normal"}
      :items
      (concat []
        (when (not owner)
@@ -404,7 +404,7 @@
      :tooltip
      {:fx/type tooltip-nofocus/lifecycle
       :show-delay skylobby.fx/tooltip-show-delay
-      :style {:-fx-font-size 16}
+      :style-class ["tooltip" "skylobby-body"]
       :text ""
       :graphic
       {:fx/type player-status-tooltip-label
@@ -458,8 +458,8 @@
   [{:keys [player server-key]}]
   {:fx/type tooltip-nofocus/lifecycle
    :show-delay skylobby.fx/tooltip-show-delay
-   :style {:-fx-font-size 16
-           :-fx-font-weight "normal"}
+   :style-class ["tooltip" "skylobby-body"]
+   :style {:-fx-font-weight "normal"}
    :text ""
    :graphic
    {:fx/type :v-box
@@ -467,7 +467,7 @@
     (concat
       [
        {:fx/type :label
-        :style {:-fx-font-size 18}
+        :style-class ["label" "skylobby-h2"]
         :text (str (u/nickname player))}
        {:fx/type :label
         :text ""}]
@@ -665,7 +665,7 @@
          [{:fx/type :table-column
            :text "Nickname"
            :resizable true
-           :min-width 200
+           :min-width 150
            :cell-value-factory (juxt
                                  (comp (fnil string/lower-case "") u/nickname)
                                  u/nickname
@@ -702,14 +702,14 @@
                      :tooltip
                      {:fx/type tooltip-nofocus/lifecycle
                       :show-delay skylobby.fx/tooltip-show-delay
-                      :style {:-fx-font-size 16}
+                      :style-class ["tooltip" "skylobby-body"]
                       :text ""
                       :graphic
                       {:fx/type :v-box
                        :children
                        (concat
                          [{:fx/type :label
-                           :style {:-fx-font-size 18}
+                           :style-class ["label" "skylobby-h2"]
                            :text nickname}
                           {:fx/type :label
                            :text ""}]
@@ -729,7 +729,7 @@
                            {:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style {:-fx-font-size 16}
+                             :style-class ["tooltip" "skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "Kick"}
                             :on-action
@@ -746,7 +746,7 @@
                           [{:fx/type :button
                             :tooltip
                             {:fx/type tooltip-nofocus/lifecycle
-                             :style {:-fx-font-size 16}
+                             :style-class ["tooltip" "skylobby-body"]
                              :show-delay skylobby.fx/tooltip-show-delay
                              :text "AI Settings"}
                             :on-action
@@ -781,7 +781,7 @@
            [{:fx/type :table-column
              :text "Skill"
              :resizable false
-             :pref-width 100
+             :pref-width 72
              :cell-value-factory (juxt sort-skill :skilluncertainty :skill)
              :cell-factory
              {:fx/cell-type :table-cell
@@ -914,7 +914,7 @@
            [{:fx/type :table-column
              :text "Color"
              :resizable false
-             :pref-width 140
+             :pref-width 72
              :cell-value-factory (juxt :team-color u/nickname identity)
              :cell-factory
              {:fx/cell-type :table-cell
@@ -935,6 +935,8 @@
                         :desc
                         (merge
                           {:fx/type :color-picker
+                           ; hide the hex label so the column needs only swatch + arrow
+                           :style {:-fx-color-label-visible false}
                            :value (fx.color/spring-color-to-javafx team-color)
                            :disable (boolean disable)}
                           (when-not disable
@@ -1205,8 +1207,8 @@
                                           (str (inc ally-n)))
                                         (str ally)))
                   :pref-width player-width
-                  :style {:-fx-font-size 24
-                          :-fx-font-weight "bold"
+                  :style-class ["label" "skylobby-h1"]
+                  :style {:-fx-font-weight "bold"
                           :-fx-text-fill (get allyteam-colors ally-n "#ffffff")
                           :-fx-border-color "#aaaaaa"
                           :-fx-border-radius 1
@@ -1258,7 +1260,7 @@
                                {:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style {:-fx-font-size 16}
+                                 :style-class ["tooltip" "skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "Kick"}
                                 :on-action
@@ -1275,7 +1277,7 @@
                               [{:fx/type :button
                                 :tooltip
                                 {:fx/type tooltip-nofocus/lifecycle
-                                 :style {:-fx-font-size 16}
+                                 :style-class ["tooltip" "skylobby-body"]
                                  :show-delay skylobby.fx/tooltip-show-delay
                                  :text "AI Settings"}
                                 :on-action
@@ -1338,7 +1340,7 @@
            :children
            [{:fx/type :label
              :text (str "Spectators (" (count spectators) ")")
-             :style {:-fx-font-size 24}}
+             :style-class ["label" "skylobby-h1"]}
             {:fx/type :flow-pane
              :hgap 16
              :children

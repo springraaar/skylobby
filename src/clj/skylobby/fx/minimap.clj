@@ -180,7 +180,7 @@
 
 (defn minimap-pane-impl
   [{:fx/keys [context]
-    :keys [is-replay map-name minimap-type-key players scripttags server-key start-positions]
+    :keys [is-replay map-name minimap-size minimap-type-key players scripttags server-key start-positions]
     :or {minimap-type-key :minimap-type}}]
   (let [
         am-host (fx/sub-ctx context sub/am-host server-key)
@@ -199,7 +199,7 @@
         scripttags (or scripttags
                        (fx/sub-val context get-in [:by-server server-key :battle :scripttags]))
         scripttags (clojure.walk/stringify-keys scripttags)
-        minimap-size (fx/sub-val context :minimap-size)
+        minimap-size (or minimap-size (fx/sub-val context :minimap-size))
         minimap-type (fx/sub-val context minimap-type-key)
         {:keys [smf]} map-details
         {:keys [minimap-height minimap-width]
@@ -209,6 +209,11 @@
         minimap-size (or (u/to-number minimap-size)
                          default-minimap-size)
         minimap-scale (/ (* 1.0 minimap-size) max-width-or-height)
+        ;; Actual rendered size of the minimap (aspect-correct). Non-square maps
+        ;; are shorter/narrower than minimap-size, so sizing the pane to these
+        ;; avoids dead space (a square pane would leave a gap below a wide map).
+        minimap-display-width (int (* minimap-scale minimap-width))
+        minimap-display-height (int (* minimap-scale minimap-height))
         starting-points (fx/sub-ctx context starting-point-sub server-key map-name minimap-size scripttags start-positions players)
         start-boxes (minimap-start-boxes minimap-scale minimap-width minimap-height scripttags drag-allyteam)
         startpostype (spring/startpostype-name (get-in scripttags ["game" "startpostype"]))
@@ -219,12 +224,10 @@
         cached-minimap-updated (fx/sub-val context get-in [:cached-minimap-updated (fs/canonical-path (:file map-details))])]
     {:fx/type :stack-pane
      :style
-     {:-fx-min-width minimap-size
-      :-fx-max-width minimap-size
-      :-fx-min-height minimap-size
-      :-fx-max-height minimap-size}
-     :on-scroll {:event/type :spring-lobby/minimap-scroll
-                 :minimap-type-key minimap-type-key}
+     {:-fx-min-width minimap-display-width
+      :-fx-max-width minimap-display-width
+      :-fx-min-height minimap-display-height
+      :-fx-max-height minimap-display-height}
      :children
      [{:fx/type :v-box
        :alignment :center
@@ -232,7 +235,7 @@
        [
         {:fx/type :label
          :text (str map-name)
-         :style {:-fx-font-size 16}}
+         :style-class ["label" "skylobby-body"]}
         {:fx/type :label
          :text (if (string/blank? map-name)
                  "(no map)"
@@ -246,8 +249,8 @@
        {:fx/type :image-view
         :image {:url (-> map-name (fs/minimap-image-cache-file {:minimap-type minimap-type}) io/as-url str)
                 :background-loading true}
-        :fit-width minimap-size
-        :fit-height minimap-size
+        :fit-width minimap-display-width
+        :fit-height minimap-display-height
         :preserve-ratio true}}
       (merge
         (when (or singleplayer (not am-spec))

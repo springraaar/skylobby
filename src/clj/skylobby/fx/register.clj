@@ -13,7 +13,7 @@
 
 
 (def register-window-width 500)
-(def register-window-height 400)
+(def register-window-height 500)
 
 
 (defn register-window-impl
@@ -44,7 +44,9 @@
       :root
       (if show-register-window
         {:fx/type :v-box
-         :style {:-fx-font-size 16}
+         :padding 16
+         :spacing 8
+         :style-class ["v-box" "skylobby-body"]
          :children
          [
           (assoc
@@ -56,6 +58,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Username: "}
             {:fx/type :text-field
              :h-box/hgrow :always
@@ -66,6 +69,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Password: "}
             {:fx/type :password-field
              :h-box/hgrow :always
@@ -76,6 +80,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Confirm: "}
             {:fx/type :password-field
              :h-box/hgrow :always
@@ -86,6 +91,7 @@
            :alignment :center-left
            :children
            [{:fx/type :label
+             :style-class ["label" "skylobby-form-label"]
              :text " Email: "}
             {:fx/type :text-field
              :h-box/hgrow :always
@@ -104,7 +110,7 @@
                         "Passwords do not match"))}
           {:fx/type :button
            :text "Register"
-           :style {:-fx-font-size 20}
+           :style-class ["button" "skylobby-h2"]
            :tooltip
            {:fx/type tooltip-nofocus/lifecycle
             :show-delay skylobby.fx/tooltip-show-delay

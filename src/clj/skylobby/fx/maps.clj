@@ -24,7 +24,7 @@
 
 
 (def map-browse-image-size 162)
-(def map-browse-box-height 224)
+(def map-browse-box-height 256)
 
 
 (def known-maps
@@ -50,7 +50,7 @@
 
 (defn maps-view-impl
   [{:fx/keys [context]
-    :keys [action-disable-rotate disable flow map-name on-value-changed spring-isolation-dir suggest text-only]
+    :keys [action-disable-rotate buttons-below disable flow map-name on-value-changed spring-isolation-dir suggest text-only]
     :or {flow true}}]
   (let [
         {:keys [maps maps-by-name spring-root-path]} (fx/sub-ctx context sub/spring-resources spring-isolation-dir)
@@ -59,14 +59,11 @@
         on-value-changed (or on-value-changed
                              {:event/type :spring-lobby/assoc-in
                               :path [:by-spring-root spring-root-path :map-name]})
-        dice-icon (fx/sub-ctx context dice-icon-sub)]
-    (merge
-      {:fx/type (if flow :flow-pane :h-box)}
-      (when-not flow {:alignment :center-left})
-      {:children
+        dice-icon (fx/sub-ctx context dice-icon-sub)
+        input-children
        (concat
          [{:fx/type :label
-           :alignment :center-left
+           :style-class ["label" "skylobby-form-label"]
            :text " Map: "}]
          (if (empty? maps)
            (if suggest
@@ -124,7 +121,9 @@
                      {:text (str map-name)})}
                   :on-key-pressed {:event/type :spring-lobby/maps-key-pressed}
                   :on-hidden {:event/type :spring-lobby/dissoc
-                              :key :map-input-prefix}})}]))
+                              :key :map-input-prefix}})}])))
+        button-children
+       (concat
          [{:fx/type :button
            :text ""
            :on-action {:event/type :spring-lobby/show-maps-window
@@ -195,7 +194,17 @@
              :on-action action-disable-rotate
              :graphic
              {:fx/type font-icon/lifecycle
-              :icon-literal "mdi-lock:16:white"}}}]))})))
+              :icon-literal "mdi-lock:16:white"}}}]))]
+    (if buttons-below
+      {:fx/type :v-box
+       :spacing 4
+       :children
+       [{:fx/type :flow-pane :children input-children}
+        {:fx/type :flow-pane :children button-children}]}
+      (merge
+        {:fx/type (if flow :flow-pane :h-box)}
+        (when-not flow {:alignment :center-left})
+        {:children (concat input-children button-children)}))))
 
 
 (defn maps-view [state]
@@ -246,7 +255,7 @@
            :children
            [{:fx/type :h-box
              :alignment :center-left
-             :style {:-fx-font-size 16}
+             :style-class ["h-box" "skylobby-body"]
              :children
              (concat
                [{:fx/type :label
@@ -278,10 +287,9 @@
                [{:fx/type :region
                  :h-box/hgrow :always}
                 {:fx/type :label
+                 :style-class ["label" "skylobby-caption"]
                  :text (str total-maps " maps (" total-files " files | "
-                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")
-                 :style {:-fx-margin-left 10
-                         :-fx-text-fill :lightgray}}]
+                            (format "%.2f" (/ total-size 1024.0 1024.0 1024.0)) " GB)  ")}]
            
                )}
             {:fx/type :scroll-pane
@@ -339,28 +347,29 @@
                          :text map-name
                          :alignment :center
                          :wrap-text true
-                         :style {:-fx-font-size 16  
-                                 :-fx-font-weight :bold}}
+                         :style-class ["label" "skylobby-body"]
+                         :style {:-fx-font-weight :bold}}
                         {:fx/type :label
-                         :text 
+                         :text
                            (if (or (nil? map-width) (nil? map-height))
                              "Size: ?"
                              (str "Size: " map-width " x " map-height))
-                         :style {:-fx-font-size 14}}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Author: " (get-in map-details [:map-author] "?") )
                          :wrap-text true
-                         :style {:-fx-font-size 14}}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (let [file-size (get-in map-details [:map-file-size-b] 0)]
                           (if (zero? file-size)
                             "File size: ?"
                             (str "File size: " (format "%.2f" (/ file-size 1024.0 1024.0)) " MB")))
-                         :style {:-fx-font-size 14}}
+                         :style-class ["label" "skylobby-caption"]}
                         {:fx/type :label
                          :text (str "Description: " (get-in map-details [:map-description] "?") )
                          :wrap-text true
-                         :style {:-fx-font-size 13 :-fx-wrap-text true}
+                         :style-class ["label" "skylobby-caption"]
+                         :style {:-fx-wrap-text true}
                          }
                         ])}}
                    :graphic
@@ -382,9 +391,11 @@
                      {:fx/type :pane
                       :v-box/vgrow :always}
                      {:fx/type :label
-                      :style {:-fx-font-size 12}
+                      :style-class ["label" "skylobby-caption"]
                       :text (str " " map-name)
-                      :wrap-text true}
+                      :wrap-text true
+                      :alignment :center
+                      :style {:-fx-max-width map-browse-image-size}}
                      {:fx/type :label
                       :alignment :center-left
                       :text (when-let [{:keys [map-width map-height]} map-details]
