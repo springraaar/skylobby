@@ -2004,7 +2004,7 @@
      {:fx/type :split-pane
       :orientation :horizontal
       :style-class ["split-pane" "skylobby-body" "skylobby-screen-battle"]
-      :divider-positions [(or (get divider-positions :battle-sidebar) 0.7)]
+      :divider-positions [(or (get divider-positions :battle-sidebar) 0.8)]
       :items
       [
       {:fx/type :v-box

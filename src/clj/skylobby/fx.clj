@@ -91,6 +91,39 @@
 (def space-scale
   {:1 4 :2 8 :3 12 :4 16 :5 24 :6 32})
 
+;; Split-pane divider grip - three dots centred on the divider via a background
+;; image. JavaFX 21's split-pane divider has no grabber child node to style, so
+;; the grip is generated as a small data-URI PNG in the theme's own text colour
+;; (see theme-data and the .split-pane-divider CSS). Regenerating it per theme
+;; keeps the dots legible on any surface instead of a single fixed grey.
+(defn- css-color->awt
+  "Parse an \"rgb(r,g,b)\" or \"#rrggbb\" CSS colour string to a java.awt.Color."
+  ^java.awt.Color [s]
+  (let [s (.trim ^String s)]
+    (if-let [[_ r g b] (re-matches #"rgb\((\d+),\s*(\d+),\s*(\d+)\)" s)]
+      (java.awt.Color. (Integer/parseInt r) (Integer/parseInt g) (Integer/parseInt b))
+      (java.awt.Color. (Integer/parseInt (subs s 1) 16)))))
+
+(defn- divider-dots-uri
+  "A PNG data URI of three antialiased dots in css-color for the split-pane
+   divider grip. vertical? stacks them; otherwise lays them out in a row."
+  [css-color vertical?]
+  (let [color (css-color->awt css-color)
+        [w h centers] (if vertical?
+                        [20 68 [[2 0] [2 26] [2 52]]]
+                        [68 20 [[0 2] [26 2] [52 2]]])
+        img (java.awt.image.BufferedImage. w h java.awt.image.BufferedImage/TYPE_INT_ARGB)
+        g (.createGraphics img)
+        baos (java.io.ByteArrayOutputStream.)]
+    (.setRenderingHint g java.awt.RenderingHints/KEY_ANTIALIASING
+                       java.awt.RenderingHints/VALUE_ANTIALIAS_ON)
+    (.setColor g color)
+    (doseq [[x y] centers] (.fillOval g x y 16 16))
+    (.dispose g)
+    (javax.imageio.ImageIO/write img "png" baos)
+    (str "data:image/png;base64,"
+         (.encodeToString (java.util.Base64/getEncoder) (.toByteArray baos)))))
+
 ;; ── Per-theme surface/colour ramps ───────────────────────────────
 ;; surface-0 = app background (deepest), surface-3 = raised/hover/selected.
 (def black-ramp
@@ -265,15 +298,25 @@
    ".separator:vertical .line"
    {:-fx-border-color (str "transparent " border " transparent transparent")
     :-fx-border-width "1"}
-   ;; Split-pane drag handle - a flat boundary bar in the theme border colour.
-   ;; The default modena divider centres a textured grip that reads like a
-   ;; scroll-bar thumb, so the grabber dots are hidden.
-   ".split-pane > .split-pane-divider"
-   {:-fx-background-color border
-    :-fx-padding "0 2 0 2"}
-   ".split-pane > .split-pane-divider > .horizontal-grabber,.split-pane > .split-pane-divider > .vertical-grabber"
+   ;; Split-pane drag handle - a transparent gap with a small three-dot grip
+   ;; centred on it (vertical between side-by-side panes, horizontal between
+   ;; stacked panes). JavaFX 21's divider has no grabber child node, so the fill
+   ;; is transparent and the grip is a centred data-URI image sized in logical
+   ;; px (source is 4x for crisp hi-dpi rendering). See the divider-dots-*-uri defs.
+   ".split-pane:horizontal > .split-pane-divider"
    {:-fx-background-color "transparent"
-    :-fx-padding "0"}
+    :-fx-padding "0 8 0 8"
+    :-fx-background-image (str "url(\"" (divider-dots-uri text-2 true) "\")")
+    :-fx-background-repeat "no-repeat"
+    :-fx-background-position "center"
+    :-fx-background-size "5 17"}
+   ".split-pane:vertical > .split-pane-divider"
+   {:-fx-background-color "transparent"
+    :-fx-padding "8 0 8 0"
+    :-fx-background-image (str "url(\"" (divider-dots-uri text-2 false) "\")")
+    :-fx-background-repeat "no-repeat"
+    :-fx-background-position "center"
+    :-fx-background-size "17 5"}
    ;; Inputs / text areas
    ".styled-text-area"
    {:-fx-background-color surface-0}
@@ -330,7 +373,9 @@
    ".table-row-cell:odd:selected,.table-row-cell:even:selected"
    {:-fx-background-color selection}
    ".table-row-cell:odd:empty, .table-row-cell:even:empty"
-   {:-fx-background-color "transparent"}})
+   {:-fx-background-color "transparent"
+    :-fx-border-color "transparent"
+    :-fx-table-cell-border-color "transparent"}})
 
 ;; Theme-specific extras merged over the generated base.
 (def grey-style-data
