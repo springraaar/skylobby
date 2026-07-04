@@ -22,7 +22,6 @@
   (let [app-update-available (fx/sub-val context :app-update-available)]
     (if app-update-available
       (let [{:keys [latest]} app-update-available
-            color "gold"
             version latest
             url (str "https://github.com/springraaar/skylobby/releases/download/" version "/"
                      "skylobby-" version "-"
@@ -50,6 +49,7 @@
          :children
          [
           {:fx/type :button
+           :style-class ["button" "skylobby-primary"]
            :text (if running
                    (str "Downloading update: " (u/download-progress download))
                    (str "Update to " latest))
@@ -62,29 +62,25 @@
                      :version version}}
              {:event/type :spring-lobby/desktop-browse-url
               :url installer-url})
-           :style {:-fx-base color
-                   :-fx-background color}
            :graphic
            {:fx/type font-icon/lifecycle
-            :icon-literal (str "mdi-download:" icon-size ":black")}}
+            :icon-literal (str "mdi-download:" icon-size)}}
           {:fx/type :button
+           :style-class ["button" "skylobby-primary"]
            :text ""
            :on-action {:event/type :spring-lobby/desktop-browse-url
                        :url app-update-browseurl}
-           :style {:-fx-base color
-                   :-fx-background color}
            :graphic
            {:fx/type font-icon/lifecycle
-            :icon-literal (str "mdi-open-in-new:" icon-size ":black")}}
+            :icon-literal (str "mdi-open-in-new:" icon-size)}}
           {:fx/type :button
+           :style-class ["button" "skylobby-primary"]
            :text ""
            :on-action {:event/type :spring-lobby/dissoc
                        :key :app-update-available}
-           :style {:-fx-base color
-                   :-fx-background color}
            :graphic
            {:fx/type font-icon/lifecycle
-            :icon-literal (str "mdi-close:" icon-size ":black")}}]})
+            :icon-literal (str "mdi-close:" icon-size)}}]})
       {:fx/type :pane})))
 
 
@@ -99,7 +95,7 @@
         server-key (fx/sub-ctx context skylobby.fx/selected-tab-server-key-sub)]
     {:fx/type :h-box
      :alignment :center-left
-     :style {:-fx-font-size 14}
+     :style-class ["h-box" "skylobby-caption"]
      :children
      (concat
        [{:fx/type app-update-button}
@@ -197,12 +193,11 @@
                :graphic
                {:fx/type font-icon/lifecycle
                 :icon-literal (str "mdi-play:" icon-size)}}])))
-       [{:fx/type :pane
-         :style {:-fx-pref-width "200px"}}
+       [{:fx/type :separator
+         :orientation :vertical}
         {:fx/type :button
-         :style-class ["button" "skylobby-normal"]
+         :style-class ["button" "skylobby-normal" "skylobby-secondary" "skylobby-caption"]
          :text "Replays"
-         :style {:-fx-font-size 14}
          :on-action {:event/type :spring-lobby/toggle-window
                      :windows-as-tabs (fx/sub-val context :windows-as-tabs)
                      :key :show-replays}
@@ -210,8 +205,7 @@
          {:fx/type font-icon/lifecycle
           :icon-literal (str "mdi-open-in-new:" icon-size)}}
         {:fx/type :button
-         :style-class ["button" "skylobby-normal"]
-         :style {:-fx-font-size 14}
+         :style-class ["button" "skylobby-normal" "skylobby-secondary" "skylobby-caption"]
          :text "Settings"
          :graphic {:fx/type font-icon/lifecycle
                    :icon-literal (str "mdi-settings:" icon-size)}
@@ -219,7 +213,7 @@
                      :windows-as-tabs (fx/sub-val context :windows-as-tabs)
                      :key :show-settings-window}}
         {:fx/type :button
-         :style-class ["button" "skylobby-normal"]
+         :style-class ["button" "skylobby-normal" "skylobby-secondary"]
          :text (str (count all-tasks) " tasks")
          :on-action {:event/type :spring-lobby/toggle-window
                      :windows-as-tabs (fx/sub-val context :windows-as-tabs)

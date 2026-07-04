@@ -55,6 +55,7 @@
           {:children
            (concat
              [{:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Engine: "}]
              (if (empty? engines)
                (if suggest
@@ -138,7 +139,7 @@
        (when (< 1 (count indexed-engines))
          [{:fx/type :h-box
            :alignment :center-left
-           :style {:-fx-font-size 18}
+           :style-class ["h-box" "skylobby-body"]
            :children
            [
             {:fx/type :label

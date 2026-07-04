@@ -62,7 +62,7 @@
            :tooltip
            {:fx/type tooltip-nofocus/lifecycle
             :show-delay skylobby.fx/tooltip-show-delay
-            :style {:-fx-font-size 14}
+            :style-class ["tooltip" "skylobby-caption"]
             :text "Cancel connect"}
            :on-action {:event/type :spring-lobby/cancel-connect
                        :client-deferred client-deferred
@@ -247,7 +247,7 @@
              :on-text-changed {:event/type :spring-lobby/password-change
                                :server-url (first server)}}]}]
          [{:fx/type :label
-           :style {:-fx-font-size 16}
+           :style-class ["label" "skylobby-body"]
            :text "Logged in"}
           {:fx/type :button
            :text "Go to server tab"
@@ -261,7 +261,7 @@
         (let [[server-url server-details] server
               server-spring-root (:spring-isolation-dir server-details)]
           {:fx/type :v-box
-           :style {:-fx-font-size 16}
+           :style-class ["v-box" "skylobby-body"]
            :children
            [
             {:fx/type :label
@@ -269,7 +269,7 @@
                            (= server-spring-root spring-root))
                      "Using default Spring dir"
                      "Using server-specific Spring dir")
-             :style {:-fx-font-size 20}}
+             :style-class ["label" "skylobby-h2"]}
             {:fx/type :h-box
              :alignment :center-left
              :children
@@ -277,8 +277,8 @@
                [{:fx/type :text-field
                  :disable true
                  :text (str (or server-spring-root spring-root))
-                 :style {:-fx-min-width 400
-                         :-fx-font-size 16}}]
+                 :style {:-fx-min-width 400}
+                 :style-class ["text-field" "skylobby-body"]}]
                (when server-spring-root
                  [{:fx/type :button
                    :style-class ["button" "skylobby-normal"]
@@ -299,7 +299,7 @@
                   :icon-literal "mdi-file-find:20"}}])}]})]
        (when login-error
          [{:fx/type :label
-           :style {:-fx-font-size 24}
+           :style-class ["label" "skylobby-h1"]
            :text "Error:"}
           {:fx/type :text-area
            :editable false
@@ -338,7 +338,7 @@
                         :task {:spring-lobby/task-type :spring-lobby/auto-connect-servers}}}]))
       (when agreement
         [{:fx/type :label
-          :style {:-fx-font-size 20}
+          :style-class ["label" "skylobby-h2"]
           :text " Server agreement: "}
          {:fx/type :text-area
           :style {:-fx-font-size "70%"
@@ -346,7 +346,7 @@
           :editable false
           :text (str agreement)}
          {:fx/type :h-box
-          :style {:-fx-font-size 20}
+          :style-class ["h-box" "skylobby-h2"]
           :children
           [{:fx/type :text-field
             :prompt-text "Email Verification Code"
@@ -361,20 +361,26 @@
                         :verification-code verification-code}}]}]))}))
 
 
+(defn banner-image [{:fx/keys [context]}]
+  (let [effect (skylobby.fx/banner-effect (fx/sub-val context :css-preset))]
+    (cond-> {:fx/type :image-view
+             :image (str (io/resource "skylobby_banner.png"))
+             :fit-width 800
+             :preserve-ratio true
+             :smooth true}
+      effect (assoc :effect effect))))
+
+
 (defn- welcome-view-impl
   [_state]
   {:fx/type :v-box
    :alignment :center
-   :style {:-fx-font-size 20}
+   :style-class ["v-box" "skylobby-h2" "skylobby-screen-welcome"]
    :children
    [
     {:fx/type :pane
      :v-box/vgrow :always}
-    {:fx/type :image-view
-      :image (str (clojure.java.io/resource "skylobby_banner.png"))
-      :fit-width 800
-      :preserve-ratio true
-      :smooth true}
+    {:fx/type banner-image}
     {:fx/type :h-box
      :alignment :center
      :spacing 14
@@ -383,41 +389,40 @@
      :children 
      [
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["hyperlink" "skylobby-body"]
        :text (str "version " u/app-version "  (raaar)")   ; forks should edit the () to make the fork name more explicit (workaround for version numbering restrictions)
        :on-action {:event/type :spring-lobby/desktop-browse-url
                    :url "https://github.com/springraaar/skylobby/wiki/User-Guide"}}
       {:fx/type :h-box
        :h-box/hgrow :always}
       {:fx/type :label
-       :style {:-fx-font-size 16}
+       :style-class ["label" "skylobby-body"]
        :text "Discord Servers:"}
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["hyperlink" "skylobby-body"]
        :text (str "Skylobby")
        :on-action {:event/type :spring-lobby/desktop-browse-url
                  :url "https://discord.gg/rXYanUAveW"}}
       {:fx/type :hyperlink
-       :style {:-fx-font-size 16}
+       :style-class ["hyperlink" "skylobby-body"]
        :text (str "Engine")
        :on-action {:event/type :spring-lobby/desktop-browse-url
                    :url "https://discord.gg/wThucpT"}}]}
     {:fx/type :pane
      :pref-height 20}
     {:fx/type :h-box
+     :alignment :top-center
+     :spacing 24
      :children
      [
       {:fx/type :pane
        :h-box/hgrow :always}
-      {:fx/type :h-box
-       :spacing 100
-       :children
-       [{:fx/type :pane
-         :h-box/hgrow :always}
-        {:fx/type singleplayer-buttons}
-        {:fx/type multiplayer-buttons}
-        {:fx/type :pane
-         :h-box/hgrow :always}]}
+      {:fx/type :v-box
+       :style-class ["skylobby-card"]
+       :children [{:fx/type singleplayer-buttons}]}
+      {:fx/type :v-box
+       :style-class ["skylobby-card"]
+       :children [{:fx/type multiplayer-buttons}]}
       {:fx/type :pane
        :h-box/hgrow :always}]}
     {:fx/type :pane

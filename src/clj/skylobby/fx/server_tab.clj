@@ -26,7 +26,7 @@
               :v-box/vgrow :always
               :server-key server-key}]
     {:fx/type :v-box
-     :style {:-fx-font-size 14}
+     :style-class ["v-box" "skylobby-caption" "skylobby-screen-server"]
      :alignment :top-left
      :children
      [
@@ -52,7 +52,7 @@
                 :h-box/hgrow :always
                 :children
                 [{:fx/type :label
-                  :style {:-fx-font-size 20}
+                  :style-class ["label" "skylobby-h2"]
                   :text "Waiting for battle details from server..."}]}]})]}}
         tabs)]}))
 

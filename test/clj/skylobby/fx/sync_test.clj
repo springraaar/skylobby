@@ -16,3 +16,9 @@
         (fx.sync/sync-pane
           {:fx/context (fx/create-context nil)
            :issues [{}]}))))
+
+(deftest sync-pane-has-padding
+  (let [pane (fx.sync/sync-pane {:resource "Map" :issues []})]
+    (is (= :v-box (:fx/type pane)))
+    (is (= 8 (:padding pane)))
+    (is (= 4 (:spacing pane)))))

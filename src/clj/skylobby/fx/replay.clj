@@ -398,7 +398,7 @@
            [(if-let [id (:id selected-replay)]
               (let [in-progress (contains? replay-id-downloads id)]
                 {:fx/type :button
-                 :style {:-fx-font-size 20}
+                 :style-class ["button" "skylobby-h2"]
                  :text (if in-progress
                          "Downloading..."
                          "Download replay")
@@ -438,7 +438,7 @@
             {:fx/type :label
              :text " Auto import or download resources"}]}]}]
     {:fx/type :h-box
-     :style {:-fx-font-size 16}
+     :style-class ["h-box" "skylobby-body"]
      :alignment :center-left
      :children
      [
@@ -487,7 +487,7 @@
                 :on-value-changed {:event/type :spring-lobby/assoc
                                    :key :battle-players-color-type}}]}]
             (let [watch-button {:fx/type :button
-                                :style {:-fx-font-size 24}
+                                :style-class ["button" "skylobby-h1"]
                                 :text (if spring-running
                                         " Watching a replay"
                                         " Watch")
@@ -509,7 +509,7 @@
                   [{:fx/type :pane
                     :h-box/hgrow :always}
                    {:fx/type :button
-                    :style {:-fx-font-size 24}
+                    :style-class ["button" "skylobby-h1"]
                     :on-action
                     (if standalone
                       {:event/type :spring-lobby/main-window-on-close-request
@@ -560,10 +560,10 @@
                   [
                    {:fx/type :label
                     :text "Chat log "
-                    :style {:-fx-font-size 20}}
+                    :style-class ["label" "skylobby-h2"]}
                    {:fx/type :label
                     :text " filter: "
-                    :style {:-fx-font-size 16}}
+                    :style-class ["label" "skylobby-body"]}
                    {:fx/type :text-field
                     :text (str filter-replay-chat)
                     :on-text-changed {:event/type :spring-lobby/assoc
@@ -576,8 +576,8 @@
                    :content
                    {:fx/type fx.rich-text/lifecycle-inline
                     :editable false
-                    :style {:-fx-font-family skylobby.fx/monospace-font-family
-                            :-fx-font-size 18}
+                    :style {:-fx-font-family skylobby.fx/monospace-font-family}
+                   :style-class ["rich-text-area" "skylobby-h2"]
                     :wrap-text true
                     :document (chat-log-document
                                 chat-log
@@ -1224,11 +1224,11 @@
            :v-box/vgrow :always}
           {:fx/type :h-box
            :alignment :center-left
-           :style {:-fx-font-size 16}
+           :style-class ["h-box" "skylobby-body"]
            :children
            [
             {:fx/type :button
-             :style {:-fx-font-size 16}
+             :style-class ["button" "skylobby-body"]
              :text (if downloading
                      " Getting Online BAR Replays... "
                      " Get Online BAR Replays")
@@ -1247,33 +1247,33 @@
              :on-text-changed {:event/type :spring-lobby/assoc
                                :key :bar-replays-page}}]}
           {:fx/type :label
-           :style {:-fx-font-size 16}
+           :style-class ["label" "skylobby-body"]
            :text (str (when new-online-replays-count
                         (str " Got " new-online-replays-count " new")))}
           {:fx/type :label
-           :style {:-fx-font-size 20}
+           :style-class ["label" "skylobby-h2"]
            :text "Spring Official Replays"}
           (let [url "https://replays.springrts.com/"]
             {:fx/type :hyperlink
-             :style {:-fx-font-size 18}
+             :style-class ["hyperlink" "skylobby-h2"]
              :text url
              :on-action {:event/type :spring-lobby/desktop-browse-url
                          :url url}})
           {:fx/type :label
-           :style {:-fx-font-size 20}
+           :style-class ["label" "skylobby-h2"]
            :text "BAR Replays"}
           (let [url "https://bar-rts.com/replays"]
             {:fx/type :hyperlink
-             :style {:-fx-font-size 18}
+             :style-class ["hyperlink" "skylobby-h2"]
              :text url
              :on-action {:event/type :spring-lobby/desktop-browse-url
                          :url url}})
           {:fx/type :label
-           :style {:-fx-font-size 20}
+           :style-class ["label" "skylobby-h2"]
            :text "Spring Fight Club Replays"}
           (let [url "http://replays.springfightclub.com/"]
             {:fx/type :hyperlink
-             :style {:-fx-font-size 18}
+             :style-class ["hyperlink" "skylobby-h2"]
              :text url
              :on-action {:event/type :spring-lobby/desktop-browse-url
                          :url url}})
@@ -1361,12 +1361,12 @@
             refresh-tasks (fx/sub-ctx context skylobby.fx/tasks-of-type-sub :spring-lobby/refresh-replays)
             filter-sources-items (fx/sub-ctx context filter-sources-items-sub)]
         {:fx/type :v-box
-         :style {:-fx-font-size 14}
+         :style-class ["v-box" "skylobby-caption" "skylobby-screen-replays"]
          :children
          (concat
            [{:fx/type :h-box
              :alignment :top-left
-             :style {:-fx-font-size 16}
+             :style-class ["h-box" "skylobby-body"]
              :children
              [
               {:fx/type :flow-pane
@@ -1569,7 +1569,7 @@
             (if all-replays
               (if (empty? all-replays)
                 {:fx/type :label
-                 :style {:-fx-font-size 24}
+                 :style-class ["label" "skylobby-h1"]
                  :text " No replays"}
                 {:fx/type :v-box
                  :v-box/vgrow :always
@@ -1582,7 +1582,7 @@
                   {:fx/type replays-table
                    :v-box/vgrow :always}]})
               {:fx/type :label
-               :style {:-fx-font-size 24}
+               :style-class ["label" "skylobby-h1"]
                :text " Loading replays..."})]
            (when selected-replay
              (let [minimap-size (or (fx/sub-val context :minimap-size)

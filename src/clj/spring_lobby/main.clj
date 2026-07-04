@@ -2,7 +2,6 @@
   (:require
     [clj-http.client :as clj-http]
     [cljfx.api :as fx]
-    [cljfx.css :as css]
     clojure.core.async
     [clojure.core.cache :as cache]
     [clojure.java.io :as io]
@@ -181,16 +180,16 @@
               (log/info "Loaded initial state in" (- (u/curr-millis) before-state) "ms")
               (reset! spring-lobby/*state state)
               (spring-lobby/add-ui-state-watcher spring-lobby/*state spring-lobby/*ui-state)
-              (let [previous-css (css/register :skylobby.fx/current
+              (let [previous-css (skylobby.fx/file-backed-css :skylobby.fx/current
                     (or (and (:css-preset state)
                                (or (get skylobby.fx/style-presets (:css-preset state))
                          (:css state)))
-                         skylobby.fx/default-style-data)) 
+                         skylobby.fx/default-style-data))
                     css (cond
                           (:css-file options)
                           {:cljfx.css/url (some-> options :css-file fs/file .toURI .toURL)}
                           (:css-preset options)
-                          (css/register :skylobby.fx/current
+                          (skylobby.fx/file-backed-css :skylobby.fx/current
                             (get skylobby.fx/style-presets (some-> options :css-preset string/lower-case)))
                           :else previous-css)]
                 (swap! spring-lobby/*state assoc :css css)))

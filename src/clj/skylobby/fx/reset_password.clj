@@ -12,7 +12,7 @@
 
 
 (def reset-password-window-width 500)
-(def reset-password-window-height 400)
+(def reset-password-window-height 520)
 
 
 (defn reset-password-window-impl
@@ -41,7 +41,9 @@
       :root
       (if show-reset-password-window
         {:fx/type :v-box
-         :style {:-fx-font-size 16}
+         :padding 16
+         :spacing 8
+         :style-class ["v-box" "skylobby-body"]
          :children
          (concat
            [
@@ -54,6 +56,7 @@
              :alignment :center-left
              :children
              [{:fx/type :label
+               :style-class ["label" "skylobby-form-label"]
                :text " Email: "}
               {:fx/type :text-field
                :h-box/hgrow :always
@@ -67,7 +70,7 @@
              :text (str request-reset-password-response)}
             {:fx/type :button
              :text "Request Email Verification Code"
-             :style {:-fx-font-size 20}
+             :style-class ["button" "skylobby-h2"]
              :tooltip
              {:fx/type tooltip-nofocus/lifecycle
               :show-delay skylobby.fx/tooltip-show-delay
@@ -81,6 +84,7 @@
                :alignment :center-left
                :children
                [{:fx/type :label
+                 :style-class ["label" "skylobby-form-label"]
                  :text " Code: "}
                 {:fx/type :text-field
                  :h-box/hgrow :always
@@ -92,7 +96,7 @@
                :text (str reset-password-response)}
               {:fx/type :button
                :text "Reset Password"
-               :style {:-fx-font-size 20}
+               :style-class ["button" "skylobby-h2"]
                :tooltip
                {:fx/type tooltip-nofocus/lifecycle
                 :show-delay skylobby.fx/tooltip-show-delay
