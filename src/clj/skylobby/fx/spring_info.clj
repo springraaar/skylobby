@@ -17,7 +17,7 @@
 
 
 (def spring-info-window-width 1200)
-(def spring-info-window-height 1200)
+(def spring-info-window-height 900)
 
 (def window-key :spring-info)
 
@@ -25,6 +25,14 @@
 (defn segment
   [text style]
   (StyledSegment. text style))
+
+(defn get-log-line-class
+  [stream line]
+  (let [lower-line (string/lower-case line)]
+    (cond
+      (= stream :out) "skylobby-spring-log-out"
+      (string/includes? lower-line "warning") "skylobby-spring-log-warn"
+      :else "skylobby-spring-log-err")))
 
 (defn spring-info-root
   [{:fx/keys [context]}]
@@ -61,7 +69,7 @@
                        (concat
                          [(segment
                             (str line)
-                            ["text" (str "skylobby-spring-log-" (name stream))])]))
+                            ["text" (get-log-line-class stream (str line))])]))
                      ^java.util.List
                      [])))
                (when (seq logs)
@@ -123,7 +131,7 @@
   [{:fx/keys [context]
     :keys [screen-bounds]}]
   (let [
-        show (boolean (fx/sub-val context :show-spring-info-window))
+        show (boolean (fx/sub-val context :show-spring-info-window)) 
         window-states (fx/sub-val context :window-states)]
     {:fx/type :stage
      :showing (boolean show)
@@ -131,10 +139,12 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-spring-info-window}
-     :x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]))
-     :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
+     :x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]) spring-info-window-width)
+     :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]) spring-info-window-height)
      :width (skylobby.fx/fitwidth screen-bounds (get-in window-states [window-key :width]) spring-info-window-width)
      :height (skylobby.fx/fitheight screen-bounds (get-in window-states [window-key :height]) spring-info-window-height)
+     :min-width spring-info-window-width
+     :min-height spring-info-window-height
      :on-width-changed (partial skylobby.fx/window-changed window-key :width)
      :on-height-changed (partial skylobby.fx/window-changed window-key :height)
      :on-x-changed (partial skylobby.fx/window-changed window-key :x)

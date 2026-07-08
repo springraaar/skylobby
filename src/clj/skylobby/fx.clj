@@ -867,6 +867,8 @@
     {
      "-err"
      {:-fx-fill "red"}
+     "-warn"
+     {:-fx-fill "orange"}
      "-out"
      {:-fx-fill "white"}}}})
 
@@ -1037,31 +1039,36 @@
 
 (defn fitx
   ([screen-bounds]
-   (fitx screen-bounds nil))
+   (fitx screen-bounds nil min-width))
   ([screen-bounds setting]
+   (fitx screen-bounds setting min-width))
+  ([screen-bounds setting width]
    (let [screen-bounds (screen-bounds-fallback screen-bounds)]
      (max
        (min
          (or setting
-             (when (and (:min-x screen-bounds) (:max-x screen-bounds))
+             (when (and (:min-x screen-bounds) (:max-x screen-bounds) width)
                (quot (+ (:min-x screen-bounds)
-                        (- (:max-x screen-bounds) min-width))
+                        (- (:max-x screen-bounds) width))
                      2))
              Integer/MIN_VALUE)
          (or (:max-x screen-bounds) 0))
        (or (:min-x screen-bounds) 0)))))
 
+
 (defn fity
   ([screen-bounds]
-   (fity screen-bounds nil))
+   (fity screen-bounds nil min-height))
   ([screen-bounds setting]
+   (fity screen-bounds setting min-height))
+  ([screen-bounds setting height]
    (let [screen-bounds (screen-bounds-fallback screen-bounds)]
      (max
        (min
          (or setting
-             (when (and (:min-y screen-bounds) (:max-y screen-bounds))
+             (when (and (:min-y screen-bounds) (:max-y screen-bounds) height)
                (quot (+ (:min-y screen-bounds)
-                        (- (:max-y screen-bounds) min-height))
+                        (- (:max-y screen-bounds) height))
                      2))
              Integer/MIN_VALUE)
          (or (:max-y screen-bounds) 0))

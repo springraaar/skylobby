@@ -412,6 +412,7 @@ Sixteen classes mapping the classic mIRC colour palette (`\x03NN`):
 | Selector | Source | What it is |
 |---|---|---|
 | `.skylobby-spring-log-err` | default-classes | Engine stderr lines (red). |
+| `.skylobby-spring-log-warn` | default-classes | Engine stderr lines (orange). |
 | `.skylobby-spring-log-out` | default-classes | Engine stdout lines (white). |
 
 ---
