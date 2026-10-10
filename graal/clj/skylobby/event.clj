@@ -16,6 +16,7 @@
 
 (set! *warn-on-reflection* true)
 
+;;TODO these connect/disconnect functions might also benefit from the retry loop, but they don't seem to be used in practice despite the references in server.clj
 
 (defn- update-disconnected!
   [state-atom server-key]
@@ -25,13 +26,16 @@
                                    (-> state
                                        (update :by-server dissoc server-key)
                                        (update :needs-focus dissoc server-key))))
-        {:keys [client-data ping-loop print-loop]} (-> old-state :by-server (get server-key))]
+        {:keys [client-data ping-loop ping-timeout-checker-loop print-loop]} (-> old-state :by-server (get server-key))]
     (if client-data
       (client/disconnect state-atom client-data)
       (log/warn (ex-info "stacktrace" {:server-key server-key}) "No client to disconnect!"))
     (if ping-loop
       (future-cancel ping-loop)
       (log/warn (ex-info "stacktrace" {:server-key server-key}) "No ping loop to cancel!"))
+    (if ping-timeout-checker-loop
+      (future-cancel ping-timeout-checker-loop)
+      (log/warn (ex-info "stacktrace" {:server-key server-key}) "No ping timeout checker loop to cancel!")) 
     (if print-loop
       (future-cancel print-loop)
       (log/warn (ex-info "stacktrace" {:server-key server-key}) "No print loop to cancel!")))

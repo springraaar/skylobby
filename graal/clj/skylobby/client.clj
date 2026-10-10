@@ -157,6 +157,37 @@
     (s/close! client)
     (log/info "Connection" server-key "closed?" (s/closed? client))))
 
+; store/run future that checks time elapsed since last PING and triggers timeout
+; cancelled by PONG handler
+(defn start-ping-timeout-checker [state-atom server-key ping-send-time]
+  (let [checker-future (future
+                         (try
+                           (loop []
+                             (async/<!! (async/timeout 50))
+                             (let [now (u/curr-millis)
+                                   elapsed (- now ping-send-time)]
+                               (when (= ping-send-time
+                                       (get-in @state-atom [:by-server server-key :last-ping]))
+                                 (cond
+                                   ; If elapsed > 10s, connection is likely dead
+                                   (> elapsed 10000)
+                                   (do (log/warn "Ping timeout exceeded 10s, triggering reconnect")
+                                       (swap! state-atom assoc-in [:by-server server-key :rtt] 9999)
+                                       (let [
+                                             client-data (-> @state-atom :by-server (get server-key) :client-data)]
+                                         ;(swap! state-atom assoc-in [:by-server server-key :retry-connection-token] true)
+                                         (disconnect state-atom client-data)  ; this triggers the connection drained event which will trigger the reconnection
+                                         ))
+                                   :else
+                                   ; If elapsed > 200ms, update RTT to show degraded connection
+                                   (do (when (> elapsed 200)
+                                         (swap! state-atom assoc-in [:by-server server-key :rtt] elapsed))
+                                       (when-not (Thread/interrupted)
+                                         (recur)))
+                                   ))))
+                           (catch Throwable t
+                             (log/debug t "Ping timeout checker ended"))))]
+    (swap! state-atom assoc-in [:by-server server-key :ping-timeout-checker-loop] checker-future)))
 
 (defn ping-loop [state-atom server-key client-data]
   (let [ping-loop-future (future
@@ -165,6 +196,10 @@
                              (loop []
                                (async/<!! (async/timeout 30000))
                                (when (message/send state-atom client-data "PING")
+                                 (let [now (u/curr-millis)]
+                                   ; record the ping send time and start checker for timeout detection
+                                   (swap! state-atom assoc-in [:by-server server-key :last-ping] now)
+                                   (start-ping-timeout-checker state-atom server-key now))
                                  (when-not (Thread/interrupted)
                                    (recur))))
                              (log/info "Ping loop ended")

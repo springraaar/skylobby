@@ -1786,7 +1786,7 @@
                                               (update-in [:login-error server-key] str "\n" (or error-message "Connection lost"))
                                               user-requested
                                               (assoc-in [:normal-logout server-key] true)))))
-         {:keys [client-data ping-loop print-loop]} (-> old-state :by-server (get server-key))]
+         {:keys [client-data ping-loop ping-timeout-checker-loop retry-connection-loop print-loop]} (-> old-state :by-server (get server-key))]
      (if client-data
        (client/disconnect *state client-data)
        (do
@@ -1797,6 +1797,16 @@
        (do
          (log/trace (ex-info "stacktrace" {:server-key server-key}) "No ping loop to cancel!")
          (log/info "No ping loop to disconnect for" server-key)))
+     (if ping-timeout-checker-loop 
+       (future-cancel ping-timeout-checker-loop)
+       (do             
+         (log/trace (ex-info "stacktrace" {:server-key server-key}) "No ping timeout checker loop to cancel!")
+         (log/info "No ping timeout checker loop to disconnect for" server-key)))
+     (if (and user-requested retry-connection-loop)
+       (future-cancel retry-connection-loop)
+       (do
+         (log/trace (ex-info "stacktrace" {:server-key server-key}) "No retry connection loop to cancel!")
+         (log/info "No retry connection loop to disconnect for" server-key)))
      (if print-loop
        (future-cancel print-loop)
        (do
@@ -1820,6 +1830,75 @@
         (client-close-fn)))
     (update-disconnected! *state server-key {:user-requested true})))
 
+
+(declare connect)
+
+; returns true if connection to server is active
+(defn- connected-to-server? [state-atom server-key]
+  (let [client-data (-> @state-atom :by-server (get server-key) :client-data)]
+    (if (nil? client-data)
+      (do
+        ;(log/info "connected-to-server? : client-data is nil" )
+        false  ;; If client-data doesn't exist, treat as disconnected
+      )
+      (let [{:keys [client-deferred server-key]} client-data]
+        (if (nil? client-deferred)
+          false  ;; If client-deferred is nil, treat as disconnected
+          (try
+            (let [^SplicedStream client @client-deferred]
+              (if (s/closed? client)
+                false
+                true))
+            (catch Exception e
+              (log/warn e "Error checking connection for" server-key)
+              false)))))))
+
+; Check/retry connecting to server every 30s until successful
+(defn- retry-connection-loop [state-atom server-key server state]
+  (let [retry-connection-loop-future (future
+    (try
+      (loop [attempt 1]
+        (async/<!! (async/timeout 30000))
+        (if (connected-to-server? state-atom server-key)
+          (log/info "retry-connection-loop : already connected to" server-key ": stop") ;; Connected successfully, exit loop
+          (do
+            (log/info "retry-connection-loop : reconnection attempt" attempt "for" server-key)
+            (let [result (try
+                       ;; Replace client connection and retry connecting
+                       (let [[server-url server-opts] server
+                             new-client-data (client/client server-url server-opts)
+                             new-client-data (assoc new-client-data
+                                                    :server-key server-key
+                                                    :server-url server-url
+                                                    :ssl (:ssl (second server))
+                                                    ;; Preserve credentials from existing state
+                                                    :password (get state :password)
+                                                    :username (get state :username)
+                                                    )]
+                         (swap! state-atom assoc-in [:by-server server-key :client-data] new-client-data)
+                         (connect state-atom (assoc state :client-data new-client-data))
+                         ;; Wait a bit and check if the latest connection to that server seems to be working
+                         (async/<!! (async/timeout 6000))
+                         (if (connected-to-server? state-atom server-key)
+                           (do
+                             (log/info "retry-connection-loop : reconnection succeeded for" server-key ": stop")
+                             :success)
+                           :failed))
+                       (catch Exception e
+                         (log/warn e "retry-connection-loop : reconnection attempt" attempt "failed for" server-key)
+                         :failed))]
+            (if (= result :success)
+              nil  ;; Connected successfully, exit loop
+              (if (< attempt 1000)  ;; Max 1000 retries? 
+                (when-not (Thread/interrupted) (recur (inc attempt)))
+                (do
+                  (log/error "retry-connection-loop : max reconnection attempts reached for" server-key ": stop")
+                  (update-disconnected! *state server-key {:error-message "Failed to reconnect after 1000 attempts"}))))))))
+      (catch Throwable t
+        (log/error t "retry-connection-loop : unexpected throwable caught when checking" server-key ": stop"))))]
+    (swap! state-atom assoc-in [:by-server server-key :retry-connection-loop] retry-connection-loop-future)))
+    
+
 (defn- connect
   [state-atom {:keys [client-data server] :as state}]
   (let [{:keys [client-deferred server-key]} client-data]
@@ -1828,12 +1907,22 @@
         (let [^SplicedStream client @client-deferred]
           (s/on-closed client
             (fn []
-              (log/info "client closed")
+              (log/info "client closed for " server-key)
               (update-disconnected! *state server-key {:error-message "Connection closed"})))
           (s/on-drained client
             (fn []
-              (log/info "client drained")
-              (update-disconnected! *state server-key {:error-message "Connection drained"})))
+              ; don't rely on token, always try to reconnect
+              ;(let [retry-token (get-in @state-atom [:by-server server-key :retry-connection-token])]
+              ;  (if retry-token
+                  (do 
+                    (log/info "client drained for " server-key " (reconnecting)")
+                    (update-disconnected! *state server-key {:error-message "Connection drained. (reconnecting after 30s)"})
+                    (swap! state-atom assoc-in [:by-server server-key :retry-connection-token] false)
+                    (retry-connection-loop state-atom server-key server state))
+                  ))
+                  ;(do 
+                  ;  (log/info "client drained for " server-key)
+                  ;  (update-disconnected! *state server-key {:error-message "Connection drained"}))))))
           (if (s/closed? client)
             (log/warn "client was closed on create")
             (let [[server-url _server-data] server

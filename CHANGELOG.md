@@ -1,14 +1,14 @@
 # Changelog
 
-## [0.9.31017](https://github.com/springraaar/skylobby/releases/tag/0.9.31017) - 2026-07-08
+## [0.9.31017](https://github.com/springraaar/skylobby/releases/tag/0.9.31017) - 2026-10-XX
 
 - UI overhaul (PR by tomjn):
 . Changes to all skins/themes, normalized/simplified definitions and improved documentation (check theming.md)
-. New themes : HardHacker, Sakura and two variants of Catppuccin and Brown
+. New themes : HardHacker, Sakura and two variants of both Catppuccin and Brown
 . Removed minimap size selector (now resizes automatically to fit side panel width)
 . Removed redundant map selector from the single player menu
 - Engine crash log viewer shows "warning" lines as orange instead of red
-
+- Automatically try to reconnect to servers if connection fails
 
 ## [0.9.31016](https://github.com/springraaar/skylobby/releases/tag/0.9.31016) - 2026-06-30
 

@@ -49,10 +49,15 @@
 (defmethod handle "MOTD" [_state-atom _server-key m]
   (log/trace "motd" m))
 
+
 (defmethod handle "PONG" [state-atom server-key _m]
   (swap! state-atom update-in [:by-server server-key]
-    (fn [{:keys [last-ping] :as state}]
+    (fn [{:keys [last-ping ping-timeout-checker-loop] :as state}]
       (let [now (u/curr-millis)]
+        ;; Cancel the active ping timeout checker since PONG arrived
+        (when ping-timeout-checker-loop
+          (future-cancel ping-timeout-checker-loop))
+
         (cond-> (assoc state :last-pong now)
                 (number? last-ping)
                 (assoc :rtt (- now last-ping)))))))
