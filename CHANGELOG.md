@@ -9,6 +9,7 @@
 . Removed redundant map selector from the single player menu
 - Engine crash log viewer shows "warning" lines as orange instead of red
 - Automatically try to reconnect to servers if connection fails
+- Fixed UI sometimes taking several seconds to update to match the selected theme on startup
 
 ## [0.9.31016](https://github.com/springraaar/skylobby/releases/tag/0.9.31016) - 2026-06-30
 

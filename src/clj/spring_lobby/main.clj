@@ -247,6 +247,8 @@
                   (log/info "Mounting renderer")
                   (fx/mount-renderer spring-lobby/*ui-state r))
                 (spring-lobby/init-async spring-lobby/*state)
+                ; trigger UI update otherwise sometimes it takes 30s after startup to even switch from default to selected theme
+                (swap! spring-lobby/*state assoc :startup-ui-refresh-token true)
                 (future
                   (fs/delete-skylobby-update-jars))
                 (future
