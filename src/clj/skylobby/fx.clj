@@ -129,7 +129,7 @@
 (def black-ramp
   {:surface-0 "rgb(18,18,18)"
    :surface-1 "rgb(28,28,28)"
-   :surface-2 "rgb(40,40,40)"
+   :surface-2 "rgb(46,46,46)"
    :surface-3 "rgb(54,54,54)"
    :border    "rgb(64,64,64)"
    :focus     "rgb(120,120,130)"
@@ -742,7 +742,7 @@
    {:-fx-font-size 16
     :-fx-text-fill "-fx-text-base-color"}
    ".skylobby-caption"
-   {:-fx-font-size 13
+   {:-fx-font-size 12
     :-fx-text-fill "-fx-text-base-color"}
    ; Inputs render at one consistent "normal" size app-wide. A direct rule on
    ; the control beats any font-size inherited from a heading-sized container,

@@ -18,7 +18,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def default-font-size 18)
+(def default-font-size 14)
 
 
 (def max-history 1000)
@@ -112,6 +112,7 @@
        (let [
              client-data (fx/sub-val context get-in [:by-server server-key :client-data])
              console-auto-scroll (fx/sub-val context :console-auto-scroll)
+             chat-font-size (fx/sub-val context :chat-font-size)
              console-message-draft (fx/sub-val context get-in [:by-server server-key :console-message-draft])
              console-history-index (fx/sub-val context get-in [:by-server server-key :console-history-index])
              console-ignore-message-types (or (fx/sub-val context :console-ignore-message-types)
@@ -135,7 +136,7 @@
                {:fx/type fx.rich-text/lifecycle-fast
                 :editable false
                 :style {:-fx-font-family skylobby.fx/monospace-font-family
-                        :-fx-font-size default-font-size}
+                        :-fx-font-size (or chat-font-size default-font-size)}
                 :wrap-text true
                 :document [(reverse console-log) console-document console-auto-scroll]}}}}
             {:fx/type :h-box

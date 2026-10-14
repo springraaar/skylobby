@@ -8,8 +8,9 @@
 . Removed minimap size selector (now resizes automatically to fit side panel width)
 . Removed redundant map selector from the single player menu
 - Engine crash log viewer shows "warning" lines as orange instead of red
-- Automatically try to reconnect to servers if connection fails
+- Automatically try to reconnect to servers if connection drops
 - Fixed UI sometimes taking several seconds to update to match the selected theme on startup
+- Chat font size setting now applies to Console messages too
 
 ## [0.9.31016](https://github.com/springraaar/skylobby/releases/tag/0.9.31016) - 2026-06-30
 
