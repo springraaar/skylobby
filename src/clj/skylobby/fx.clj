@@ -222,7 +222,7 @@
    {:-fx-base surface-1
     :-fx-accent surface-3
     :-fx-background surface-0
-    :-fx-control-inner-background surface-2
+    :-fx-control-inner-background surface-1
     :-fx-selection-bar-non-focused selection-unfocused
     :-fx-focus-color focus
     :-fx-faint-focus-color "transparent"
@@ -238,7 +238,7 @@
    ".tab-header-background"
    {:-fx-background-color surface-0}
    ".skylobby-card"
-   {:-fx-background-color surface-1
+   {:-fx-background-color surface-2
     :-fx-background-radius "6"
     :-fx-border-color border
     :-fx-border-radius "6"
@@ -708,13 +708,13 @@
 ;; blue starfield already suits them. The metallic logo text is near-grey so it
 ;; stays silver while the starfield takes the hue. Match is approximate by design.
 (def banner-color-adjust
-  {"light"               {:brightness 0.3 :saturation -0.1}
+  {"light"               {:brightness 0.15 :saturation -0.1}
    "catppuccin-mocha"    {:saturation 0.08}
-   "catppuccin-latte"    {:brightness 0.3 :saturation -0.05}
-   "dark-brown"          {:hue 0.93 :saturation 0.1}
-   "light-brown"         {:hue 0.93 :brightness 0.3 :saturation 0.1}
-   "hardhacker"          {:hue 0.61 :saturation 0.15}
-   "sakura"              {:hue 0.34 :brightness 0.3 :saturation 0.05}})
+   "catppuccin-latte"    {:brightness 0.15 :saturation -0.05}
+   "dark-brown"          {:hue 0.61 :saturation 0.1}
+   "light-brown"         {:hue 0.61 :brightness 0.15 :saturation 0.1}
+   "hardhacker"          {:hue 0.05 :saturation -0.25}
+   "sakura"              {:hue 0.34 :brightness 0.0 :saturation 0.05}})
 
 (defn banner-effect
   "JavaFX :color-adjust effect prop map tinting the welcome banner to match the

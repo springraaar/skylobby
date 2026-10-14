@@ -544,7 +544,7 @@
                                                         (or (not show-accolades)
                                                             (not= channel-name (u/user-channel-name "AccoladesBot")))))
                                                     (keys (get-in needs-focus [server-key "chat"]))))))
-                                ["tab" "skylobby-tab-focus"]
+                                ["tab" "skylobby-tab-focus" "skylobby-on-warn"]
                                 ["tab"])]
                 {:fx/type :tab
                  :id (str server-key)

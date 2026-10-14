@@ -94,7 +94,7 @@
                                                      (not= selected-tab-channel channel-name)
                                                      (-> needs-focus (get server-key) (get "chat") (contains? channel-name))
                                                      (not (contains? (get mute server-key) channel-name)))
-                                            ["skylobby-tab-focus"]))
+                                            ["skylobby-tab-focus" "skylobby-on-warn"]))
              :closable (not (u/battle-channel-name? channel-name))
              :on-close-request {:event/type :spring-lobby/leave-channel
                                 :channel-name channel-name
@@ -307,7 +307,12 @@
       :tabs
       (concat
         (when show-battle-tab
-          [{:fx/type :tab
+          (let [highlighted 
+                 (and highlight-tabs-with-new-battle-messages
+                                                    (not= selected-tab-main "battle")
+                                                    (contains? (get needs-focus server-key) "battle")
+                                                    (not (get-in mute [server-key :battle])))]
+           [{:fx/type :tab
             :graphic {:fx/type :label
                       :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-sword:18"}
                       :text (or (:battle-title (get battles battle-id))
@@ -317,11 +322,8 @@
                                :client-data client-data
                                :consume true}
             :id "battle"
-            :style-class (concat ["tab"] (when (and highlight-tabs-with-new-battle-messages
-                                                    (not= selected-tab-main "battle")
-                                                    (contains? (get needs-focus server-key) "battle")
-                                                    (not (get-in mute [server-key :battle])))
-                                           ["skylobby-tab-focus"]))
+            :style-class (concat ["tab"] (when highlighted
+                                           ["skylobby-tab-focus" "skylobby-on-warn"]))
             :on-selection-changed (fn [^javafx.event.Event ev] (focus-text-field (.getTarget ev)))
             :content
             (cond
@@ -339,7 +341,7 @@
                  :children
                  [{:fx/type :label
                    :style-class ["label" "skylobby-h2"]
-                   :text "Waiting for battle details from server..."}]}]})}])
+                   :text "Waiting for battle details from server..."}]}]})}]))
         [{:fx/type :tab
           :graphic {:fx/type :label
                     :graphic {:fx/type font-icon/lifecycle :icon-literal "mdi-view-list:18"}
@@ -398,7 +400,7 @@
                                                             (or (not show-accolades)
                                                                 (not= channel-name (u/user-channel-name "AccoladesBot")))))
                                                         (keys (get-in needs-focus [server-key "chat"]))))
-                                         ["skylobby-tab-focus"]))
+                                         ["skylobby-tab-focus" "skylobby-on-warn"]))
           :content
           {:fx/type :h-box
            :children
