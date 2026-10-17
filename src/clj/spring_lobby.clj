@@ -1728,6 +1728,7 @@
         client-data (get-in by-server [server-key :client-data])]
     (future
       (try
+        (swap! *state assoc-in [:by-server server-key :latest-channel-join-attempt] channel-name)
         (message/send *state client-data (str "JOIN " channel-name))
         (catch Exception e
           (log/error e "Error joining channel" channel-name))))))

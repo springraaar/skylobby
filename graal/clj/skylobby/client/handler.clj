@@ -94,6 +94,7 @@
                      (not (u/user-channel-name? channel-name)))
               (do
                 (async/<!! (async/timeout login-command-cooldown))
+                (swap! state-atom assoc-in [:by-server server-key :latest-channel-join-attempt] channel-name)
                 (message/send state-atom client-data (str "JOIN " channel-name)))
               (swap! state-atom update-in [:my-channels server-key] dissoc channel-name))))
         (catch Exception e
@@ -1013,10 +1014,19 @@
                  (fn [server-data]
                    (-> server-data
                        (dissoc :battle)))))
-        (swap! state-atom update-in [:by-server server-url]
+        (do 
+          (swap! state-atom update-in [:by-server server-url]
                (fn [server-data]
                  (-> server-data
-                     (assoc :last-failed-message m))))))
+                     (assoc :last-failed-message m))))
+          ; failed JOIN, assume it matches the latest attempt and remove the channel from :my-channels
+          (when (= _command "JOIN")
+            (let [channel-name (get-in @state-atom [:by-server server-url :latest-channel-join-attempt])]
+              (when channel-name
+                (do
+                  (log/info "JOIN failed : removing" channel-name "from my-channels for" server-url)
+                  (swap! state-atom update-in [:my-channels server-url] dissoc channel-name)
+                  )))))))
     (catch Exception e
       (log/error e "Error parsing failed message")
       (swap! state-atom assoc-in [:by-server server-url :last-failed-message] m))))
