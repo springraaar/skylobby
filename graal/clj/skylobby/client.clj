@@ -175,7 +175,6 @@
                                        (swap! state-atom assoc-in [:by-server server-key :rtt] 9999)
                                        (let [
                                              client-data (-> @state-atom :by-server (get server-key) :client-data)]
-                                         ;(swap! state-atom assoc-in [:by-server server-key :retry-connection-token] true)
                                          (disconnect state-atom client-data)  ; this triggers the connection drained event which will trigger the reconnection
                                          ))
                                    :else

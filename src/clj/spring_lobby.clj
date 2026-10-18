@@ -1769,6 +1769,15 @@
     (swap! *state update-in [:by-server server-key :friend-requests] dissoc username)))
 
 
+(defn- append-login-error
+  [current-error error-message max-lines]
+  (let [lines (clojure.string/split (or current-error "") #"\n")
+        truncated (if (> (count lines) max-lines)
+                    (str (clojure.string/join "\n" (take max-lines lines))
+                         "\n... (truncated)")
+                    (or current-error ""))]
+    (str truncated "\n" (or error-message "Connection lost"))))
+
 (defn- update-disconnected!
   ([state-atom server-key]
    (update-disconnected! state-atom server-key nil))
@@ -1780,11 +1789,10 @@
                                     (let [normal-logout (get-in state [:normal-logout server-key])]
                                       (cond-> (-> state
                                                   (update :by-server dissoc server-key)
-                                                  (update :needs-focus dissoc server-key)
                                                   (update :needs-focus dissoc server-key))
                                               (and (not normal-logout)
                                                    (not user-requested))
-                                              (update-in [:login-error server-key] str "\n" (or error-message "Connection lost"))
+                                              (update-in [:login-error server-key] #(append-login-error % error-message 10)) ; truncate error msgs with too many lines, keep first 10
                                               user-requested
                                               (assoc-in [:normal-logout server-key] true)))))
          {:keys [client-data ping-loop ping-timeout-checker-loop retry-connection-loop print-loop]} (-> old-state :by-server (get server-key))]
@@ -1877,6 +1885,7 @@
                                                     :username (get state :username)
                                                     )]
                          (swap! state-atom assoc-in [:by-server server-key :client-data] new-client-data)
+                         (swap! state-atom assoc-in [:by-server server-key :server] server)
                          (connect state-atom (assoc state :client-data new-client-data))
                          ;; Wait a bit and check if the latest connection to that server seems to be working
                          (async/<!! (async/timeout 6000))
@@ -1899,6 +1908,11 @@
         (log/error t "retry-connection-loop : unexpected throwable caught when checking" server-key ": stop"))))]
     (swap! state-atom assoc-in [:by-server server-key :retry-connection-loop] retry-connection-loop-future)))
     
+(defn- retry-loop-running?
+  [state-atom server-key]
+  (let [retry-future (get-in @state-atom [:by-server server-key :retry-connection-loop])]
+    (and retry-future
+         (not (future-done? retry-future)))))
 
 (defn- connect
   [state-atom {:keys [client-data server] :as state}]
@@ -1912,18 +1926,19 @@
               (update-disconnected! *state server-key {:error-message "Connection closed"})))
           (s/on-drained client
             (fn []
-              ; don't rely on token, always try to reconnect
-              ;(let [retry-token (get-in @state-atom [:by-server server-key :retry-connection-token])]
-              ;  (if retry-token
+              (let [normal-logout (get-in @state-atom [:normal-logout server-key])
+                    login-error (get-in @state-atom [:login-error server-key])]
+                (if (and (not normal-logout) (not (and login-error (clojure.string/includes? login-error "password"))) )
                   (do 
                     (log/info "client drained for " server-key " (reconnecting)")
-                    (update-disconnected! *state server-key {:error-message "Connection drained. (reconnecting after 30s)"})
-                    (swap! state-atom assoc-in [:by-server server-key :retry-connection-token] false)
-                    (retry-connection-loop state-atom server-key server state))
-                  ))
-                  ;(do 
-                  ;  (log/info "client drained for " server-key)
-                  ;  (update-disconnected! *state server-key {:error-message "Connection drained"}))))))
+                    (if (retry-loop-running? state-atom server-key)
+                      (log/info "retry connection loop already running for" server-key)
+                      (do
+                        (update-disconnected! *state server-key {:error-message "Connection drained. (reconnecting after 30s)"})
+                        (retry-connection-loop state-atom server-key server state))))
+                  (do 
+                    (log/info "client drained for " server-key)
+                    (update-disconnected! *state server-key {:error-message "Connection drained"}))))))
           (if (s/closed? client)
             (log/warn "client was closed on create")
             (let [[server-url _server-data] server
