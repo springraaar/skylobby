@@ -700,21 +700,19 @@
    "hardhacker" hardhacker-style-data
    "sakura" sakura-style-data})
 
-;; Per-theme tint for the welcome banner (skylobby_banner.png). The banner's
-;; dominant hue is ~216 (blue); these JavaFX :color-adjust values rotate that
-;; toward each theme's accent (hue is -1..1 = -180..180 degrees) and lift
-;; brightness for light themes. A preset absent from this map (incl. the
-;; neutral dark "black"/"grey" and "custom") leaves the original banner, whose
-;; blue starfield already suits them. The metallic logo text is near-grey so it
-;; stays silver while the starfield takes the hue. Match is approximate by design.
+;; Per-theme tint for the welcome banner (skylobby_banner.png)
+;; Use -1 to 1 modifier values for :hue, :brightness and :saturation
+;; Shift hues toward each theme's accent
 (def banner-color-adjust
-  {"light"               {:brightness 0.15 :saturation -0.1}
-   "catppuccin-mocha"    {:saturation 0.08}
-   "catppuccin-latte"    {:brightness 0.15 :saturation -0.05}
-   "dark-brown"          {:hue 0.61 :saturation 0.1}
-   "light-brown"         {:hue 0.61 :brightness 0.15 :saturation 0.1}
-   "hardhacker"          {:hue 0.05 :saturation -0.25}
-   "sakura"              {:hue 0.34 :brightness 0.0 :saturation 0.05}})
+  {"black"               {:hue 0.45 :brightness -0.0 :saturation -0.3}
+   "grey"                {:hue 0.45 :brightness -0.0 :saturation -0.3}
+   "light"               {:hue 0.45 :brightness -0.0 :saturation -0.3}
+   "catppuccin-mocha"    {:hue 0.3 :brightness -0.0 :saturation -0.6}
+   "catppuccin-latte"    {:hue 0.3 :brightness -0.0 :saturation -0.5}
+   "dark-brown"          {:hue -0.9 :brightness -0.0 :saturation 0.0}
+   "light-brown"         {:hue -0.9 :brightness -0.0 :saturation 0.0}
+   "hardhacker"          {:hue 0.4 :brightness -0.0 :saturation -0.6}
+   "sakura"              {:hue 0.8 :brightness -0.0 :saturation -0.3}})
 
 (defn banner-effect
   "JavaFX :color-adjust effect prop map tinting the welcome banner to match the
