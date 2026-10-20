@@ -790,7 +790,7 @@
                 (tufte/profile {:dynamic? true
                                 :id :skylobby/player-table}
                   (tufte/p :skill
-                    {:alignment :center-left
+                    {:alignment :center
                      :style-class [(uncertainty-class skilluncertainty)]
                      :text
                      (str skill
