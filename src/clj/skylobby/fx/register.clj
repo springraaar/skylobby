@@ -12,7 +12,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def register-window-width 500)
+(def register-window-width 700)
 (def register-window-height 500)
 
 
@@ -100,8 +100,24 @@
                                :key :email}}]}
           {:fx/type :pane
            :v-box/vgrow :always}
-          {:fx/type :label
-           :text (str register-response)}
+          
+          (let [response (str register-response)]
+            (cond
+              (clojure.string/includes? response "REGISTRATIONACCEPTED")
+                {:fx/type :label
+                  :wrap-text true
+                  :text "REGISTRATION SUCCESSFUL\n\n(close this window and log in normally)"
+                  :style {:-fx-text-fill "lightgreen"}}
+              (or (clojure.string/includes? response "DENIED") (clojure.string/includes? response "ERROR"))
+                 {:fx/type :label
+                   :wrap-text true
+                   :text response
+                   :style {:-fx-text-fill "red"}}
+              :else
+                {:fx/type :label
+                   :wrap-text true
+                   :text response
+                   }))
           {:fx/type :label
            :style {:-fx-text-fill "red"}
            :text (str (when (and (not (string/blank? password))

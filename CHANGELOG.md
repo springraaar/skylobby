@@ -12,6 +12,7 @@
 - Fixed UI sometimes taking several seconds to update to match the selected theme on startup
 - Chat font size setting now applies to Console messages too
 - Automatically unsubscribe from chat channel if join attempt is denied by server to avoid recurring warning
+- Fixed fit and colored server response in the registration window
 
 ## [0.9.31016](https://github.com/springraaar/skylobby/releases/tag/0.9.31016) - 2026-06-30
 
